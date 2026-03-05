@@ -11,29 +11,9 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
     {
         builder.HasKey(t => t.Id);
         // Business Name
-        builder.Property(t => t.Name)
+        builder.Property(t => t.BusinessName)
             .IsRequired()
             .HasMaxLength(100);
-
-        // Unique Slug for URLs (e.g., stamply.app/ahmads-coffee)
-        builder.Property(t => t.Slug)
-            .IsRequired()
-            .HasMaxLength(100);
-
-        builder.HasIndex(t => t.Slug)
-            .IsUnique();
-
-        // Branding Fields
-        builder.Property(t => t.LogoUrl)
-            .HasMaxLength(500);
-
-        builder.Property(t => t.PrimaryColor)
-            .HasDefaultValue("#000000")
-            .HasMaxLength(7);
-
-        builder.Property(t => t.SecondaryColor)
-            .HasDefaultValue("#FFFFFF")
-            .HasMaxLength(7);
 
         // Regional Settings
         builder.Property(t => t.TimeZoneId)
@@ -56,6 +36,11 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.Property(t => t.IsDeleted).HasDefaultValue(false);
 
         // Relationships
+        // One to one relationship with the profiel
+        builder.HasOne(t => t.TenantProfile)
+            .WithOne(tp => tp.Tenant)
+            .HasForeignKey<TenantProfile>(tp => tp.TenantId);
+
         // The many-to-many relationship is already configured in UserRoleTenantConfiguration,
         // but we define the CardTemplate one-to-many here.
         // builder.HasMany(t => t.CardTemplates)

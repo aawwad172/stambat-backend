@@ -1,12 +1,13 @@
-using Stamply.Application.CQRS.Commands.Authentication;
-using Stamply.Domain.Exceptions;
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.Extensions.Logging;
+
+using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Domain.Common;
 using Stamply.Domain.Entities.Identity;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Exceptions;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IEmail;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 using Stamply.Domain.ValueObjects;
 
 namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
@@ -19,13 +20,15 @@ public class RegisterUserCommandHandler(
     ISecurityService securityService,
     IRoleRepository roleRepository,
     IRepository<UserCredentials> userCredentialsRepository,
-    IUnitOfWork unitOfWork) : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, logger, unitOfWork)
+    IUnitOfWork unitOfWork,
+    IEmailService emailClient) : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, logger, unitOfWork)
 {
     private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IRepository<UserCredentials> _userCredentialsRepository = userCredentialsRepository;
     private readonly ISecurityService _securityService = securityService;
     private readonly IRoleRepository _roleRepository = roleRepository;
+    private readonly IEmailService _emailClient = emailClient;
     private readonly string _defaultRoleName = "User";
 
     public override async Task<RegisterUserCommandResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -42,8 +45,6 @@ public class RegisterUserCommandHandler(
 
         // Hash the password using the security service (BCrypt)
         string hashedPassword = _securityService.HashSecret(request.Password);
-
-
 
         // Generate a new security stamp
         string securityStamp = Id.New().ToString();
@@ -77,27 +78,39 @@ public class RegisterUserCommandHandler(
             },
             Email = request.Email,
             Username = request.Username,
-            IsActive = false,
+            IsActive = true,
             IsDeleted = false,
             IsVerified = false,
             SecurityStamp = securityStamp,
+            UserCredentialsId = userCreds.Id
         };
 
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            await _userRepository.AddAsync(user);
             await _userCredentialsRepository.AddAsync(userCreds);
+            await _userRepository.AddAsync(user);
 
-            UserRole userRole = new()
+            UserRoleTenant userRoleTenant = new()
             {
+                Id = Id.New(),
                 UserId = user.Id,
                 RoleId = defaultRole.Id,
+                TenantId = null // Null until he enters his business data
             };
-            await _authenticationRepository.AddUserRoleAsync(userRole); // Assuming IAuthRepository has this method
+
+            await _authenticationRepository.AddUserRoleTenantAsync(userRoleTenant);
+
 
             await _unitOfWork.SaveAsync(cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
+
+            await _emailClient.SendEmailAsync(new Email
+            {
+                To = request.Email,
+                Subject = "Hello From Stampat",
+                Body = "<h1>Hello</h1>"
+            });
 
             return new RegisterUserCommandResult(
                 Id: user.Id,

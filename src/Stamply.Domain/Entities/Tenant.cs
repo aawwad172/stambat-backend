@@ -10,13 +10,11 @@ namespace Stamply.Domain.Entities;
 public class Tenant : IEntity, IBaseEntity
 {
     public Guid Id { get; init; }
-    public required string Name { get; set; }
+    public required string BusinessName { get; set; }
+    public required string Email { get; set; }
 
-    // Branding & Identity
-    public required string Slug { get; set; } // Unique index in DB
-    public string? LogoUrl { get; set; }
-    public string PrimaryColor { get; set; } = "#000000"; // Default Black
-    public string SecondaryColor { get; set; } = "#FFFFFF"; // Default White
+    public Guid? TenantProfileId { get; set; }
+    public TenantProfile? TenantProfile { get; set; }
 
     // Operational
     public bool IsActive { get; set; } = true;

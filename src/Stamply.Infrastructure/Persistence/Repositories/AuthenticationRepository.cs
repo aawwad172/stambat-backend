@@ -1,7 +1,7 @@
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.EntityFrameworkCore;
+
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stamply.Infrastructure.Persistence.Repositories;
 
@@ -9,7 +9,7 @@ public class AuthenticationRepository(ApplicationDbContext dbContext) : IAuthent
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task AddUserRoleAsync(UserRoleTenant userRole)
+    public async Task AddUserRoleTenantAsync(UserRoleTenant userRole)
     {
         await _dbContext.UserRoleTenants.AddAsync(userRole);
     }

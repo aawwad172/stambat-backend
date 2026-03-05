@@ -79,8 +79,15 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
+        // 1. Define the options to match your global API settings
+        JsonSerializerOptions options = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        };
+
         ApiResponse<string> response = ApiResponse<string>.ErrorResponse(message, errorCode, statusCode);
-        string result = JsonSerializer.Serialize(response);
+        string result = JsonSerializer.Serialize(response, options);
         await context.Response.WriteAsync(result);
     }
 

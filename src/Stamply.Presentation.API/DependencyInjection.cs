@@ -1,15 +1,17 @@
 using System.Reflection;
 using System.Text;
-
-using Stamply.Application.Utilities;
-using Stamply.Domain.Enums;
-using Stamply.Presentation.API.Validators.Commands.Authentication;
+using System.Text.Json.Serialization;
 
 using FluentValidation;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
+
+using Stamply.Application.Utilities;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Enums;
+using Stamply.Presentation.API.Validators.Commands.Authentication;
 
 namespace Stamply.Presentation.API;
 
@@ -29,6 +31,13 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<RefreshTokenCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<LogoutCommandValidator>();
+
+        // Configure JSON options for Minimal APIs
+        services.Configure<JsonOptions>(options =>
+        {
+            options.SerializerOptions.DefaultIgnoreCondition =
+                JsonIgnoreCondition.WhenWritingNull;
+        });
 
         services.AddHttpContextAccessor();
 
