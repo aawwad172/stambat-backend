@@ -43,3 +43,23 @@
 - [x] Task: Update `RolesSeed.cs` with project-specific roles [db8bfe5]
 - [x] Task: Update `RolesPermissionsSeeding.cs` with role-permission mappings [db8bfe5]
 - [x] Task: Conductor - User Manual Verification 'Roles and Assignments' (Protocol in workflow.md) [72e2416]
+
+## Phase 7: Refactor Handlers to use RolesEnum
+- [x] Task: Update `RegisterUserCommandHandler.cs` to use `RolesEnum` [8b4f1e1]
+- [x] Task: Update `SetupTenantCommandHandler.cs` to use `RolesEnum` [f8a5f81]
+- [x] Task: Conductor - User Manual Verification 'Refactor Handlers' (Protocol in workflow.md) [41b682c]
+
+## Phase 8: Endpoint Protection and Policy Cleanup
+- [x] Task: Clean up outdated authorization policies in `Program.cs` [2531238]
+- [x] Task: Add authorization policies for new permissions in `DependencyInjection.cs` [2531238]
+- [x] Task: Protect `SetupTenant` endpoint with `Tenants.Add` permission [2531238]
+- [x] Task: Assign `Tenants.Add` permission to `User` role in `RolesPermissionsSeeding.cs` [2531238]
+- [x] Task: Conductor - User Manual Verification 'Endpoint Protection' (Protocol in workflow.md) [41b682c]
+
+## Phase 9: Refine Tenant Setup Permission [checkpoint: b181ed0]
+- [x] Task: Add `Tenants.Setup` constant to `PermissionConstants.cs` [c9aa64a]
+- [x] Task: Generate and add GUID for `Tenants.Setup` in `AuthSeedConstants.cs` [c9aa64a]
+- [x] Task: Update `PermissionsSeed.cs` with `Tenants.Setup` [c9aa64a]
+- [x] Task: Assign `Tenants.Setup` to `User` and `SuperAdmin` roles in `RolesPermissionsSeeding.cs` [c9aa64a]
+- [x] Task: Update `SetupTenant` endpoint protection to use `Tenants.Setup` [c9aa64a]
+- [x] Task: Conductor - User Manual Verification 'Tenants.Setup' (Protocol in workflow.md) [b181ed0]
