@@ -135,7 +135,7 @@ app.MapPost(EndpointRoutes.InviteMerchant, InviteMerchant.RegisterRoute)
 // Todo: Add some permission for this endpoint
 app.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
-    .RequireAuthorization(PermissionConstants.TenantsAdd)
+    .RequireAuthorization(PermissionConstants.TenantsSetup)
     .Produces<ApiResponse<SetupTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
 #endregion

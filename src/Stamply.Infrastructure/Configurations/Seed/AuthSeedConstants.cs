@@ -30,6 +30,7 @@ public static class AuthSeedConstants
     public static readonly Guid PermissionIdTenantsAdd = new("019cd45e-7cfc-7f11-9cdc-4581e5854eac");
     public static readonly Guid PermissionIdTenantsEdit = new("019cd45e-7cfc-7839-a733-b7b1c30138d4");
     public static readonly Guid PermissionIdTenantsDelete = new("019cd45e-7cfc-7807-8f5e-f4cce0b1ee3a");
+    public static readonly Guid PermissionIdTenantsSetup = new("019cd47e-8346-7a3e-9c1c-f0d3a65d4091");
 
     // Users
     public static readonly Guid PermissionIdUsersView = new("019cd45e-7cfc-7947-88e3-7c06f899920f");

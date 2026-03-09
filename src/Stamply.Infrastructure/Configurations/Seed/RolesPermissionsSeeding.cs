@@ -15,6 +15,7 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdTenantsAdd },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdTenantsEdit },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdTenantsDelete },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdTenantsSetup },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdUsersView },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdUsersAdd },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdSuperAdmin, PermissionId = AuthSeedConstants.PermissionIdUsersEdit },
@@ -71,6 +72,7 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
 
             // User (4)
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsSetup },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdCardsView },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdRewardsView }
         ]);

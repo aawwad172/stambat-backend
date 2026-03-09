@@ -7,6 +7,7 @@ public static class PermissionConstants
     public const string TenantsAdd = "Tenants.Add";
     public const string TenantsEdit = "Tenants.Edit";
     public const string TenantsDelete = "Tenants.Delete";
+    public const string TenantsSetup = "Tenants.Setup";
 
     // Users
     public const string UsersView = "Users.View";

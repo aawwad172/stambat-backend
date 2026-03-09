@@ -17,6 +17,7 @@ public class PermissionsSeed : IEntityTypeConfiguration<Permission>
             new Permission { Id = AuthSeedConstants.PermissionIdTenantsAdd, Name = PermissionConstants.TenantsAdd, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
             new Permission { Id = AuthSeedConstants.PermissionIdTenantsEdit, Name = PermissionConstants.TenantsEdit, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
             new Permission { Id = AuthSeedConstants.PermissionIdTenantsDelete, Name = PermissionConstants.TenantsDelete, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+            new Permission { Id = AuthSeedConstants.PermissionIdTenantsSetup, Name = PermissionConstants.TenantsSetup, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
 
             // Users
             new Permission { Id = AuthSeedConstants.PermissionIdUsersView, Name = PermissionConstants.UsersView, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
