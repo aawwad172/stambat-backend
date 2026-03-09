@@ -4,4 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
----
+- [ ] **Track: Replace Template Permissions with Project-Specific Permissions**
+*Link: [./tracks/update_permissions_20260309/](./tracks/update_permissions_20260309/)*

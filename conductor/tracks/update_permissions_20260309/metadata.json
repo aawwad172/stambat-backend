@@ -1,0 +1,8 @@
+{
+  "track_id": "update_permissions_20260309",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-09T14:30:00Z",
+  "updated_at": "2026-03-09T14:30:00Z",
+  "description": "we want to provide permissions instead of the permissions that is seeded into the DB (part of the template), so we need to remove them and add new ones for the project, provide me with initial draft for them, I will review them and provide you with the feedback to add or remove anything, initially provide us with view, edit, add and delete for each thing of those, also add theirs guid into the constatns class (the permission one)"
+}
