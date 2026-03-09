@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stamply.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Stamply.Infrastructure.Persistence;
 namespace Stamply.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260309211418_FinalizingRBAC")]
+    partial class FinalizingRBAC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,14 +94,6 @@ namespace Stamply.Infrastructure.Migrations
                             CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
                             IsDeleted = false,
                             Name = "Tenants.Delete"
-                        },
-                        new
-                        {
-                            Id = new Guid("019cd47e-8346-7a3e-9c1c-f0d3a65d4091"),
-                            CreatedAt = new DateTime(2025, 10, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Tenants.Setup"
                         },
                         new
                         {
@@ -455,11 +450,6 @@ namespace Stamply.Infrastructure.Migrations
                         },
                         new
                         {
-                            PermissionId = new Guid("019cd47e-8346-7a3e-9c1c-f0d3a65d4091"),
-                            RoleId = new Guid("019cd46a-80a8-76a2-b7eb-20ca5903c25e")
-                        },
-                        new
-                        {
                             PermissionId = new Guid("019cd45e-7cfc-7947-88e3-7c06f899920f"),
                             RoleId = new Guid("019cd46a-80a8-76a2-b7eb-20ca5903c25e")
                         },
@@ -706,11 +696,6 @@ namespace Stamply.Infrastructure.Migrations
                         new
                         {
                             PermissionId = new Guid("019cd45e-7cf2-7f36-9595-2bd07dc9e25b"),
-                            RoleId = new Guid("019cd46a-80b3-7d68-8834-46e510948741")
-                        },
-                        new
-                        {
-                            PermissionId = new Guid("019cd47e-8346-7a3e-9c1c-f0d3a65d4091"),
                             RoleId = new Guid("019cd46a-80b3-7d68-8834-46e510948741")
                         },
                         new
