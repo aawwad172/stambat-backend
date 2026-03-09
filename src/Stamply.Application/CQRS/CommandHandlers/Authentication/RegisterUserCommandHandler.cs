@@ -32,8 +32,7 @@ public class RegisterUserCommandHandler(
     private readonly ISecurityService _securityService = securityService;
     private readonly IRoleRepository _roleRepository = roleRepository;
     private readonly IEmailService _emailService = emailService;
-    // TODO: Add roles enum and remove this string
-    private readonly string _defaultRoleName = "User";
+    private readonly RolesEnum _defaultRole = RolesEnum.User;
 
     public override async Task<RegisterUserCommandResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
@@ -63,12 +62,12 @@ public class RegisterUserCommandHandler(
 
         };
 
-        Role? defaultRole = await _roleRepository.GetRoleByNameAsync(_defaultRoleName);
+        Role? defaultRole = await _roleRepository.GetRoleByNameAsync(_defaultRole.ToString());
 
         if (defaultRole is null)
         {
             // IMPORTANT: This prevents users from being created without a role if the DB isn't seeded.
-            throw new InvalidOperationException($"The default role '{_defaultRoleName}' does not exist in the database. Please seed roles.");
+            throw new InvalidOperationException($"The default role '{_defaultRole}' does not exist in the database. Please seed roles.");
         }
 
         User user = new()
