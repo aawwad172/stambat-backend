@@ -40,6 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUserTokenRepository, UserTokenRepository>();
+        services.AddScoped<ITenantRepository, TenantRepository>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddLogging();
 
@@ -54,6 +56,7 @@ public static class DependencyInjection
         // Configure FluentEmail using the bound settings
         services
             .AddFluentEmail(emailSettings.DefaultFrom)
+            .AddRazorRenderer(typeof(EmailService))
             .AddSmtpSender(new SmtpClient(emailSettings.SmtpServer)
             {
                 Port = emailSettings.Port,

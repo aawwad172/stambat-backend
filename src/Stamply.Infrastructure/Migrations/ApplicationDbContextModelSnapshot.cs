@@ -355,6 +355,39 @@ namespace Stamply.Infrastructure.Migrations
                     b.ToTable("UserCredentials");
                 });
 
+            modelBuilder.Entity("Stamply.Domain.Entities.Identity.UserToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTokens");
+                });
+
             modelBuilder.Entity("Stamply.Domain.Entities.Invitation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -465,6 +498,9 @@ namespace Stamply.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Tenants");
                 });
@@ -625,6 +661,17 @@ namespace Stamply.Infrastructure.Migrations
                     b.HasOne("Stamply.Domain.Entities.Identity.User", "User")
                         .WithOne("Credentials")
                         .HasForeignKey("Stamply.Domain.Entities.Identity.UserCredentials", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.Identity.UserToken", b =>
+                {
+                    b.HasOne("Stamply.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

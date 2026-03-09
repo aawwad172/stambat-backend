@@ -1,10 +1,11 @@
-﻿using Stamply.Application.CQRS.CommandHandlers.Authentication;
-using Stamply.Application.Services;
-using Stamply.Domain.Interfaces.Application.Services;
-
-using MapsterMapper;
+﻿using MapsterMapper;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using Stamply.Application.CQRS.CommandHandlers.Authentication;
+using Stamply.Application.CQRS.QueryHandlers.Authentication;
+using Stamply.Application.Services;
+using Stamply.Domain.Interfaces.Application.Services;
 
 namespace Stamply.Application;
 
@@ -17,6 +18,7 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommandHandler).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(LogoutCommandHandler).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(IsUserVerifiedQueryHandler).Assembly);
         });
         services.AddScoped<ISecurityService, SecurityService>();
         services.AddScoped<IPermissionService, PermissionService>();

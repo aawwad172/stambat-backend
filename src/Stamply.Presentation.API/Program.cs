@@ -1,6 +1,7 @@
 using Stamply.Application;
 using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Application.CQRS.Commands.Tenant;
+using Stamply.Application.CQRS.Queries.Authentication;
 using Stamply.Application.Utilities;
 using Stamply.Domain;
 using Stamply.Domain.Constants;
@@ -106,6 +107,17 @@ app.MapPost(EndpointRoutes.Logout, Logout.RegisterRoute)
    .Produces<ApiResponse<LogoutCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
    .Accepts<LogoutCommand>("application/json");
 
+app.MapPost(EndpointRoutes.VerifyEmail, VerifyEmail.RegisterRoute)
+    .WithTags(EndpointTags.Authentication)
+    .Accepts<VerifyEmailCommand>("application/json")
+    .Produces<ApiResponse<VerifyEmailCommandResult>>(StatusCodes.Status200OK);
+
+app.MapGet(EndpointRoutes.IsVerified, IsUserVerified.RegisterRoute)
+    .WithTags(EndpointTags.Authentication)
+    .Produces<ApiResponse<IsUserVerifiedQueryResult>>(StatusCodes.Status200OK, "application/json")
+    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+    .Accepts<IsUserVerifiedQuery>("application/json")
+    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
 #endregion
 
 #region Tenant
@@ -123,9 +135,9 @@ app.MapPost(EndpointRoutes.InviteMerchant, InviteMerchant.RegisterRoute)
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
     .Accepts<InviteMerchantCommand>("application/json");
 
+// Todo: Add some permission for this endpoint
 app.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
-    .RequireAuthorization("Tenant.Setup")
     .Produces<ApiResponse<SetupTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
 #endregion

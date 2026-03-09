@@ -1,3 +1,5 @@
+using System.Data;
+
 using FluentValidation;
 
 using Stamply.Application.CQRS.Commands.Tenant;
@@ -8,6 +10,13 @@ public class SetupTenantCommandValidator : AbstractValidator<SetupTenantCommand>
 {
     public SetupTenantCommandValidator()
     {
-        throw new NotImplementedException();
+        RuleFor(x => x.BusinessEmail)
+            .EmailAddress()
+            .NotEmpty()
+            .NotNull();
+
+        RuleFor(x => x.CompanyName)
+            .NotEmpty()
+            .NotNull();
     }
 }

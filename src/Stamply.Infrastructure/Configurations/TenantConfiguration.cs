@@ -15,6 +15,12 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .IsRequired()
             .HasMaxLength(100);
 
+        builder.Property(t => t.Email)
+            .IsRequired();
+
+        builder.HasIndex(t => t.Email)
+            .IsUnique();
+
         // Regional Settings
         builder.Property(t => t.TimeZoneId)
             .HasDefaultValue("Asia/Amman")

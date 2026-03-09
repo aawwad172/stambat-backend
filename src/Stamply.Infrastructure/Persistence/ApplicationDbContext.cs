@@ -35,7 +35,7 @@ public class ApplicationDbContext(
 
     public DbSet<Tenant> Tenants { get; set; } = null!;
     public DbSet<TenantProfile> TenantProfiles { get; set; } = null!;
-
+    public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<Invitation> Invitations { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,6 +62,7 @@ public class ApplicationDbContext(
         modelBuilder.ApplyConfiguration(new TenantConfiguration());
         modelBuilder.ApplyConfiguration(new InvitationConfiguration());
         modelBuilder.ApplyConfiguration(new TenantProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
     }
 
     // _logger service

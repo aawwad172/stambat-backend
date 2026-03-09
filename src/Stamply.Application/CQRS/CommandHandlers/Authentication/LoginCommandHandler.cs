@@ -1,12 +1,12 @@
-using Stamply.Application.CQRS.Commands.Authentication;
-using Stamply.Domain.Exceptions;
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.Extensions.Logging;
+
+using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Domain.Common;
 using Stamply.Domain.Entities.Identity;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Exceptions;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
@@ -68,7 +68,7 @@ public class LoginCommandHandler(
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred during login.");
-            await _unitOfWork.RollbackAsync();
+            await _unitOfWork.RollbackAsync(cancellationToken);
             // Preserve generic message but use the domain exception type used elsewhere.
             throw new UnauthenticatedException("Invalid email or password.");
         }

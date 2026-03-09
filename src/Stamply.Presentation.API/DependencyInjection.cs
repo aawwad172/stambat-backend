@@ -12,6 +12,7 @@ using Stamply.Application.Utilities;
 using Stamply.Domain.Entities.Identity.Authentication;
 using Stamply.Domain.Enums;
 using Stamply.Presentation.API.Validators.Commands.Authentication;
+using Stamply.Presentation.API.Validators.Queries.Authentication;
 
 namespace Stamply.Presentation.API;
 
@@ -31,6 +32,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<RefreshTokenCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<LogoutCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<IsUserVerifiedQueryValidator>();
 
         // Configure JSON options for Minimal APIs
         services.Configure<JsonOptions>(options =>
