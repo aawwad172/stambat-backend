@@ -71,7 +71,6 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
 
             // User (4)
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsView },
-            new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsAdd },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdCardsView },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdRewardsView }
         ]);
