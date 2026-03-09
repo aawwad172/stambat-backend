@@ -17,12 +17,12 @@
     - [x] Add `Scan.Stamping`, `Scan.Redeem` [8b136f9]
 - [x] Task: Conductor - User Manual Verification 'Domain Layer Update' (Protocol in workflow.md) [fd64a64]
 
-## Phase 3: Infrastructure Layer Update
-- [ ] Task: Generate and add new Version 7 GUIDs to `AuthSeedConstants.cs`
-    - [ ] Add GUIDs for all new permissions defined in Phase 2
-- [ ] Task: Update `PermissionsSeed.cs` with the new permissions
-    - [ ] Replace existing data with the full list of project-specific permissions
-- [ ] Task: Conductor - User Manual Verification 'Infrastructure Layer Update' (Protocol in workflow.md)
+## Phase 3: Infrastructure Layer Update [checkpoint: 41b682c]
+- [x] Task: Generate and add new Version 7 GUIDs to `AuthSeedConstants.cs` [20df43f]
+    - [x] Add GUIDs for all new permissions defined in Phase 2 [20df43f]
+- [x] Task: Update `PermissionsSeed.cs` with the new permissions [2f3232d]
+    - [x] Replace existing data with the full list of project-specific permissions [2f3232d]
+- [x] Task: Conductor - User Manual Verification 'Infrastructure Layer Update' (Protocol in workflow.md) [41b682c]
 
 ## Phase 4: Final Verification
 - [ ] Task: Build the solution to ensure no compilation errors
