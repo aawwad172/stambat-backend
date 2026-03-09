@@ -1,11 +1,11 @@
 # Implementation Plan: Replace Template Permissions with Project-Specific Permissions
 
-## Phase 1: Cleanup and Preparation
-- [ ] Task: Remove existing template permissions from domain layer
-    - [ ] Remove `UserRead` and `PostApprove` from `PermissionConstants.cs`
-- [ ] Task: Remove existing template permissions from infrastructure layer
-    - [ ] Remove `PermissionIdUserRead` and `PermissionIdPostApprove` from `AuthSeedConstants.cs`
-- [ ] Task: Conductor - User Manual Verification 'Cleanup and Preparation' (Protocol in workflow.md)
+## Phase 1: Cleanup and Preparation [checkpoint: c3098d3]
+- [x] Task: Remove existing template permissions from domain layer [12e4baf]
+    - [x] Remove `UserRead` and `PostApprove` from `PermissionConstants.cs` [12e4baf]
+- [x] Task: Remove existing template permissions from infrastructure layer [12e4baf]
+    - [x] Remove `PermissionIdUserRead` and `PermissionIdPostApprove` from `AuthSeedConstants.cs` [12e4baf]
+- [x] Task: Conductor - User Manual Verification 'Cleanup and Preparation' (Protocol in workflow.md) [c3098d3]
 
 ## Phase 2: Domain Layer Update
 - [ ] Task: Define new permission string constants in `PermissionConstants.cs`
