@@ -35,4 +35,11 @@ public static class PermissionConstants
     // Scan
     public const string ScanStamping = "Scan.Stamping";
     public const string ScanRedeem = "Scan.Redeem";
+
+    // System (Super Admin)
+    public const string SystemManage = "System.Manage";
+    public const string SystemLogsView = "System.Logs.View";
+    public const string SystemAuditView = "System.Audit.View";
+    public const string SystemSettingsEdit = "System.Settings.Edit";
+    public const string TenantsManage = "Tenants.Manage";
 }
