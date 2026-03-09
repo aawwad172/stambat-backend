@@ -37,10 +37,10 @@ clean:
 migrate:
 	dotnet ef migrations add $(name) --project src/Stamply.Infrastructure --startup-project src/Stamply.Presentation.API
 
-database-update:
+db-update:
 	dotnet ef database update --project src/Stamply.Infrastructure --startup-project src/Stamply.Presentation.API
 
-dev-db:
+dev-db-start:
 	docker compose -f docker-compose.dev.yml up -d
 
 dev-db-stop:

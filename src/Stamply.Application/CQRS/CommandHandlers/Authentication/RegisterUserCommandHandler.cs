@@ -1,12 +1,14 @@
-using Stamply.Application.CQRS.Commands.Authentication;
-using Stamply.Domain.Exceptions;
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.Extensions.Logging;
+
+using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Domain.Common;
 using Stamply.Domain.Entities.Identity;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Enums;
+using Stamply.Domain.Exceptions;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IEmail;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 using Stamply.Domain.ValueObjects;
 
 namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
@@ -19,13 +21,18 @@ public class RegisterUserCommandHandler(
     ISecurityService securityService,
     IRoleRepository roleRepository,
     IRepository<UserCredentials> userCredentialsRepository,
-    IUnitOfWork unitOfWork) : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, logger, unitOfWork)
+    IRepository<UserToken> userTokenRepository,
+    IUnitOfWork unitOfWork,
+    IEmailService emailService) : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, logger, unitOfWork)
 {
     private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IRepository<UserCredentials> _userCredentialsRepository = userCredentialsRepository;
+    private readonly IRepository<UserToken> _userTokenRepository = userTokenRepository;
     private readonly ISecurityService _securityService = securityService;
     private readonly IRoleRepository _roleRepository = roleRepository;
+    private readonly IEmailService _emailService = emailService;
+    // TODO: Add roles enum and remove this string
     private readonly string _defaultRoleName = "User";
 
     public override async Task<RegisterUserCommandResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -42,8 +49,6 @@ public class RegisterUserCommandHandler(
 
         // Hash the password using the security service (BCrypt)
         string hashedPassword = _securityService.HashSecret(request.Password);
-
-
 
         // Generate a new security stamp
         string securityStamp = Id.New().ToString();
@@ -77,24 +82,50 @@ public class RegisterUserCommandHandler(
             },
             Email = request.Email,
             Username = request.Username,
-            IsActive = false,
+            IsActive = true,
             IsDeleted = false,
             IsVerified = false,
             SecurityStamp = securityStamp,
+            UserCredentialsId = userCreds.Id
         };
 
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            await _userRepository.AddAsync(user);
             await _userCredentialsRepository.AddAsync(userCreds);
+            await _userRepository.AddAsync(user);
 
-            UserRole userRole = new()
+            UserRoleTenant userRoleTenant = new()
             {
+                Id = Id.New(),
                 UserId = user.Id,
                 RoleId = defaultRole.Id,
+                TenantId = null // Null until he enters his business data
             };
-            await _authenticationRepository.AddUserRoleAsync(userRole); // Assuming IAuthRepository has this method
+
+            await _authenticationRepository.AddUserRoleTenantAsync(userRoleTenant);
+
+            string verificationToken = Id.New().ToString("N");
+            UserToken userToken = new()
+            {
+                Id = Id.New(),
+                UserId = user.Id,
+                Token = verificationToken,
+                Type = UserTokenType.EmailVerification,
+                ExpiryDate = DateTime.UtcNow.AddHours(24),
+                IsUsed = false
+            };
+
+            await _userTokenRepository.AddAsync(userToken);
+
+            // TODO: use the correct domain (the FE one)
+            string verificationLink = $"https://stamply.app/verify-email?token={verificationToken}&userId={user.Id}";
+
+            await _emailService.SendVerificationEmailAsync(
+                to: request.Email,
+                userName: request.Username,
+                link: verificationLink);
+
 
             await _unitOfWork.SaveAsync(cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
@@ -111,7 +142,7 @@ public class RegisterUserCommandHandler(
         catch (Exception ex)
         {
             _logger.LogError("An error occurred during registration: {Message}", ex.Message);
-            await _unitOfWork.RollbackAsync();
+            await _unitOfWork.RollbackAsync(cancellationToken);
             throw;
         }
     }

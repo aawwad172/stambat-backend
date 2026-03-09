@@ -12,5 +12,5 @@ public interface IAuthenticationRepository
     Task<List<Guid>> GetUserRoleIdsAsync(Guid userId);
     Task<bool> IsUserInRoleAsync(Guid userId, string roleName);
     Task<List<string>> GetAllPermissionNamesAsync();
-    Task AddUserRoleAsync(UserRoleTenant userRole);
+    Task AddUserRoleTenantAsync(UserRoleTenant userRole);
 }

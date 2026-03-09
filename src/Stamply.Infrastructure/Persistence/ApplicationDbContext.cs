@@ -3,7 +3,6 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Stamply.Domain.Entities;
@@ -35,6 +34,9 @@ public class ApplicationDbContext(
     public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
     public DbSet<Tenant> Tenants { get; set; } = null!;
+    public DbSet<TenantProfile> TenantProfiles { get; set; } = null!;
+    public DbSet<UserToken> UserTokens { get; set; } = null!;
+    public DbSet<Invitation> Invitations { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,6 +60,9 @@ public class ApplicationDbContext(
         modelBuilder.ApplyConfiguration(new UserRoleTenantConfiguration());
 
         modelBuilder.ApplyConfiguration(new TenantConfiguration());
+        modelBuilder.ApplyConfiguration(new InvitationConfiguration());
+        modelBuilder.ApplyConfiguration(new TenantProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
     }
 
     // _logger service

@@ -10,7 +10,7 @@ public class PermissionsSeed : IEntityTypeConfiguration<Permission>
 {
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
-        // Todo: Add the desired Permissions.
+        // TODO: Add the desired Permissions.
         builder.HasData([
             new Permission
             {

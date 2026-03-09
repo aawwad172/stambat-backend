@@ -139,6 +139,9 @@ Before marking any task complete, verify:
 
 ### Setup
 ```bash
+# Spin up the Database
+make dev-db-start
+
 # Restore .NET packages
 dotnet restore
 
@@ -155,7 +158,7 @@ make run
 dotnet build
 
 # Apply database migrations
-make database-update
+make db-update
 ```
 
 ### Before Committing

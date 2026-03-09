@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 namespace Stamply.Domain.Entities.Identity.Authentication;
 
 /// <summary>

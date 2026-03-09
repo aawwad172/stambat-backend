@@ -48,6 +48,11 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
             _logger.LogWarning("NotActiveUserException occurred: {Message}", ex.Message);
             await HandleExceptionAsync(context, "NOT_ACTIVE_USER", ex.Message, StatusCodes.Status403Forbidden);
         }
+        catch (InvalidTokenException ex)
+        {
+            _logger.LogWarning("InvalidTokenException occured {Message}", ex.Message);
+            await HandleExceptionAsync(context, "INVALID_VERIFICATION_TOKEN", ex.Message, StatusCodes.Status400BadRequest);
+        }
         catch (DeletedUserException ex)
         {
             _logger.LogWarning("DeletedUserException occurred: {Message}", ex.Message);
@@ -79,8 +84,15 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
+        // 1. Define the options to match your global API settings
+        JsonSerializerOptions options = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        };
+
         ApiResponse<string> response = ApiResponse<string>.ErrorResponse(message, errorCode, statusCode);
-        string result = JsonSerializer.Serialize(response);
+        string result = JsonSerializer.Serialize(response, options);
         await context.Response.WriteAsync(result);
     }
 

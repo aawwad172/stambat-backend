@@ -21,7 +21,7 @@ Built with a commitment to high engineering standards, Stamply follows **Domain-
 1. **Spin up the Database:**
    The project includes a `docker-compose.dev.yml` file to quickly set up a PostgreSQL instance for development.
    ```bash
-   docker-compose -f docker-compose.dev.yml up -d
+   make dev-db-start
    ```
    This will start a PostgreSQL container with the default credentials (`postgres`/`postgres`) and database name (`stamply`) as configured in `appsettings.Development.json`.
 
@@ -69,7 +69,7 @@ Built with a commitment to high engineering standards, Stamply follows **Domain-
 
    Use the Makefile to run migrations, update the database, or run the application. For example, to update the database:
    ```bash
-   make database-update
+   make db-update
    ```
    And to run the application:
    ```bash
