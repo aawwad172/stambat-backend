@@ -69,8 +69,9 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             new RolePermission { RoleId = AuthSeedConstants.RoleIdMerchant, PermissionId = AuthSeedConstants.PermissionIdScanStamping },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdMerchant, PermissionId = AuthSeedConstants.PermissionIdScanRedeem },
 
-            // User (3)
+            // User (4)
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsAdd },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdCardsView },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdRewardsView }
         ]);

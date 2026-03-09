@@ -75,6 +75,18 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
+            // Dynamically add policies for all permissions defined in PermissionConstants
+            foreach (FieldInfo field in typeof(PermissionConstants).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy))
+            {
+                if (field.IsLiteral && !field.IsInitOnly && field.GetValue(null) is string permissionName)
+                {
+                    options.AddPolicy(permissionName, policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim(CustomClaims.Permission, permissionName);
+                    });
+                }
+            }
         });
 
         return services;
