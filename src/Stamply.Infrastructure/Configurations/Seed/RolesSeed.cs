@@ -14,15 +14,23 @@ public class RolesSeed : IEntityTypeConfiguration<Role>
              {
                  Id = AuthSeedConstants.RoleIdSuperAdmin,
                  Name = "SuperAdmin",
-                 Description = "Full unrestricted access.",
+                 Description = "Full system administration and management.",
                  CreatedAt = AuthSeedConstants.SeedDateUtc,
                  CreatedBy = AuthSeedConstants.SystemUserId
              },
             new Role
             {
                 Id = AuthSeedConstants.RoleIdAdmin,
-                Name = "Admin",
-                Description = "General administrative access.",
+                Name = "TenantAdmin",
+                Description = "Administration of a specific tenant and its resources.",
+                CreatedAt = AuthSeedConstants.SeedDateUtc,
+                CreatedBy = AuthSeedConstants.SystemUserId
+            },
+            new Role
+            {
+                Id = AuthSeedConstants.RoleIdMerchant,
+                Name = "Merchant",
+                Description = "Staff access for scanning and stamping loyalty cards.",
                 CreatedAt = AuthSeedConstants.SeedDateUtc,
                 CreatedBy = AuthSeedConstants.SystemUserId
             },
@@ -30,7 +38,7 @@ public class RolesSeed : IEntityTypeConfiguration<Role>
             {
                 Id = AuthSeedConstants.RoleIdUser,
                 Name = "User",
-                Description = "Standard registered user access.",
+                Description = "End-user access for viewing cards and rewards.",
                 CreatedAt = AuthSeedConstants.SeedDateUtc,
                 CreatedBy = AuthSeedConstants.SystemUserId
             }

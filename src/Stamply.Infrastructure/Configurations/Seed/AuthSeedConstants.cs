@@ -13,13 +13,16 @@ public static class AuthSeedConstants
 
     // --- Role IDs ---
     // Role ID: SuperAdmin
-    public static readonly Guid RoleIdSuperAdmin = new("22222222-2222-7222-8222-222222222222");
+    public static readonly Guid RoleIdSuperAdmin = new("019cd46a-80a8-76a2-b7eb-20ca5903c25e");
 
     // Role ID: Admin
-    public static readonly Guid RoleIdAdmin = new("33333333-3333-7333-8333-333333333333");
+    public static readonly Guid RoleIdAdmin = new("019cd46a-80b3-7eb0-9861-254e15e297db");
+
+    // Role ID: Merchant
+    public static readonly Guid RoleIdMerchant = new("019cd46a-80b3-712e-8b82-edbae70f6a0d");
 
     // Role ID: Standard User
-    public static readonly Guid RoleIdUser = new("44444444-4444-7444-8444-444444444444");
+    public static readonly Guid RoleIdUser = new("019cd46a-80b3-7d68-8834-46e510948741");
 
     // --- Initial Permissions ---
     // Tenants
