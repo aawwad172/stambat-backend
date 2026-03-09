@@ -44,7 +44,14 @@ public class PermissionsSeed : IEntityTypeConfiguration<Permission>
 
             // Scan
             new Permission { Id = AuthSeedConstants.PermissionIdScanStamping, Name = PermissionConstants.ScanStamping, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
-            new Permission { Id = AuthSeedConstants.PermissionIdScanRedeem, Name = PermissionConstants.ScanRedeem, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId }
+            new Permission { Id = AuthSeedConstants.PermissionIdScanRedeem, Name = PermissionConstants.ScanRedeem, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+
+            // Super Admin
+            new Permission { Id = AuthSeedConstants.PermissionIdSystemManage, Name = PermissionConstants.SystemManage, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+            new Permission { Id = AuthSeedConstants.PermissionIdSystemLogsView, Name = PermissionConstants.SystemLogsView, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+            new Permission { Id = AuthSeedConstants.PermissionIdSystemAuditView, Name = PermissionConstants.SystemAuditView, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+            new Permission { Id = AuthSeedConstants.PermissionIdSystemSettingsEdit, Name = PermissionConstants.SystemSettingsEdit, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId },
+            new Permission { Id = AuthSeedConstants.PermissionIdTenantsManage, Name = PermissionConstants.TenantsManage, CreatedAt = AuthSeedConstants.SeedDateUtc, CreatedBy = AuthSeedConstants.SystemUserId }
         ]);
     }
 }
