@@ -75,19 +75,6 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
-            // 1. Policy for creating a post (e.g., for /posts endpoint)
-            options.AddPolicy("PostApprove", policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim(CustomClaims.Permission, PermissionConstants.PostApprove);
-            });
-
-            // 2. Policy for managing users (e.g., for /users/ endpoint)
-            options.AddPolicy("UserRead", policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim(CustomClaims.Permission, PermissionConstants.UserRead);
-            });
         });
 
         return services;

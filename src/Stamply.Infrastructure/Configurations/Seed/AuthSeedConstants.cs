@@ -22,11 +22,6 @@ public static class AuthSeedConstants
     public static readonly Guid RoleIdUser = new("44444444-4444-7444-8444-444444444444");
 
     // --- Initial Permissions (Examples) ---
-    // Permission ID: User.Read
-    public static readonly Guid PermissionIdUserRead = new("55555555-5555-7555-8555-555555555555");
-
-    // Permission ID: Post.Approve
-    public static readonly Guid PermissionIdPostApprove = new("66666666-6666-7666-8666-666666666666");
 
     public static readonly DateTime SeedDateUtc = new(2025, 10, 15, 0, 0, 0, DateTimeKind.Utc);
 
