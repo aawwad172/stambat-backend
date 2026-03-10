@@ -5,6 +5,7 @@ using Stamply.Application.CQRS.Queries.Authentication;
 using Stamply.Application.Utilities;
 using Stamply.Domain;
 using Stamply.Domain.Constants;
+using Stamply.Domain.Enums;
 using Stamply.Infrastructure;
 using Stamply.Infrastructure.Persistence;
 using Stamply.Presentation.API;
@@ -93,7 +94,6 @@ app.MapPost(EndpointRoutes.Login, Login.RegisterRoute)
 
 app.MapPost(EndpointRoutes.RefreshToken, RefreshToken.RegisterRoute)
     .WithTags(EndpointTags.Authentication)
-    .RequireAuthorization("UserRead")
    .Produces<ApiResponse<RefreshTokenCommandResult>>(StatusCodes.Status200OK, "application/json")
    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
    .Produces<ApiResponse<RefreshTokenCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
@@ -101,7 +101,6 @@ app.MapPost(EndpointRoutes.RefreshToken, RefreshToken.RegisterRoute)
 
 app.MapPost(EndpointRoutes.Logout, Logout.RegisterRoute)
     .WithTags(EndpointTags.Authentication)
-    .RequireAuthorization("UserRead", "PostApprove")
    .Produces<ApiResponse<LogoutCommandResult>>(StatusCodes.Status200OK, "application/json")
    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
    .Produces<ApiResponse<LogoutCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
@@ -123,21 +122,19 @@ app.MapGet(EndpointRoutes.IsVerified, IsUserVerified.RegisterRoute)
 #region Tenant
 app.MapPost(EndpointRoutes.InviteTenant, InviteTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
-    .RequireAuthorization("SuperAdmin.InviteTenant")
     .Produces<ApiResponse<InviteTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
     .Accepts<InviteTenantCommand>("application/json");
 
 app.MapPost(EndpointRoutes.InviteMerchant, InviteMerchant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
-    .RequireAuthorization("Tenant.InviteUser") // Policy checks if User belongs to this Tenant
     .Produces<ApiResponse<InviteMerchantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
     .Accepts<InviteMerchantCommand>("application/json");
 
-// Todo: Add some permission for this endpoint
 app.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
+    .RequireAuthorization(PermissionConstants.TenantsSetup)
     .Produces<ApiResponse<SetupTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
 #endregion

@@ -75,19 +75,18 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
-            // 1. Policy for creating a post (e.g., for /posts endpoint)
-            options.AddPolicy("PostApprove", policy =>
+            // Dynamically add policies for all permissions defined in PermissionConstants
+            foreach (FieldInfo field in typeof(PermissionConstants).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy))
             {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim(CustomClaims.Permission, PermissionConstants.PostApprove);
-            });
-
-            // 2. Policy for managing users (e.g., for /users/ endpoint)
-            options.AddPolicy("UserRead", policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim(CustomClaims.Permission, PermissionConstants.UserRead);
-            });
+                if (field.IsLiteral && !field.IsInitOnly && field.GetValue(null) is string permissionName)
+                {
+                    options.AddPolicy(permissionName, policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim(CustomClaims.Permission, permissionName);
+                    });
+                }
+            }
         });
 
         return services;
