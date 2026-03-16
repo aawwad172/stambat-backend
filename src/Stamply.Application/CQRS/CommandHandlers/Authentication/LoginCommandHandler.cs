@@ -12,12 +12,13 @@ namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
 public class LoginCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<LoginCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     ISecurityService securityService,
     IRefreshTokenRepository refreshTokenRepository,
-    IJwtService jwtService) : BaseHandler<LoginCommand, LoginCommandResult>(currentUserService, logger, unitOfWork)
+    IJwtService jwtService) : BaseHandler<LoginCommand, LoginCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly ISecurityService _securityService = securityService;

@@ -13,13 +13,14 @@ namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
 public class VerifyEmailCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<VerifyEmailCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IUserTokenRepository userTokenRepository,
     IUserRepository userRepository,
     IRefreshTokenRepository refreshTokenRepository,
     IJwtService jwtService)
-    : BaseHandler<VerifyEmailCommand, VerifyEmailCommandResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<VerifyEmailCommand, VerifyEmailCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IUserTokenRepository _userTokenRepository = userTokenRepository;

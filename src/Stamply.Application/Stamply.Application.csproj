@@ -25,7 +25,9 @@
     <Folder Include="CQRS/CommandHandlers/Tenant/" />
     <Folder Include="CQRS/Commands/Tenant/" />
     <Folder Include="CQRS/Queries/Authentication/" />
+    <Folder Include="CQRS/Queries/Tenant/" />
     <Folder Include="CQRS/QueryHandlers/Authentication/" />
+    <Folder Include="CQRS/QueryHandlers/Tenant/" />
     <Folder Include="CQRS\" />
     <Folder Include="CQRS\CommandHandlers\" />
     <Folder Include="CQRS\Commands\" />

@@ -1,5 +1,3 @@
-using System;
-
 namespace Stamply.Domain.ValueObjects;
 
 public class EmailSettings

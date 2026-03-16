@@ -63,6 +63,16 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
             _logger.LogWarning("ConflictException occurred: {Message}", ex.Message);
             await HandleExceptionAsync(context, "CONFLICT", ex.Message, StatusCodes.Status409Conflict);
         }
+        catch (InvitationStillActiveException ex)
+        {
+            _logger.LogWarning("InvitationStillActiveException occured: {Message}", ex.Message);
+            await HandleExceptionAsync(context, "INVITATION_STILL_ACTIVE", ex.Message, StatusCodes.Status409Conflict);
+        }
+        catch (InvitationExpiredException ex)
+        {
+            _logger.LogWarning("InvitationExpiredException occured: {Message}", ex.Message);
+            await HandleExceptionAsync(context, "INVITATION_EXPIRED", ex.Message, StatusCodes.Status400BadRequest);
+        }
         catch (CustomValidationException ex)
         {
             _logger.LogWarning("CustomValidationException occurred: {Message}", ex.Message);

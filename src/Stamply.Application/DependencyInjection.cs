@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<ISecurityService, SecurityService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ITenantProviderService, TenantProviderService>();
         services.AddScoped<IMapper, Mapper>();
 
         return services;

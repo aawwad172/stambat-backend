@@ -23,7 +23,7 @@ public class Tenant : IEntity, IBaseEntity
 
     // Relationships
     public ICollection<UserRoleTenant> UserRoleTenants { get; set; } = [];
-    // public ICollection<CardTemplate> CardTemplates { get; set; } = [];
+    public ICollection<CardTemplate> CardTemplates { get; set; } = [];
 
     // Auditing (from your IBaseEntity)
     public DateTime CreatedAt { get; set; }

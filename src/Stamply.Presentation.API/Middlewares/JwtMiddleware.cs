@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
+using Microsoft.IdentityModel.Tokens;
+
 using Stamply.Domain.Exceptions;
 using Stamply.Domain.Interfaces.Application.Services;
-
-using Microsoft.IdentityModel.Tokens;
 
 namespace Stamply.Presentation.API.Middlewares;
 
@@ -17,9 +17,11 @@ namespace Stamply.Presentation.API.Middlewares;
 /// </remarks>
 public class JwtMiddleware(
     RequestDelegate next,
+    IHttpContextAccessor httpContextAccessor,
     ILogger<JwtMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly ILogger<JwtMiddleware> _logger = logger;
 
     /// <summary>
@@ -27,9 +29,16 @@ public class JwtMiddleware(
     /// </summary>
     /// <param name="context">The current HTTP context.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public async Task Invoke(HttpContext context, ICurrentUserService currentUser)
+    public async Task Invoke(HttpContext context, ICurrentUserService currentUser, ITenantProviderService currentTenant)
     {
         IJwtService _jwtService = context.RequestServices.GetRequiredService<IJwtService>();
+
+        // 1. Always try to get the Tenant ID from the header first, regardless of the Token status
+        string? tenantIdHeader = context.Request.Headers["X-Tenant-Id"].ToString();
+        if (!string.IsNullOrEmpty(tenantIdHeader) && Guid.TryParse(tenantIdHeader, out var tId))
+        {
+            currentTenant.TenantId = tId;
+        }
 
         string? token = context.Request.Headers["Authorization"]
             .FirstOrDefault()?.Split(" ").Last();
@@ -57,9 +66,16 @@ public class JwtMiddleware(
                 // If you want to keep the .NET URI constant, ensure you check that too:
                 userId ??= principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                string? tenantId = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
+
                 if (!string.IsNullOrEmpty(userId))
                 {
                     currentUser.UserId = Guid.Parse(userId);
+                }
+
+                if (!string.IsNullOrEmpty(tenantId))
+                {
+                    currentTenant.TenantId = Guid.Parse(tenantId);
                 }
             }
         }

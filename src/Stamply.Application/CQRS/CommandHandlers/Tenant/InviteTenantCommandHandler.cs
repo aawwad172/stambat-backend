@@ -8,9 +8,10 @@ namespace Stamply.Application.CQRS.CommandHandlers.Tenant;
 
 public class InviteTenantCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<InviteTenantCommandHandler> logger,
     IUnitOfWork unitOfWork)
-    : BaseHandler<InviteTenantCommand, InviteTenantCommandResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<InviteTenantCommand, InviteTenantCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     public override Task<InviteTenantCommandResult> Handle(
         InviteTenantCommand request,

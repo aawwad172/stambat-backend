@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
 
-using Stamply.Domain.Interfaces.Application.Services;
-
 using Microsoft.Extensions.Configuration;
+
 using Stamply.Application.Utilities;
+using Stamply.Domain.Interfaces.Application.Services;
 
 namespace Stamply.Application.Services;
 
@@ -15,6 +15,12 @@ public class SecurityService(IConfiguration configuration) : ISecurityService
     public string HashSecret(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
+    }
+
+    public string HashToken(string token)
+    {
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        return Convert.ToHexString(bytes); // Deterministic!
     }
 
     public string EncryptString(string text)

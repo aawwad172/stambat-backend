@@ -1,9 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 using Stamply.Domain.Interfaces.Application.Services;
 using Stamply.Domain.Interfaces.Domain.Auditing;
 using Stamply.Infrastructure.Configurations.Seed;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Stamply.Infrastructure.Persistence.Interceptors;
 
@@ -27,10 +27,10 @@ public class AuditingInterceptor(ICurrentUserService currentUserService) : SaveC
     {
         if (context is null) return;
 
-        Guid userId = _currentUserService.UserId != Guid.Empty 
-            ? _currentUserService.UserId 
+        Guid userId = _currentUserService.UserId != Guid.Empty
+            ? _currentUserService.UserId
             : AuthSeedConstants.SystemUserId;
-        
+
         DateTime now = DateTime.UtcNow;
 
         foreach (var entry in context.ChangeTracker.Entries())

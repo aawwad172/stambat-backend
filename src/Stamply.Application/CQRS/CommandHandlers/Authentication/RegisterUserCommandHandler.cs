@@ -15,6 +15,7 @@ namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
 public class RegisterUserCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<RegisterUserCommandHandler> logger,
     IAuthenticationRepository authenticationRepository,
     IUserRepository userRepository,
@@ -23,7 +24,8 @@ public class RegisterUserCommandHandler(
     IRepository<UserCredentials> userCredentialsRepository,
     IRepository<UserToken> userTokenRepository,
     IUnitOfWork unitOfWork,
-    IEmailService emailService) : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, logger, unitOfWork)
+    IEmailService emailService)
+    : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
     private readonly IUserRepository _userRepository = userRepository;

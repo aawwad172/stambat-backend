@@ -41,7 +41,7 @@ public class EmailService(IFluentEmail fluentEmail) : IEmailService
     }
 
     // Method for inviting team members (Administrator role)
-    public async Task SendTeamInvitationEmailAsync(string to, string inviteeName, string role, string tenantName, string dashboardLink)
+    public async Task SendExistingUserAccessGrantAsync(string to, string inviteeName, string role, string tenantName, string dashboardLink)
     {
         TeamInvitationEmailModel model = new()
         {
@@ -56,7 +56,7 @@ public class EmailService(IFluentEmail fluentEmail) : IEmailService
 
         await _fluentEmail
             .To(to)
-            .Subject($"You've been invited to join {tenantName} on Stamply")
+            .Subject($"Access Granted: You are now a {role} for {tenantName}")
             .UsingTemplateFromFile(path, model)
             .SendAsync();
     }
@@ -79,5 +79,32 @@ public class EmailService(IFluentEmail fluentEmail) : IEmailService
             .Subject($"Welcome to Stamply, {businessName}!")
             .UsingTemplateFromFile(path, model)
             .SendAsync();
+    }
+
+    public async Task SendMerchantOnboardingInviteAsync(
+        string to,
+        string tenantName,
+        string link,
+        int expiresAfterDays,
+        CancellationToken cancellationToken = default)
+    {
+        var model = new MerchantInvitationEmailModel
+        {
+            Email = to,
+            TenantName = tenantName,
+            InvitationLink = link,
+            ExpiresInDays = expiresAfterDays
+        };
+
+        string path = GetTemplatePath("MerchantInvitation.cshtml");
+
+        if (!File.Exists(path))
+            throw new FileNotFoundException("Onboarding invitation template not found", path);
+
+        await _fluentEmail
+            .To(to)
+            .Subject("Action Required: Join your team on Stamply")
+            .UsingTemplateFromFile(path, model)
+            .SendAsync(cancellationToken);
     }
 }

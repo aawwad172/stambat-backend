@@ -1,5 +1,3 @@
-using System.Data;
-
 using FluentValidation;
 
 using Stamply.Application.CQRS.Commands.Tenant;

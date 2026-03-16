@@ -35,6 +35,7 @@
     <Folder Include="Routes/Tenant/" />
     <Folder Include="Routes\" />
     <Folder Include="Validators/Commands/Tenant/" />
+    <Folder Include="Validators/Queries/Tenant/" />
     <Folder Include="Validators\" />
     <Folder Include="Validators\Commands\" />
     <Folder Include="Validators\Queries\" />

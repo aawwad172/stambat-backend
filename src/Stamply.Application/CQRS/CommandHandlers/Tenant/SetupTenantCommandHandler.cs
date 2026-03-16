@@ -16,6 +16,7 @@ namespace Stamply.Application.CQRS.CommandHandlers.Tenant;
 
 public class SetupTenantCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<SetupTenantCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
@@ -23,7 +24,7 @@ public class SetupTenantCommandHandler(
     ITenantRepository tenantRepository,
     IAuthenticationRepository authenticationRepository,
     IEmailService emailService)
-    : BaseHandler<SetupTenantCommand, SetupTenantCommandResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<SetupTenantCommand, SetupTenantCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IRoleRepository _roleRepository = roleRepository;
@@ -80,7 +81,7 @@ public class SetupTenantCommandHandler(
 
             // Todo: add the FE dashboard link to both and add the role name as enum
 
-            await _emailService.SendTeamInvitationEmailAsync(user.Email, user.FullName.FirstName, "Tenant Admin", tenant.BusinessName, "localhost:4200/dashboard");
+            await _emailService.SendExistingUserAccessGrantAsync(user.Email, user.FullName.FirstName, "Tenant Admin", tenant.BusinessName, "localhost:4200/dashboard");
 
             await _emailService.SendTenantWelcomeEmailAsync(tenant.Email, $"{user.FullName.FirstName} {user.FullName.LastName}", tenant.BusinessName, "localhost:4200/dashboard");
 

@@ -10,10 +10,11 @@ namespace Stamply.Application.CQRS.QueryHandlers.Authentication;
 
 public class IsUserVerifiedQueryHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<IsUserVerifiedQueryHandler> logger,
     IUnitOfWork unitOfWork,
     IUserRepository userRepository)
-    : BaseHandler<IsUserVerifiedQuery, IsUserVerifiedQueryResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<IsUserVerifiedQuery, IsUserVerifiedQueryResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     public override async Task<IsUserVerifiedQueryResult> Handle(IsUserVerifiedQuery request, CancellationToken cancellationToken)

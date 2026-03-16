@@ -2,6 +2,7 @@ using Stamply.Application;
 using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Application.CQRS.Commands.Tenant;
 using Stamply.Application.CQRS.Queries.Authentication;
+using Stamply.Application.CQRS.Queries.Tenant;
 using Stamply.Application.Utilities;
 using Stamply.Domain;
 using Stamply.Domain.Constants;
@@ -123,14 +124,28 @@ app.MapGet(EndpointRoutes.IsVerified, IsUserVerified.RegisterRoute)
 app.MapPost(EndpointRoutes.InviteTenant, InviteTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
     .Produces<ApiResponse<InviteTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
+    .RequireAuthorization(PermissionConstants.SystemManage)
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
     .Accepts<InviteTenantCommand>("application/json");
 
 app.MapPost(EndpointRoutes.InviteMerchant, InviteMerchant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
+    .RequireAuthorization(PermissionConstants.InvitationsAdd)
     .Produces<ApiResponse<InviteMerchantCommandResult>>(StatusCodes.Status200OK, "application/json")
     .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
     .Accepts<InviteMerchantCommand>("application/json");
+
+app.MapGet(EndpointRoutes.ValidateInvitation, ValidateInvitation.RegisterRoute)
+    .WithTags(EndpointTags.Tenant)
+    .Produces<ApiResponse<ValidateInvitationQueryResult>>(StatusCodes.Status200OK, "application/json")
+    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+    .Accepts<ValidateInvitationQuery>("application/json");
+
+app.MapPost(EndpointRoutes.AcceptInvitation, AcceptInvitation.RegisterRoute)
+    .WithTags(EndpointTags.Tenant)
+    .Produces<ApiResponse<AcceptInvitationCommandResult>>(StatusCodes.Status200OK, "application/json")
+    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+    .Accepts<AcceptInvitationCommand>("application/json");
 
 app.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
     .WithTags(EndpointTags.Tenant)
