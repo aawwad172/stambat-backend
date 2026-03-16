@@ -37,6 +37,9 @@ clean:
 migrate:
 	dotnet ef migrations add $(name) --project src/Stamply.Infrastructure --startup-project src/Stamply.Presentation.API
 
+migrate-remove:
+	dotnet ef migrations remove --project src/Stamply.Infrastructure --startup-project src/Stamply.Presentation.API
+
 db-update:
 	dotnet ef database update --project src/Stamply.Infrastructure --startup-project src/Stamply.Presentation.API
 

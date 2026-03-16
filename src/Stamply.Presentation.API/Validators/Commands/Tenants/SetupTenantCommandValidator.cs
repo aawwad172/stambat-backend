@@ -16,6 +16,6 @@ public class SetupTenantCommandValidator : AbstractValidator<SetupTenantCommand>
 
         RuleFor(x => x.CompanyName)
             .NotEmpty()
-            .WithMessage("Tenant Name is required");
+            .WithMessage("Company Name is required");
     }
 }

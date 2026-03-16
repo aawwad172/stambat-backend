@@ -6,4 +6,6 @@ public interface IInvitationRepository : IRepository<Invitation>
 {
     Task<Invitation?> GetInvitationByTokenHashAsync(string tokenHash);
     Task<Invitation?> GetLastActiveInvitationForTenantAndRole(string email, Guid tenantId, Guid roleId);
+
+    Task<bool> TryCreateInvitationAsync(Invitation invitation, CancellationToken cancellationToken);
 }

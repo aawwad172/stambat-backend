@@ -3,7 +3,7 @@ using FluentValidation;
 using Stamply.Application.CQRS.Commands.Tenants;
 using Stamply.Domain.Enums;
 
-namespace Stamply.Presentation.API.Validators.Commands.Admin;
+namespace Stamply.Presentation.API.Validators.Commands.Tenants;
 
 public class InviteStaffCommandValidator : AbstractValidator<InviteStaffCommand>
 {

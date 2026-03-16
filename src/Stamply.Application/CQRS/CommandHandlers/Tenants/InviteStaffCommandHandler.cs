@@ -65,12 +65,6 @@ public class InviteStaffCommandHandler(
                 throw new ConflictException("User already holds this role in this tenant.");
         }
 
-        // Check if there is an active invitation for that user in that tenant for that role
-        Invitation? lastActiveInvitation = await _invitationRepository.GetLastActiveInvitationForTenantAndRole(request.Email, validTenantId, role.Id);
-
-        if (lastActiveInvitation is not null)
-            throw new InvitationStillActiveException($"Invitation already sent with role: {role.Name} for tenant: {tenant.BusinessName} and it is still active");
-
         // 2. Token Generation
         // Create a secure random string (raw token)
         string rawToken = Id.New().ToString("N");
@@ -92,14 +86,14 @@ public class InviteStaffCommandHandler(
         await _unitOfWork.BeginTransactionAsync(cancellationToken);
         try
         {
-            await _invitationRepository.AddAsync(invitation);
+            bool created = await _invitationRepository.TryCreateInvitationAsync(invitation, cancellationToken);
+
+            if (!created)
+                throw new InvitationStillActiveException($"Invitation already sent with role: {role.Name} for tenant: {tenant.BusinessName} and it is still active");
 
             // 3. Construct the Invitation Link
             // todo: In a real scenario, pull "https://stamply.app/register" from IConfiguration
             string registrationLink = $"https://stamply.app/register?token={Uri.EscapeDataString(rawToken)}";
-
-            await _unitOfWork.SaveAsync(cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
 
             // 4. Send the Email
             // Assuming your IEmailService has a SendInvitationEmailAsync method
@@ -109,6 +103,10 @@ public class InviteStaffCommandHandler(
                 registrationLink,
                 _invitationExpiresAfter,
                 cancellationToken);
+
+            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
 
             return new InviteStaffCommandResult("Invitation Sent Successfully");
         }

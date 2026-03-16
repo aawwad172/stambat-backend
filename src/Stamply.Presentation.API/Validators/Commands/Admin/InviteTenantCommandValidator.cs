@@ -2,7 +2,7 @@ using FluentValidation;
 
 using Stamply.Application.CQRS.Commands.Admin;
 
-namespace Stamply.Presentation.API.Validators.Commands.Tenants;
+namespace Stamply.Presentation.API.Validators.Commands.Admin;
 
 public class InviteTenantCommandValidator : AbstractValidator<InviteTenantCommand>
 {
