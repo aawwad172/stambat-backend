@@ -15,6 +15,8 @@ public interface ISecurityService
     /// </remarks>
     public string HashSecret(string password);
 
+    public string HashToken(string token);
+
     /// <summary>
     /// Verifies if the password matches the stored password hash.
     /// </summary>

@@ -70,6 +70,18 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             new RolePermission { RoleId = AuthSeedConstants.RoleIdMerchant, PermissionId = AuthSeedConstants.PermissionIdScanStamping },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdMerchant, PermissionId = AuthSeedConstants.PermissionIdScanRedeem },
 
+            // Manager (10)
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdTenantsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdUsersView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdUsersAdd },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdInvitationsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdInvitationsAdd },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdCardsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdRewardsView },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdScanStamping },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdScanRedeem },
+            new RolePermission { RoleId = AuthSeedConstants.RoleIdManager, PermissionId = AuthSeedConstants.PermissionIdCardsAdd },
+
             // User (4)
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsView },
             new RolePermission { RoleId = AuthSeedConstants.RoleIdUser, PermissionId = AuthSeedConstants.PermissionIdTenantsSetup },

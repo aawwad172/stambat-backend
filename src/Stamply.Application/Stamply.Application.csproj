@@ -22,10 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS/CommandHandlers/Tenant/" />
-    <Folder Include="CQRS/Commands/Tenant/" />
+    <Folder Include="CQRS/Queries/Admin/" />
     <Folder Include="CQRS/Queries/Authentication/" />
+    <Folder Include="CQRS/Queries/Tenants/" />
+    <Folder Include="CQRS/QueryHandlers/Admin/" />
     <Folder Include="CQRS/QueryHandlers/Authentication/" />
+    <Folder Include="CQRS/QueryHandlers/Tenants/" />
     <Folder Include="CQRS\" />
     <Folder Include="CQRS\CommandHandlers\" />
     <Folder Include="CQRS\Commands\" />

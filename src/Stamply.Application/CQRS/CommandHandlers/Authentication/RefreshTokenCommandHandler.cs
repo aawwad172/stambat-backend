@@ -1,12 +1,12 @@
 
+using Microsoft.Extensions.Logging;
+
 using Stamply.Application.CQRS.Commands.Authentication;
+using Stamply.Domain.Entities.Identity;
+using Stamply.Domain.Entities.Identity.Authentication;
 using Stamply.Domain.Exceptions;
 using Stamply.Domain.Interfaces.Application.Services;
 using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
-using Microsoft.Extensions.Logging;
-using Stamply.Domain.Entities.Identity;
-using Stamply.Domain.Entities.Identity.Authentication;
 
 namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
@@ -14,10 +14,11 @@ public class RefreshTokenCommandHandler(
     IUnitOfWork unitOfWork,
     ILogger<RefreshTokenCommandHandler> logger,
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     IRefreshTokenRepository refreshTokenRepository,
     IUserRepository userRepository,
     IJwtService jwtService)
-    : BaseHandler<RefreshTokenCommand, RefreshTokenCommandResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<RefreshTokenCommand, RefreshTokenCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly IUserRepository _userRepository = userRepository;

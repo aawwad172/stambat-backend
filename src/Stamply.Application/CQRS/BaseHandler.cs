@@ -1,9 +1,10 @@
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using MediatR;
 
 using Microsoft.Extensions.Logging;
+
+using Stamply.Application.Services;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stamply.Application.CQRS;
 
@@ -11,13 +12,18 @@ public abstract class BaseHandler<TRequest, TResponse> : IRequestHandler<TReques
     where TRequest : IRequest<TResponse>
 {
     protected readonly ICurrentUserService _currentUser;
+    protected readonly ITenantProviderService _currentTenant;
     protected readonly ILogger _logger;
     protected readonly IUnitOfWork _unitOfWork;
 
-    protected BaseHandler(ICurrentUserService currentUserService, ILogger logger, IUnitOfWork unitOfWork)
+    protected BaseHandler(ICurrentUserService currentUserService, ITenantProviderService currentTenantProviderService, ILogger logger, IUnitOfWork unitOfWork)
     {
         _currentUser = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
+
+        _currentTenant = currentTenantProviderService ?? throw new ArgumentNullException(nameof(currentTenantProviderService));
+
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 

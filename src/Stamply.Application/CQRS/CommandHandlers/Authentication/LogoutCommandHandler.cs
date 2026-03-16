@@ -1,24 +1,25 @@
 
-using Stamply.Application.CQRS.Commands.Authentication;
-using Stamply.Domain.Exceptions;
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.Extensions.Logging;
+
+using Stamply.Application.CQRS.Commands.Authentication;
 using Stamply.Domain.Common;
 using Stamply.Domain.Entities.Identity;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Exceptions;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stamply.Application.CQRS.CommandHandlers.Authentication;
 
 public class LogoutCommandHandler(
     ICurrentUserService currentUserService,
+    ITenantProviderService tenantProviderService,
     ILogger<LogoutCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IRefreshTokenRepository refreshTokenRepository,
     ISecurityService securityService,
     IUserRepository userRepository)
-    : BaseHandler<LogoutCommand, LogoutCommandResult>(currentUserService, logger, unitOfWork)
+    : BaseHandler<LogoutCommand, LogoutCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly ISecurityService _securityService = securityService;

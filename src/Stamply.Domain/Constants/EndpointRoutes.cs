@@ -2,13 +2,24 @@ namespace Stamply.Domain.Constants;
 
 public static class EndpointRoutes
 {
-    public const string RegisterUser = "/users/register";
-    public const string Login = "/users/login";
-    public const string RefreshToken = "/users/refresh-token";
-    public const string Logout = "/users/logout";
-    public const string IsVerified = "/users/is-verified";
-    public const string InviteTenant = "/admin/tenants/invitations";
-    public const string InviteMerchant = "/tenants/{tenantId}/users/invitations";
-    public const string SetupTenant = "/tenants/setup";
-    public const string VerifyEmail = "/users/verify-email";
+    // Auth & Session
+    public const string Login = "/login";
+    public const string Logout = "/logout";
+    public const string RefreshToken = "/refresh-token";
+
+    // User / Profile
+    public const string RegisterUser = "/register";
+    public const string VerifyEmail = "/verify-email";
+    public const string IsVerified = "/is-verified";
+
+    // Invitations (Public/Token-based)
+    public const string ValidateInvitation = "/validate";
+    public const string AcceptInvitation = "/accept";
+
+    // Tenant Operations (Merchant/Owner context)
+    public const string SetupTenant = "/setup";
+    public const string InviteStaff = "/staff/invitations"; // Plural & clear
+
+    // System Admin (Platform Owner only)
+    public const string InviteTenant = "/tenants/onboarding";
 }

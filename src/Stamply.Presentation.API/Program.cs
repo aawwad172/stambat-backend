@@ -1,20 +1,12 @@
 using Stamply.Application;
-using Stamply.Application.CQRS.Commands.Authentication;
-using Stamply.Application.CQRS.Commands.Tenant;
-using Stamply.Application.CQRS.Queries.Authentication;
 using Stamply.Application.Utilities;
 using Stamply.Domain;
-using Stamply.Domain.Constants;
-using Stamply.Domain.Enums;
 using Stamply.Infrastructure;
 using Stamply.Infrastructure.Persistence;
 using Stamply.Presentation.API;
+using Stamply.Presentation.API.Endpoints;
 using Stamply.Presentation.API.Middlewares;
 using Stamply.Presentation.API.Models;
-using Stamply.Presentation.API.Routes.Authentication;
-using Stamply.Presentation.API.Routes.Tenant;
-
-using RefreshToken = Stamply.Presentation.API.Routes.Authentication.RefreshToken;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
@@ -76,67 +68,6 @@ app.MapGet("/", () => new
     }
 }).WithTags("Home");
 
-#region Authentication
-
-app.MapPost(EndpointRoutes.RegisterUser, RegisterUser.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-   .Produces<ApiResponse<RegisterUserCommandResult>>(StatusCodes.Status201Created, "application/json")
-   .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-   .Produces<ApiResponse<RegisterUserCommandResult>>(StatusCodes.Status409Conflict, "application/json")
-   .Accepts<RegisterUserCommand>("application/json");
-
-app.MapPost(EndpointRoutes.Login, Login.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-   .Produces<ApiResponse<LoginCommandResult>>(StatusCodes.Status200OK, "application/json")
-   .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-   .Produces<ApiResponse<LoginCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
-   .Accepts<LoginCommand>("application/json");
-
-app.MapPost(EndpointRoutes.RefreshToken, RefreshToken.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-   .Produces<ApiResponse<RefreshTokenCommandResult>>(StatusCodes.Status200OK, "application/json")
-   .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-   .Produces<ApiResponse<RefreshTokenCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
-   .Accepts<RefreshTokenCommand>("application/json");
-
-app.MapPost(EndpointRoutes.Logout, Logout.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-   .Produces<ApiResponse<LogoutCommandResult>>(StatusCodes.Status200OK, "application/json")
-   .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-   .Produces<ApiResponse<LogoutCommandResult>>(StatusCodes.Status401Unauthorized, "application/json")
-   .Accepts<LogoutCommand>("application/json");
-
-app.MapPost(EndpointRoutes.VerifyEmail, VerifyEmail.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-    .Accepts<VerifyEmailCommand>("application/json")
-    .Produces<ApiResponse<VerifyEmailCommandResult>>(StatusCodes.Status200OK);
-
-app.MapGet(EndpointRoutes.IsVerified, IsUserVerified.RegisterRoute)
-    .WithTags(EndpointTags.Authentication)
-    .Produces<ApiResponse<IsUserVerifiedQueryResult>>(StatusCodes.Status200OK, "application/json")
-    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-    .Accepts<IsUserVerifiedQuery>("application/json")
-    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
-#endregion
-
-#region Tenant
-app.MapPost(EndpointRoutes.InviteTenant, InviteTenant.RegisterRoute)
-    .WithTags(EndpointTags.Tenant)
-    .Produces<ApiResponse<InviteTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
-    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-    .Accepts<InviteTenantCommand>("application/json");
-
-app.MapPost(EndpointRoutes.InviteMerchant, InviteMerchant.RegisterRoute)
-    .WithTags(EndpointTags.Tenant)
-    .Produces<ApiResponse<InviteMerchantCommandResult>>(StatusCodes.Status200OK, "application/json")
-    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
-    .Accepts<InviteMerchantCommand>("application/json");
-
-app.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
-    .WithTags(EndpointTags.Tenant)
-    .RequireAuthorization(PermissionConstants.TenantsSetup)
-    .Produces<ApiResponse<SetupTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
-    .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
-#endregion
+app.MapEndpointModules();
 
 app.Run();

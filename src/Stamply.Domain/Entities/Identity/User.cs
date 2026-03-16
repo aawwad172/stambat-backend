@@ -21,4 +21,5 @@ public class User : IBaseEntity
     public virtual UserCredentials? Credentials { get; set; }
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     public ICollection<UserRoleTenant> UserRoleTenants { get; set; } = [];
+    public ICollection<WalletPass> WalletPasses { get; set; } = [];
 }

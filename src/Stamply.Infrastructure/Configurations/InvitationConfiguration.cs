@@ -11,12 +11,21 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
     {
         builder.HasKey(i => i.Id);
 
-        builder.Property(i => i.TokenHash).IsRequired().HasMaxLength(512);
-        builder.HasIndex(i => i.TokenHash).IsUnique();
+        builder.Property(i => i.TokenHash)
+            .IsRequired()
+            .HasMaxLength(512);
+
+        builder.HasIndex(i => i.TokenHash)
+            .IsUnique();
+
+        builder.HasIndex(i => new { i.Email, i.TenantId, i.RoleId })
+            .HasFilter("\"IsUsed\" = false")
+            .IsUnique();
 
         builder.Ignore(i => i.Token);
 
-        builder.Property(i => i.Email).IsRequired().HasMaxLength(256);
+        builder.Property(i => i.Email).IsRequired()
+            .HasMaxLength(256);
 
         // Relationship to Tenant is optional (Null for new signups)
         builder.HasOne(i => i.Tenant)

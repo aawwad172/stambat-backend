@@ -1,8 +1,10 @@
+using Stamply.Domain.Interfaces.Domain;
+
 namespace Stamply.Domain.Entities.Identity.Authentication;
 
-public class UserRoleTenant
+public class UserRoleTenant : IEntity
 {
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
 
     public required Guid UserId { get; set; }
     public User? User { get; set; }

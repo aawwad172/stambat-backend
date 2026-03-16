@@ -22,6 +22,71 @@ namespace Stamply.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Stamply.Domain.Entities.CardTemplate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EarnedStampUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmptyStampUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LogoUrlOverride")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PrimaryColorOverride")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RewardDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecondaryColorOverride")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StampsRequired")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TermsAndConditions")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("CardTemplate");
+                });
+
             modelBuilder.Entity("Stamply.Domain.Entities.Identity.Authentication.Permission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -409,6 +474,15 @@ namespace Stamply.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db"),
+                            CreatedAt = new DateTime(2025, 10, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
+                            Description = "Middle management for specific tenant features and staff management.",
+                            IsDeleted = false,
+                            Name = "Manager"
+                        },
+                        new
+                        {
                             Id = new Guid("019cd46a-80b3-7d68-8834-46e510948741"),
                             CreatedAt = new DateTime(2025, 10, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
@@ -706,6 +780,56 @@ namespace Stamply.Infrastructure.Migrations
                         new
                         {
                             PermissionId = new Guid("019cd45e-7cf2-7f36-9595-2bd07dc9e25b"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-7947-88e3-7c06f899920f"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-78d6-8548-e20dbdadc04b"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-717e-b9df-56b9565cc5e1"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-7ef1-9e1a-8ae8e3ff78f6"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-71fd-b726-7446578cf8b8"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-7144-85d7-a624389a5bda"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-78ba-b9fc-d69399cdc202"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-735f-ac03-e6b5ebe67f6e"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cfc-75ec-9acf-136b67adda34"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("019cd45e-7cf2-7f36-9595-2bd07dc9e25b"),
                             RoleId = new Guid("019cd46a-80b3-7d68-8834-46e510948741")
                         },
                         new
@@ -921,7 +1045,53 @@ namespace Stamply.Infrastructure.Migrations
                     b.HasIndex("TokenHash")
                         .IsUnique();
 
+                    b.HasIndex("Email", "TenantId", "RoleId")
+                        .IsUnique()
+                        .HasFilter("\"IsUsed\" = false");
+
                     b.ToTable("Invitations");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.StampTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("MerchantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StampsAdded")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WalletPassId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MerchantId");
+
+                    b.HasIndex("WalletPassId");
+
+                    b.ToTable("StampTransaction");
                 });
 
             modelBuilder.Entity("Stamply.Domain.Entities.Tenant", b =>
@@ -1042,6 +1212,56 @@ namespace Stamply.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("TenantProfiles");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.WalletPass", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ApplePassSerialNumber")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("CardTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CurrentStamps")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("GooglePayId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastStampedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardTemplateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WalletPass");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.CardTemplate", b =>
+                {
+                    b.HasOne("Stamply.Domain.Entities.Tenant", "Tenant")
+                        .WithMany("CardTemplates")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Stamply.Domain.Entities.Identity.Authentication.RefreshToken", b =>
@@ -1177,6 +1397,25 @@ namespace Stamply.Infrastructure.Migrations
                     b.Navigation("Tenant");
                 });
 
+            modelBuilder.Entity("Stamply.Domain.Entities.StampTransaction", b =>
+                {
+                    b.HasOne("Stamply.Domain.Entities.Identity.User", "Merchant")
+                        .WithMany()
+                        .HasForeignKey("MerchantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stamply.Domain.Entities.WalletPass", "WalletPass")
+                        .WithMany("Transactions")
+                        .HasForeignKey("WalletPassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Merchant");
+
+                    b.Navigation("WalletPass");
+                });
+
             modelBuilder.Entity("Stamply.Domain.Entities.TenantProfile", b =>
                 {
                     b.HasOne("Stamply.Domain.Entities.Tenant", "Tenant")
@@ -1186,6 +1425,30 @@ namespace Stamply.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.WalletPass", b =>
+                {
+                    b.HasOne("Stamply.Domain.Entities.CardTemplate", "CardTemplate")
+                        .WithMany("IssuedPasses")
+                        .HasForeignKey("CardTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stamply.Domain.Entities.Identity.User", "User")
+                        .WithMany("WalletPasses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardTemplate");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.CardTemplate", b =>
+                {
+                    b.Navigation("IssuedPasses");
                 });
 
             modelBuilder.Entity("Stamply.Domain.Entities.Identity.Authentication.Role", b =>
@@ -1200,13 +1463,22 @@ namespace Stamply.Infrastructure.Migrations
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("UserRoleTenants");
+
+                    b.Navigation("WalletPasses");
                 });
 
             modelBuilder.Entity("Stamply.Domain.Entities.Tenant", b =>
                 {
+                    b.Navigation("CardTemplates");
+
                     b.Navigation("TenantProfile");
 
                     b.Navigation("UserRoleTenants");
+                });
+
+            modelBuilder.Entity("Stamply.Domain.Entities.WalletPass", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

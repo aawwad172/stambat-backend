@@ -12,7 +12,8 @@ using Stamply.Application.Utilities;
 using Stamply.Domain.Entities.Identity.Authentication;
 using Stamply.Domain.Enums;
 using Stamply.Presentation.API.Validators.Commands.Authentication;
-using Stamply.Presentation.API.Validators.Queries.Authentication;
+using Stamply.Presentation.API.Validators.Commands.Users;
+using Stamply.Presentation.API.Validators.Queries.Users;
 
 namespace Stamply.Presentation.API;
 

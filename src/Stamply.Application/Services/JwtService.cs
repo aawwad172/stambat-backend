@@ -2,17 +2,17 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-using Stamply.Application.Utilities;
-using Stamply.Domain.Exceptions;
-using Stamply.Domain.Interfaces.Application.Services;
-using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+
+using Stamply.Application.Utilities;
 using Stamply.Domain.Common;
 using Stamply.Domain.Entities.Identity;
 using Stamply.Domain.Entities.Identity.Authentication;
+using Stamply.Domain.Exceptions;
+using Stamply.Domain.Interfaces.Application.Services;
+using Stamply.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stamply.Application.Services;
 
@@ -48,7 +48,7 @@ public class JwtService(
 
         // Use the custom claim type defined earlier (CustomClaims.Permission = "application_permission")
         // --- 4. Add Permission Claims (for granular [HasPermission("...")] checks) ---
-        foreach (var permission in permissions)
+        foreach (string permission in permissions)
         {
             // Use the custom claim type defined earlier (e.g., CustomClaims.Permission)
             claims.Add(new Claim(CustomClaims.Permission, permission));
