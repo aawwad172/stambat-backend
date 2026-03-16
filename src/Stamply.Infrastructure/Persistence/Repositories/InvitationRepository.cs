@@ -28,20 +28,12 @@ public class InvitationRepository(ApplicationDbContext context)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> TryCreateInvitationAsync(Invitation invitation, CancellationToken cancellationToken)
+    public async Task<bool> ExistsActiveAsync(string email, Guid tenantId, Guid roleId, CancellationToken cancellationToken = default)
     {
-        // Uses PostgreSQL advisory lock or SELECT FOR UPDATE to serialize
-        bool alreadyActive = await _dbSet
-            .Where(i => i.IsUsed == false
-                     && i.ExpiresAt >= DateTime.UtcNow
-                     && i.Email == invitation.Email
-                     && i.TenantId == invitation.TenantId
-                     && i.RoleId == invitation.RoleId)
-            .AnyAsync(cancellationToken);
-
-        if (alreadyActive) return false;
-
-        await _dbSet.AddAsync(invitation, cancellationToken);
-        return true;
+        return await _dbSet.AnyAsync(i =>
+            i.IsUsed == false &&
+            i.Email == email &&
+            i.TenantId == tenantId &&
+            i.RoleId == roleId, cancellationToken);
     }
 }

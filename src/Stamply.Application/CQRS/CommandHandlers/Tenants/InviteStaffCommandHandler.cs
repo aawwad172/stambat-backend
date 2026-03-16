@@ -86,10 +86,14 @@ public class InviteStaffCommandHandler(
         await _unitOfWork.BeginTransactionAsync(cancellationToken);
         try
         {
-            bool created = await _invitationRepository.TryCreateInvitationAsync(invitation, cancellationToken);
+            // Check if an active invitation already exists
+            bool alreadyExists = await _invitationRepository.ExistsActiveAsync(
+                invitation.Email, validTenantId, invitation.RoleId, cancellationToken);
 
-            if (!created)
-                throw new InvitationStillActiveException($"Invitation already sent with role: {role.Name} for tenant: {tenant.BusinessName} and it is still active");
+            await _invitationRepository.AddAsync(invitation);
+
+            if (alreadyExists)
+                throw new InvitationStillActiveException($"Invitation for {role.Name} is still active.");
 
             // 3. Construct the Invitation Link
             // todo: In a real scenario, pull "https://stamply.app/register" from IConfiguration
@@ -112,7 +116,7 @@ public class InviteStaffCommandHandler(
         }
         catch (Exception ex)
         {
-            _logger.LogError("An error occurred during merchant invitation: {Message}", ex.Message);
+            _logger.LogError("An error occurred during staff invitation: {Message}", ex.Message);
             await _unitOfWork.RollbackAsync(cancellationToken);
             throw;
         }
