@@ -37,8 +37,14 @@ public class ValidateInvitationQueryHandler(
             if (inviation.ExpiresAt < DateTime.UtcNow)
                 throw new InvitationExpiredException($"Invitation with token expired");
 
+            if (inviation.Tenant is null)
+                throw new NotFoundException($"The tenant with Id: {inviation.TenantId} does not exist.");
 
-            return new ValidateInvitationQueryResult(Email: inviation.Email, TenantName: inviation.Tenant!.BusinessName, RoleName: inviation.Role.Name);
+            if (inviation.Role is null)
+                throw new NotFoundException($"The role with Id: {inviation.RoleId} does not exist.");
+
+
+            return new ValidateInvitationQueryResult(Email: inviation.Email, TenantName: inviation.Tenant.BusinessName, RoleName: inviation.Role.Name);
 
         }
         catch (Exception ex)

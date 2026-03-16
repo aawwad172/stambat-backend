@@ -21,6 +21,9 @@ public static class AuthSeedConstants
     // Role ID: Merchant
     public static readonly Guid RoleIdMerchant = new("019cd46a-80b3-712e-8b82-edbae70f6a0d");
 
+    // Role ID: Manager
+    public static readonly Guid RoleIdManager = new("019cd46a-80b3-7a1a-a1b1-254e15e297db");
+
     // Role ID: Standard User
     public static readonly Guid RoleIdUser = new("019cd46a-80b3-7d68-8834-46e510948741");
 

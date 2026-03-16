@@ -19,7 +19,10 @@ public class SecurityService(IConfiguration configuration) : ISecurityService
 
     public string HashToken(string token)
     {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        if (string.IsNullOrWhiteSpace(token))
+            throw new ArgumentException("Token cannot be null or empty.", nameof(token));
+
+        byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
         return Convert.ToHexString(bytes); // Deterministic!
     }
 

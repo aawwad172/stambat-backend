@@ -44,12 +44,12 @@ public class InviteMerchantCommandHandler(
         Guid? optionalTenantId = _currentTenant.TenantId;
 
         if (!optionalTenantId.HasValue)
-            throw new ArgumentNullException("TenantId can't be null, please provide it via the X-Tenant-Id header.");
+            throw new ArgumentException("TenantId can't be null, please provide it via the X-Tenant-Id header.", nameof(_currentTenant.TenantId));
 
         Guid validTenantId = optionalTenantId.Value;
 
         // 1. Basic Validations
-        User? user = await _userRepository.GetUserByUsernameAsync(request.Email);
+        User? user = await _userRepository.GetUserByEmailAsync(request.Email);
         Role? role = await _roleRepository.GetRoleByNameAsync(request.Role.ToString());
         TenantEntity? tenant = await _tenantRepository.GetByIdAsync(validTenantId);
 

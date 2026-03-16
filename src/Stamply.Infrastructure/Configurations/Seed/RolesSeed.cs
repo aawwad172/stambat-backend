@@ -36,6 +36,14 @@ public class RolesSeed : IEntityTypeConfiguration<Role>
             },
             new Role
             {
+                Id = AuthSeedConstants.RoleIdManager,
+                Name = "Manager",
+                Description = "Middle management for specific tenant features and staff management.",
+                CreatedAt = AuthSeedConstants.SeedDateUtc,
+                CreatedBy = AuthSeedConstants.SystemUserId
+            },
+            new Role
+            {
                 Id = AuthSeedConstants.RoleIdUser,
                 Name = "User",
                 Description = "End-user access for viewing cards and rewards.",

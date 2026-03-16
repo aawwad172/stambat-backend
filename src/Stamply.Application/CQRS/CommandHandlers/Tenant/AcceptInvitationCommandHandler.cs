@@ -35,7 +35,7 @@ public class AcceptInvitationCommandHandler(
 
     public override async Task<AcceptInvitationCommandResult> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
     {
-        var tokenHash = _securityService.HashToken(request.Token);
+        string tokenHash = _securityService.HashToken(request.Token);
         var invitation = await _invitationRepository.GetInvitationByTokenHashAsync(tokenHash);
 
         if (invitation is null)
@@ -53,6 +53,11 @@ public class AcceptInvitationCommandHandler(
             throw new InvalidOperationException($"The role with Id: {invitation.RoleId} does not exist in the database. Please seed roles.");
         }
 
+        if (invitation.Tenant is null)
+        {
+            throw new NotFoundException($"The tenant with Id: {invitation.TenantId} does not exist.");
+        }
+
         invitation.IsUsed = true;
 
         // 2. Business Logic: Existing User Handling
@@ -66,11 +71,6 @@ public class AcceptInvitationCommandHandler(
             _invitationRepository.Update(invitation);
             if (isNewUser)
             {
-
-                // Validate Identity Uniqueness
-                if (await _userRepository.GetUserByEmailAsync(invitation.Email) != null)
-                    throw new ConflictException("A user with this email already exists.");
-
                 // Check if a user already exists with the same username.
                 User? existingUsername = await _userRepository.GetUserByUsernameAsync(request.Username);
                 if (existingUsername is not null)
@@ -124,7 +124,7 @@ public class AcceptInvitationCommandHandler(
                 user.Email,
                 user.FullName.FirstName,
                 invitation.Role.Name,
-                invitation.Tenant!.BusinessName,
+                invitation.Tenant.BusinessName,
                 "localhost:4200/dashboard");
 
 

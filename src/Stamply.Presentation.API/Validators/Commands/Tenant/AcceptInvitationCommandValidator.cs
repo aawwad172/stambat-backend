@@ -17,6 +17,7 @@ public class AcceptInvitationCommandValidator : AbstractValidator<AcceptInvitati
             .WithMessage("Last name is required.");
 
         RuleFor(x => x.Username)
+            .Cascade(CascadeMode.Stop)
             .NotEmpty()
             .WithMessage("Username is required.")
             .Must(username => username == username.ToLowerInvariant())

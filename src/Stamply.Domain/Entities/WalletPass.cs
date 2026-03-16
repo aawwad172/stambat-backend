@@ -23,7 +23,7 @@ public class WalletPass : IEntity, ICreationAudit
     public string? ApplePassSerialNumber { get; set; }
     public string? GooglePayId { get; set; }
 
-    public DateTime LastStampedAt { get; set; }
+    public DateTime? LastStampedAt { get; set; }
 
     // Audit
     public DateTime CreatedAt { get; set; }

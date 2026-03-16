@@ -20,7 +20,7 @@ public abstract class BaseHandler<TRequest, TResponse> : IRequestHandler<TReques
     {
         _currentUser = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
 
-        _currentTenant = currentTenantProviderService ?? throw new ArgumentException(nameof(currentTenantProviderService));
+        _currentTenant = currentTenantProviderService ?? throw new ArgumentNullException(nameof(currentTenantProviderService));
 
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
