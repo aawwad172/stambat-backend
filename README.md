@@ -1,8 +1,8 @@
-# Stamply - Digital Loyalty System
+# Stambat - Digital Loyalty System
 
-Stamply is a modern digital loyalty card solution designed to replace physical stamp cards. It empowers businesses to create and manage digital loyalty programs that integrate seamlessly with Apple Wallet and Google Wallet. Customers can earn stamps and redeem rewards simply by scanning a QR code on their digital cards.
+Stambat is a modern digital loyalty card solution designed to replace physical stamp cards. It empowers businesses to create and manage digital loyalty programs that integrate seamlessly with Apple Wallet and Google Wallet. Customers can earn stamps and redeem rewards simply by scanning a QR code on their digital cards.
 
-Built with a commitment to high engineering standards, Stamply follows **Domain-Driven Design (DDD)** and **Clean Architecture** principles to ensure a scalable and maintainable backend.
+Built with a commitment to high engineering standards, Stambat follows **Domain-Driven Design (DDD)** and **Clean Architecture** principles to ensure a scalable and maintainable backend.
 
 ## Key Features
 
@@ -23,7 +23,7 @@ Built with a commitment to high engineering standards, Stamply follows **Domain-
    ```bash
    make dev-db-start
    ```
-   This will start a PostgreSQL container with the default credentials (`postgres`/`postgres`) and database name (`stamply`) as configured in `appsettings.Development.json`.
+   This will start a PostgreSQL container with the default credentials (`postgres`/`postgres`) and database name (`stambat`) as configured in `appsettings.Development.json`.
 
 2. **Install Dependencies:**
 
@@ -105,7 +105,7 @@ If you have any ideas or improvements that could help enhance this template, don
 
 ## Conclusion
 
-Stamply is built to provide a robust, enterprise-grade backend for digital loyalty programs. By leveraging DDD and Clean Architecture, it ensures that the system remains maintainable as your loyalty program grows.
+Stambat is built to provide a robust, enterprise-grade backend for digital loyalty programs. By leveraging DDD and Clean Architecture, it ensures that the system remains maintainable as your loyalty program grows.
 
 Happy coding!
 

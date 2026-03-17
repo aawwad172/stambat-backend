@@ -1,7 +1,7 @@
 # Specification: Update Security to use BCrypt
 
 ## Overview
-This track aims to replace the manual and potentially unreliable security code (password hashing and verification) with the well-tested and industry-standard `BCrypt.Net-Next` library. This will improve the security and reliability of the Stamply Digital Loyalty System while reducing custom codebase maintenance. The existing `SecurityService` will be preserved, but its internal implementation will be swapped out for BCrypt.
+This track aims to replace the manual and potentially unreliable security code (password hashing and verification) with the well-tested and industry-standard `BCrypt.Net-Next` library. This will improve the security and reliability of the Stambat Digital Loyalty System while reducing custom codebase maintenance. The existing `SecurityService` will be preserved, but its internal implementation will be swapped out for BCrypt.
 
 ## Scope
 - **Target Files:** `SecurityService.cs` (logic update), `SecurityUtilities.cs` (cleanup), and related `CommandHandlers` (Registration/Login).
@@ -19,4 +19,4 @@ This track aims to replace the manual and potentially unreliable security code (
 - Users can log in by having their provided password verified against the BCrypt-hashed password.
 - All manual hashing and verification code is removed from the project.
 - No compilation errors occur after the library integration and code update.
-- The `BCrypt.Net-Next` package is correctly added as a dependency to the `Stamply.Application` project.
+- The `BCrypt.Net-Next` package is correctly added as a dependency to the `Stambat.Application` project.

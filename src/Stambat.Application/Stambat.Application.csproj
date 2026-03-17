@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stambat.Domain\Stambat.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+    
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CQRS/Queries/Admin/" />
+    <Folder Include="CQRS/Queries/Authentication/" />
+    <Folder Include="CQRS/Queries/Tenants/" />
+    <Folder Include="CQRS/QueryHandlers/Admin/" />
+    <Folder Include="CQRS/QueryHandlers/Authentication/" />
+    <Folder Include="CQRS/QueryHandlers/Tenants/" />
+    <Folder Include="CQRS\" />
+    <Folder Include="CQRS\CommandHandlers\" />
+    <Folder Include="CQRS\Commands\" />
+    <Folder Include="CQRS\Queries\" />
+    <Folder Include="CQRS\QueryHandlers\" />
+  </ItemGroup>
+
+</Project>

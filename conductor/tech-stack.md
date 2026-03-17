@@ -1,4 +1,4 @@
-# Technology Stack: Stamply Backend
+# Technology Stack: Stambat Backend
 
 ## Core Framework & Language
 - **Language:** C#

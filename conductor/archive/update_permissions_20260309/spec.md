@@ -1,7 +1,7 @@
 # Specification: Replace Template Permissions with Project-Specific Permissions
 
 ## Overview
-This track involves a complete overhaul of the permission system in the Stamply backend. We are moving away from the generic template permissions (`User.Read`, `Post.Approve`) to a granular, project-specific set of permissions that align with the core entities: Tenants, Users, Invitations, Loyalty Cards, Rewards, and Scan actions.
+This track involves a complete overhaul of the permission system in the Stambat backend. We are moving away from the generic template permissions (`User.Read`, `Post.Approve`) to a granular, project-specific set of permissions that align with the core entities: Tenants, Users, Invitations, Loyalty Cards, Rewards, and Scan actions.
 
 ## Functional Requirements
 1. **Remove Template Permissions:** Delete all existing references to `User.Read` and `Post.Approve` from:

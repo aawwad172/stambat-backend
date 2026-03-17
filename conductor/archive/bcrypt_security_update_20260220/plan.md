@@ -2,7 +2,7 @@
 
 ## Phase 1: Preparation & Dependency [checkpoint: ab29dc6]
 - [x] Task: Add BCrypt.Net-Next dependency (0cc9abc)
-    - [x] Identify the correct project file (`Stamply.Application.csproj`).
+    - [x] Identify the correct project file (`Stambat.Application.csproj`).
     - [x] Install the `BCrypt.Net-Next` package using `dotnet add package`.
 - [x] Task: Conductor - User Manual Verification 'Preparation & Dependency' (Protocol in workflow.md)
 

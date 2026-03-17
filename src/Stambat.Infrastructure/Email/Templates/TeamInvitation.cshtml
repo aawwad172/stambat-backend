@@ -1,0 +1,86 @@
+@using Stambat.Infrastructure.Email.Models
+@model TeamInvitationEmailModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Team - Stambat</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f7f6; font-family: 'Spline Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+    
+    <div style="background-color: #f8f7f6; padding: 40px 20px;">
+        
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid rgba(214, 170, 49, 0.1); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+            
+            <div style="padding: 32px; text-align: center;">
+                <div style="display: inline-block; vertical-align: middle; width: 40px; height: 40px; background-color: #d6aa31; border-radius: 50%; line-height: 40px; text-align: center; color: #201c12; font-weight: bold; font-size: 20px;">
+                    ◆
+                </div>
+                <span style="display: inline-block; vertical-align: middle; margin-left: 8px; font-size: 24px; font-weight: bold; color: #0f172a; letter-spacing: -0.015em;">Stambat</span>
+            </div>
+
+            <div style="padding: 0 32px 32px 32px; text-align: center;">
+                <div style="width: 100%; max-width: 500px; height: 220px; margin: 0 auto; 
+                            background: #000000; 
+                            background: linear-gradient(180deg, #000000 0%, #d6aa31 100%); 
+                            border-radius: 48px; overflow: hidden; display: block; border: 1px solid #d6aa31;">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuGw1nHVLiv77FNKs8D_fEDq4E7n2e-08aQOdSEPn4d7jvAdREruWagqy5VUvrhMbizIP0LD-Nb3i2ybJkBfZHImmtv8SC5mfrYlED6eDzR6PiTcHAy3RYC2eS6tBBUDGZLG1nNQQUbI9kcObtLoBpwyNb-KRteaNLpc74UKEaZetQjuJhw1W6IxNHrtv0oEfw9kYeJX0ERW9u4IchKfOiYrxzbv2sI4UBu2JUkcti0aMAsOIJq3Zi6VCN1NKJ0yvkIVHRgy96s_o" 
+                         alt="Team Collaboration" 
+                         style="width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.8;" />
+                </div>
+            </div>
+
+            <div style="padding: 0 40px 32px 40px; text-align: center;">
+                <h2 style="margin: 0 0 12px 0; color: #0f172a; font-size: 28px; font-weight: bold; line-height: 1.2;">
+                    Welcome to the Team, @Model.InviteeName!
+                </h2>
+                <p style="margin: 0; color: #475569; font-size: 16px; line-height: 1.6;">
+                    You have been added as an <span style="font-weight: 600; color: #d6aa31;">@Model.Role</span> for 
+                    <span style="font-weight: 600; color: #0f172a;">@Model.TenantName</span>. We're excited to have you on board!
+                </p>
+            </div>
+
+        <div style="margin: 0 40px 32px 40px; padding: 24px; background-color: #f8f7f6; border-radius: 16px; text-align: left;">
+            <div style="padding-bottom: 12px; border-bottom: 1px solid rgba(214, 170, 49, 0.1); overflow: hidden;">
+                <span style="display: inline-block; width: 30%; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; vertical-align: middle;">
+                    Role
+                </span>
+                <span style="display: inline-block; width: 68%; color: #0f172a; font-size: 14px; font-weight: 600; text-align: right; vertical-align: middle;">
+                    @Model.Role
+                </span>
+            </div>
+            
+            <div style="padding-top: 12px; overflow: hidden;">
+                <span style="display: inline-block; width: 30%; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; vertical-align: middle;">
+                    Tenant
+                </span>
+                <span style="display: inline-block; width: 68%; color: #0f172a; font-size: 14px; font-weight: 600; text-align: right; vertical-align: middle;">
+                    @Model.TenantName
+                </span>
+            </div>
+        </div>
+            <div style="padding-bottom: 40px; text-align: center;">
+                <a href="@Model.DashboardLink" target="_blank" 
+                   style="background-color: #d6aa31; color: #201c12; padding: 16px 48px; font-size: 16px; font-weight: bold; text-decoration: none; border-radius: 9999px; display: inline-block; transition: transform 0.2s;">
+                    Go to Admin Dashboard
+                </a>
+            </div>
+
+            <div style="padding: 40px; background-color: #fcfcfb; border-top: 1px solid #f1f1f1; text-align: center;">
+                <div style="margin-bottom: 24px;">
+                    <a href="#" style="color: #d6aa31; text-decoration: none; font-size: 13px; font-weight: 500; margin: 0 10px;">Help Center</a>
+                    <a href="#" style="color: #d6aa31; text-decoration: none; font-size: 13px; font-weight: 500; margin: 0 10px;">Support</a>
+                    <a href="#" style="color: #d6aa31; text-decoration: none; font-size: 13px; font-weight: 500; margin: 0 10px;">Privacy</a>
+                </div>
+                <p style="margin: 0; color: #94a3b8; font-size: 12px; line-height: 1.5;">
+                    © 2026 Stambat Inc.<br/>
+                    123 Innovation Drive, Suite 400, San Francisco, CA 94105
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -14,10 +14,10 @@ Setting up the infrastructure to detect and block `Guid.NewGuid()`.
 ## Phase 2: Codebase Refactoring
 Replacing all existing occurrences of `Guid.NewGuid()` and `Guid.CreateVersion7()` with a central `Id.New()` wrapper.
 
-- [x] Task: Create static `Id` class in `Stamply.Domain.Common`. 9311a76
+- [x] Task: Create static `Id` class in `Stambat.Domain.Common`. 9311a76
 - [x] Task: Search the entire solution for `Guid.NewGuid()` and `Guid.CreateVersion7()`. 9311a76
 - [x] Task: Replace all found occurrences with `Id.New()`. 9311a76
-    - Ensure necessary `using Stamply.Domain.Common;` is used.
+    - Ensure necessary `using Stambat.Domain.Common;` is used.
 - [x] Task: Conductor - User Manual Verification 'Codebase Refactoring' (Protocol in workflow.md)
 
 ## Phase 3: Final Validation

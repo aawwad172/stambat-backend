@@ -3,7 +3,7 @@
 ## Phase 1: Interceptor Infrastructure
 Implementing the EF Core Interceptor and registering it within the application lifecycle.
 
-- [x] Task: Create `AuditingInterceptor.cs` in `src/Stamply.Infrastructure/Persistence/Interceptors/`.
+- [x] Task: Create `AuditingInterceptor.cs` in `src/Stambat.Infrastructure/Persistence/Interceptors/`.
     - Implement `SavingChangesAsync` and `SavingChanges` methods.
     - Logic should iterate through `ChangeTracker.Entries()`.
     - For `EntityState.Added`: Populate `ICreationAudit` fields (`CreatedAt`, `CreatedBy`).

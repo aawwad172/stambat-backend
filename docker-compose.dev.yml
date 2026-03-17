@@ -1,11 +1,11 @@
 services:
   db:
     image: postgres:latest
-    container_name: stamply-postgres-dev
+    container_name: stambat-postgres-dev
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: stamply
+      POSTGRES_DB: stambat
     ports:
       - "5432:5432"
     volumes:

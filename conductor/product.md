@@ -3,10 +3,10 @@ A digital loyalty card system for businesses that replaces physical cards. It al
 
 ---
 
-# Product Guide: Stamply - Digital Loyalty System
+# Product Guide: Stambat - Digital Loyalty System
 
 ## Vision
-Stamply aims to revolutionize the loyalty card experience by replacing physical cards with a seamless digital solution. We empower businesses to offer loyalty programs that are easily accessible to users through their Apple and Google wallets, enhancing customer engagement and simplifying the stamp process through QR code scanning.
+Stambat aims to revolutionize the loyalty card experience by replacing physical cards with a seamless digital solution. We empower businesses to offer loyalty programs that are easily accessible to users through their Apple and Google wallets, enhancing customer engagement and simplifying the stamp process through QR code scanning.
 
 ## Target Audience
 - **Businesses (Retail/Service):** Looking for a modern, efficient, and cost-effective way to manage customer loyalty programs.

@@ -1,6 +1,6 @@
-# Business Rules: Stamply Loyalty System
+# Business Rules: Stambat Loyalty System
 
-This document outlines the core business rules and mechanics of the Stamply digital loyalty card system.
+This document outlines the core business rules and mechanics of the Stambat digital loyalty card system.
 
 ## 1. Loyalty Card Lifecycle
 
@@ -22,7 +22,7 @@ This document outlines the core business rules and mechanics of the Stamply digi
 
 ### 2.2 The Stamping Process (Zero-Friction)
 1. **Customer Presents Card:** The user opens their Apple or Google Wallet and presents the QR code.
-2. **Merchant Scans QR:** The merchant (or staff member) scans the QR code using the Stamply merchant application or integrated scanner.
+2. **Merchant Scans QR:** The merchant (or staff member) scans the QR code using the Stambat merchant application or integrated scanner.
 3. **Stamp Added:** Upon a successful scan and validation of the merchant's authority, a single stamp is added to the user's digital card backend record.
 4. **Wallet Update:** The digital card in the user's wallet is automatically updated (via push notifications/wallet updates) to reflect the new stamp count.
 
@@ -44,5 +44,5 @@ This document outlines the core business rules and mechanics of the Stamply digi
 
 ### 4.2 Anti-Fraud and Migration Support
 - **QR Code Integrity:** QR codes are securely generated and validated to prevent unauthorized stamping.
-- **Migration Flexibility:** To support businesses migrating from physical cards or other digital systems, the Stamply system allows for adding **multiple stamps at once** during the initial setup or migration phase. This ensures users do not lose their existing progress.
+- **Migration Flexibility:** To support businesses migrating from physical cards or other digital systems, the Stambat system allows for adding **multiple stamps at once** during the initial setup or migration phase. This ensures users do not lose their existing progress.
 - **Audit Trails:** Every stamping action, whether single or multiple, is logged with the merchant ID and timestamp for fraud prevention and auditing.

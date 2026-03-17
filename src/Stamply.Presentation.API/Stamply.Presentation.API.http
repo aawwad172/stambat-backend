@@ -1,6 +1,0 @@
-@Stamply.Presentation.API_HostAddress = http://localhost:5185
-
-GET {{Stamply.Presentation.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

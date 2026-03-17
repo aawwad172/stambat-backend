@@ -1,10 +1,10 @@
-# Product Guidelines: Stamply
+# Product Guidelines: Stambat
 
 ## Tone & Voice
-Stamply's voice is **welcoming and trustworthy**. We aim to build a sense of community and reliability between businesses and their customers. Our communication should be encouraging and supportive, making both business owners and users feel confident in the digital loyalty experience.
+Stambat's voice is **welcoming and trustworthy**. We aim to build a sense of community and reliability between businesses and their customers. Our communication should be encouraging and supportive, making both business owners and users feel confident in the digital loyalty experience.
 
 ## Branding
-**Stamply Branding First:** While we support and empower businesses, the Stamply brand should be prominent as a mark of quality and reliability. We provide a cohesive platform experience that customers can recognize across different merchants.
+**Stambat Branding First:** While we support and empower businesses, the Stambat brand should be prominent as a mark of quality and reliability. We provide a cohesive platform experience that customers can recognize across different merchants.
 
 ## UX Principles
 - **Zero-friction Stamping:** The process of adding a stamp must be as fast and seamless as possible. Minimize the number of taps and interactions required for both the business staff and the customer.

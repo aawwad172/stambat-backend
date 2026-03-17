@@ -1,71 +1,55 @@
 #!/bin/bash
 # rename_dotnet_template.sh
-#
-# Usage:
-#   ./rename_dotnet_template.sh NewName
-#
-# This script renames all occurrences of "Stamply" in:
-#   1. File names (base name only; directory names remain for later processing)
-#   2. Directory names (deepest first)
-#   3. File contents (text replacements)
-#   4. The .sln file (with lowercase and '.' replaced by '-')
 
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 NewName"
   exit 1
 fi
 
-OLD="Stamply"
+OLD="Stambat"
 NEW="$1"
+IGNORE_PATHS="-not -path '*/.*' -not -path '*/bin/*' -not -path '*/obj/*'"
 
-echo "Replacing '$OLD' with '$NEW' throughout the project..."
-
-########################################
-# Rename Files (base name only)
-########################################
-echo "Renaming files..."
-find . -type f -name "*${OLD}*" | while read -r file; do
-  dir=$(dirname "$file")
-  base=$(basename "$file")
-  newbase=$(echo "$base" | sed "s/${OLD}/${NEW}/g")
-  newfile="${dir}/${newbase}"
-  if [ "$file" != "$newfile" ]; then
-    echo "Renaming file: '$file' -> '$newfile'"
-    mv "$file" "$newfile"
-  fi
-done
+echo "Replacing '$OLD' with '$NEW'..."
 
 ########################################
-# Rename Directories (deepest first)
+# 1. Replace text inside files (Do this FIRST)
 ########################################
-echo "Renaming directories..."
-find . -depth -type d -name "*${OLD}*" | while read -r dir; do
-  newdir=$(echo "$dir" | sed "s/${OLD}/${NEW}/g")
-  if [ "$dir" != "$newdir" ]; then
-    echo "Renaming directory: '$dir' -> '$newdir'"
-    mv "$dir" "$newdir"
-  fi
-done
+echo "Updating file contents..."
+find . -type f $IGNORE_PATHS -print0 | xargs -0 grep -lZ "$OLD" | xargs -0 sed -i "s/${OLD}/${NEW}/g"
 
 ########################################
-# Rename the .sln file
+# 2. Rename EVERYTHING (Deepest first)
+########################################
+# By using -depth and processing both files and dirs in one pass,
+# we ensure we rename "Stambat.Domain/Stambat.Domain.csproj" 
+# to "Stambat.Domain/NewName.Domain.csproj" BEFORE 
+# we rename the parent folder to "NewName.Domain/".
+echo "Renaming files and directories..."
+find . -depth $IGNORE_PATHS -name "*${OLD}*" -exec bash -c '
+  for item; do
+    dir=$(dirname "$item")
+    base=$(basename "$item")
+    new_base="${base//'$OLD'/'$NEW'}"
+    new_path="${dir}/${new_base}"
+    
+    if [ "$item" != "$new_path" ]; then
+      # Ensure we dont move a folder into itself if it already exists
+      if [ -d "$new_path" ] && [ -d "$item" ]; then
+        echo "Merging/Updating: $item -> $new_path"
+        cp -rl "$item"/* "$new_path/" 2>/dev/null
+        rm -rf "$item"
+      else
+        mv "$item" "$new_path"
+      fi
+    fi
+  done
+' _ {} +
+
+########################################
+# 3. Rename the .sln file
 ########################################
 slnNewName=$(echo "$NEW" | tr '[:upper:]' '[:lower:]' | sed 's/\./-/g')
+find . -maxdepth 1 -name "*.sln" -exec bash -c 'mv "$1" "${2}.sln"' _ {} "$slnNewName" \;
 
-if [ -f "./dotnet-template.sln" ]; then
-  echo "Renaming dotnet-template.sln to ${slnNewName}.sln"
-  mv "./dotnet-template.sln" "./${slnNewName}.sln"
-fi
-
-########################################
-# Replace text inside files
-########################################
-echo "Replacing text in file contents..."
-find . -type f | while read -r file; do
-  if file "$file" | grep -qE 'text|XML|JSON'; then
-    echo "Processing file: '$file'"
-    sed -i "s/${OLD}/${NEW}/g" "$file"
-  fi
-done
-
-echo "Renaming complete."
+echo "Renaming complete. Check your Solution Explorer!"
