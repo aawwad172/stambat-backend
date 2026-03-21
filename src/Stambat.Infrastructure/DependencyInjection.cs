@@ -32,14 +32,11 @@ public static class DependencyInjection
         // services.AddScoped<IRepository, Repository>();
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
-        services.AddScoped<IUserTokenRepository, UserTokenRepository>();
         services.AddScoped<ITenantRepository, TenantRepository>();
-        services.AddScoped<IUserRoleTenantRepository, UserRoleTenantRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddLogging();

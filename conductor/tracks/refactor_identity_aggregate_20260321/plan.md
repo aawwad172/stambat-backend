@@ -14,7 +14,7 @@
     - [x] Ensure related entities (`RefreshToken`, `UserToken`, `UserRoleTenant`) also have encapsulated state and restricted constructors.
 4.  - [x] Task: Conductor - User Manual Verification 'Phase 1: Value Objects and Core Aggregate Foundation' (Protocol in workflow.md)
 
-## Phase 2: Domain Logic Implementation
+## Phase 2: Domain Logic Implementation [checkpoint: 4a6ec2e]
 1.  - [x] Task: Implement Domain Methods in User Aggregate
     - [x] Implement `VerifyEmail()` method in `User`.
     - [x] Implement `LinkToTenant(Guid tenantId, Guid roleId)` with the specified logic (Link/Update/Throw).
@@ -24,12 +24,12 @@
 2.  - [ ] Task: Conductor - User Manual Verification 'Phase 2: Domain Logic Implementation' (Protocol in workflow.md)
 
 ## Phase 3: Infrastructure and Repository Consolidation
-1.  - [ ] Task: Consolidate Repositories
-    - [ ] Remove `IUserRoleTenantRepository`, `IUserTokenRepository`, and `IRefreshTokenRepository` interfaces and implementations.
-    - [ ] Update `IUserRepository` to be the sole entry point for persisting the `User` aggregate and its children.
-    - [ ] Update `UserRepository` implementation to use `.Include(...)` for `RefreshTokens`, `UserTokens`, and `UserRoleTenants`.
-2.  - [ ] Task: Update Dependency Injection
-    - [ ] Remove registrations for deleted repositories in `Stambat.Infrastructure.DependencyInjection`.
+1.  - [x] Task: Consolidate Repositories
+    - [x] Remove `IUserRoleTenantRepository`, `IUserTokenRepository`, and `IRefreshTokenRepository` interfaces and implementations.
+    - [x] Update `IUserRepository` to be the sole entry point for persisting the `User` aggregate and its children.
+    - [x] Update `UserRepository` implementation to use `.Include(...)` for `RefreshTokens`, `UserTokens`, and `UserRoleTenants`.
+2.  - [x] Task: Update Dependency Injection
+    - [x] Remove registrations for deleted repositories in `Stambat.Infrastructure.DependencyInjection`.
 3.  - [ ] Task: Conductor - User Manual Verification 'Phase 3: Infrastructure and Repository Consolidation' (Protocol in workflow.md)
 
 ## Phase 4: Application Layer Refactoring
