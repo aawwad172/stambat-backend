@@ -10,7 +10,6 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
     public void Configure(EntityTypeBuilder<UserToken> builder)
     {
         builder.HasKey(ut => ut.Id);
-        builder.Property(ut => ut.Id).ValueGeneratedNever();
 
         builder.Property(ut => ut.Token)
                .IsRequired()

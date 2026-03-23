@@ -10,8 +10,6 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
     public void Configure(EntityTypeBuilder<Invitation> builder)
     {
         builder.HasKey(i => i.Id);
-        builder.Property(i => i.Id)
-            .ValueGeneratedNever();
 
         builder.Property(i => i.TokenHash)
             .IsRequired()

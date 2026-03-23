@@ -25,7 +25,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.CardTemplate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -90,7 +89,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.Authentication.Permission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -409,7 +407,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.Authentication.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -882,7 +879,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -992,7 +988,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Invitation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1051,7 +1046,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.StampTransaction", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1093,7 +1087,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("BusinessName")
@@ -1155,7 +1148,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.TenantProfile", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1213,7 +1205,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.WalletPass", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ApplePassSerialNumber")

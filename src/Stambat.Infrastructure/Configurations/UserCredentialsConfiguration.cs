@@ -11,7 +11,6 @@ public class UserCredentialsConfiguration : IEntityTypeConfiguration<UserCredent
     {
         // Key
         builder.HasKey(c => c.Id);
-        builder.Property(x => x.Id).ValueGeneratedNever();
 
         // Required basics
         builder.Property(c => c.PasswordHash)
