@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
+using Stambat.Application.Utilities;
 using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity;
-using Stambat.Domain.ValueObjects;
 using Stambat.Domain.Entities.Identity.Authentication;
-using Stambat.Infrastructure.Configurations.Seed;
-using Stambat.Application.Utilities;
 using Stambat.Domain.Interfaces.Application.Services;
+using Stambat.Domain.ValueObjects;
+using Stambat.Infrastructure.Configurations.Seed;
 
 namespace Stambat.Infrastructure.Persistence;
 
@@ -32,43 +32,59 @@ public static class DbInitializer
                 await context.Database.MigrateAsync();
             }
 
+            // 1. Apply Migrations
+            if ((await context.Database.GetPendingMigrationsAsync()).Any())
+            {
+                await context.Database.MigrateAsync();
+            }
+
+            // 2. STAGE 1: Seed Roles (Crucial First Step)
+            // Ensure the SuperAdmin role exists physically in the DB
+            Role? adminRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "SuperAdmin");
+            Guid superAdminRoleId;
+
+            if (adminRole is null)
+            {
+                adminRole = Role.Create(
+                    "SuperAdmin",
+                    "Full System Access",
+                    AuthSeedConstants.RoleIdSuperAdmin
+                );
+                context.Roles.Add(adminRole);
+                // We MUST save here so the ID exists for the Foreign Key check in Stage 2
+                await context.SaveChangesAsync();
+                superAdminRoleId = adminRole.Id;
+            }
+            else
+            {
+                superAdminRoleId = adminRole.Id;
+            }
+
             // 2. Seed the "System" User and Credentials
             if (!await context.Users.AnyAsync(u => u.Id == AuthSeedConstants.SystemUserId))
             {
                 Guid systemUserId = AuthSeedConstants.SystemUserId;
-                Guid credentialsId = Id.New();
+                Guid credentialsId = IdGenerator.New();
 
-                User? systemUser = new()
-                {
-                    Id = systemUserId,
-                    FullName = new FullName { FirstName = "system", LastName = "system" },
-                    Username = "system",
-                    Email = "system@example.com",
-                    UserCredentialsId = credentialsId,
-                    // Credentials = superAdminCredentials,
-                    Credentials = new UserCredentials
-                    {
-                        Id = credentialsId,
-                        UserId = systemUserId,
-                        PasswordHash = securityService.HashSecret(configuration.GetRequiredSetting("Security:SuperAdminPassword"))
-                    },
-                    SecurityStamp = AuthSeedConstants.SystemSecurityStampGuid,
-                    IsActive = true,
-                    IsVerified = true,
-                    IsDeleted = false,
-                    CreatedAt = AuthSeedConstants.SeedDateUtc,
-                    CreatedBy = systemUserId,
-                };
+                User? systemUser = User.Create(
+                    FullName.Create("system", "system"),
+                    "system",
+                    Stambat.Domain.ValueObjects.Email.Create("system@example.com"),
+                    AuthSeedConstants.SystemSecurityStampGuid,
+                    isVerified: true,
+                    systemUserId);
+
+                systemUser.CreatedAt = AuthSeedConstants.SeedDateUtc;
+
+                UserCredentials credentials = UserCredentials.Create(
+                    credentialsId,
+                    securityService.HashSecret(configuration.GetRequiredSetting("Security:SuperAdminPassword"))
+                );
+
+                systemUser.SetCredentials(credentials);
+                systemUser.AssignRole(superAdminRoleId);
 
                 context.Users.Add(systemUser);
-
-                // Assign SuperAdmin role to system user
-                context.UserRoleTenants.Add(new UserRoleTenant
-                {
-                    Id = Id.New(),
-                    UserId = systemUserId,
-                    RoleId = AuthSeedConstants.RoleIdSuperAdmin
-                });
 
                 await context.SaveChangesAsync();
             }
@@ -77,16 +93,15 @@ public static class DbInitializer
                 // Ensure system user has the SuperAdmin role if it was created previously without it
                 bool hasRole = await context.UserRoleTenants.AnyAsync(ur =>
                     ur.UserId == AuthSeedConstants.SystemUserId &&
-                    ur.RoleId == AuthSeedConstants.RoleIdSuperAdmin);
+                    ur.RoleId == superAdminRoleId);
 
                 if (!hasRole)
                 {
-                    context.UserRoleTenants.Add(new UserRoleTenant
-                    {
-                        Id = Id.New(),
-                        UserId = AuthSeedConstants.SystemUserId,
-                        RoleId = AuthSeedConstants.RoleIdSuperAdmin
-                    });
+                    context.UserRoleTenants.Add(UserRoleTenant.Create(
+                        IdGenerator.New(),
+                        AuthSeedConstants.SystemUserId,
+                        superAdminRoleId
+                    ));
                     await context.SaveChangesAsync();
                 }
             }

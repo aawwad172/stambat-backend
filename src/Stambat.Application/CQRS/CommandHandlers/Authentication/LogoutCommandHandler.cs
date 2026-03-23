@@ -16,12 +16,10 @@ public class LogoutCommandHandler(
     ITenantProviderService tenantProviderService,
     ILogger<LogoutCommandHandler> logger,
     IUnitOfWork unitOfWork,
-    IRefreshTokenRepository refreshTokenRepository,
     ISecurityService securityService,
     IUserRepository userRepository)
     : BaseHandler<LogoutCommand, LogoutCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
-    private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly ISecurityService _securityService = securityService;
     private readonly IUserRepository _userRepository = userRepository;
 
@@ -30,51 +28,34 @@ public class LogoutCommandHandler(
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            // 1. --- Fetch Candidate Token (by Plaintext Token) ---
-            // CRITICAL: The repository must find the token by the PLAINTEXT value.
-            // The repository will fetch the entity based on the PLAINTEXT token value 
-            // by verifying the hash against the TokenHash/TokenSalt in the DB.
-
             if (string.IsNullOrWhiteSpace(request.RefreshToken))
                 throw new UnauthorizedException("Refresh token is required.");
 
-            // This method must perform the hashing/lookup logic.
-            RefreshToken? token = await _refreshTokenRepository.GetByTokenAsync(request.RefreshToken!, _currentUser.UserId);
+            User? user = await _userRepository.GetByIdWithDetailsAsync(_currentUser.UserId);
+
+            if (user is null)
+                throw new NotFoundException("Cannot find user");
+
+            // 1. --- Find and Verify Token ---
+            // We need to find the token in the user's collection by hashing the incoming plaintext
+            var token = user.RefreshTokens.FirstOrDefault(rt => _securityService.VerifySecret(request.RefreshToken, rt.TokenHash));
 
             if (token is null || token.IsRevoked || token.IsExpired)
                 throw new UnauthorizedException("Session is already invalid or token not found.");
 
 
-            // 2. --- Token Verification (Crucial Security Check) ---
-            // Verify the incoming plaintext token matches the stored HASH/SALT.
-            // This is done by the service, using the retrieved token's salt.
-            bool isVerified = _securityService.VerifySecret(request.RefreshToken!, token.TokenHash);
-
-            if (!isVerified)
-                // This suggests a token collision or tampering, treat as unauthorized.
-                throw new UnauthorizedException("Invalid refresh token signature.");
-
-
-            // 3. --- Revoke and Audit ---
-            token.RevokedAt = DateTime.UtcNow;
-            token.ReasonRevoked = "Manual Logout";
-
-            User? user = await _userRepository.GetByIdAsync(_currentUser.UserId);
-
-            if (user is null)
-                throw new NotFoundException("Cannot find user");
+            // 2. --- Revoke and Audit ---
+            user.RevokeRefreshToken(token.TokenHash, "Manual Logout");
 
             // --------------------------------------------------------------------------
             // CRITICAL: Rotate the SecurityStamp to invalidate all active Access Tokens
             // The next time an active Access Token is presented, the SecurityStamp check
             // in the JwtService.ValidateToken method will fail.
             // --------------------------------------------------------------------------
-            user.SecurityStamp = Id.New().ToString();
+            user.UpdateSecurityStamp();
 
 
-            // Update the token entity in the repository.
-            _refreshTokenRepository.Update(token!);
-            // Persist user changes as well (ensures persistence even if retrieved AsNoTracking)
+            // Persist user changes (this handles both security stamp and token revocation)
             _userRepository.Update(user);
 
             await _unitOfWork.SaveAsync();

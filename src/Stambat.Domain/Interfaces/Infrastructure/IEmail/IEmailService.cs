@@ -4,7 +4,7 @@ namespace Stambat.Domain.Interfaces.Infrastructure.IEmail;
 
 public interface IEmailService
 {
-    Task SendEmailAsync(Email email);
+    Task SendEmailAsync(EmailMessage email);
     Task SendVerificationEmailAsync(string to, string userName, string link);
     Task SendExistingUserAccessGrantAsync(
         string to,

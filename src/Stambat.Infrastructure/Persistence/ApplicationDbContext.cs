@@ -9,6 +9,7 @@ using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Interfaces.Application.Services;
+using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 using Stambat.Infrastructure.Configurations;
 using Stambat.Infrastructure.Configurations.Seed;
@@ -63,6 +64,17 @@ public class ApplicationDbContext(
         modelBuilder.ApplyConfiguration(new InvitationConfiguration());
         modelBuilder.ApplyConfiguration(new TenantProfileConfiguration());
         modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
+
+        // todo: refactor this to be more clean (add it into a method)
+        // In ApplicationDbContext.OnModelCreating, after base.OnModelCreating:
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            IMutableProperty? idProperty = entityType.FindProperty(nameof(IEntity.Id));
+            if (idProperty != null && idProperty.ClrType == typeof(Guid))
+            {
+                idProperty.ValueGenerated = ValueGenerated.Never;
+            }
+        }
     }
 
     // _logger service
@@ -81,8 +93,7 @@ public class ApplicationDbContext(
                 if (creationAudit.CreatedAt == default)
                     creationAudit.CreatedAt = utcNow;
 
-                if (creationAudit.CreatedBy == Guid.Empty
-                    && currentUserId != Guid.Empty)
+                if (creationAudit.CreatedBy == Guid.Empty && currentUserId != Guid.Empty)
                     creationAudit.CreatedBy = currentUserId;
             }
 

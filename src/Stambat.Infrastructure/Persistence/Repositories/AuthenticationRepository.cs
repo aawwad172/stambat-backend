@@ -9,11 +9,6 @@ public class AuthenticationRepository(ApplicationDbContext dbContext) : IAuthent
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task AddUserRoleTenantAsync(UserRoleTenant userRole)
-    {
-        await _dbContext.UserRoleTenants.AddAsync(userRole);
-    }
-
     public async Task<List<string>> GetAllPermissionNamesAsync()
     {
         return await _dbContext.Permissions

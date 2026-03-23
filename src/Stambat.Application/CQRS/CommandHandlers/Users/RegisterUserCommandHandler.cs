@@ -24,16 +24,12 @@ public class RegisterUserCommandHandler(
     IUserRepository userRepository,
     ISecurityService securityService,
     IRoleRepository roleRepository,
-    IRepository<UserCredentials> userCredentialsRepository,
-    IRepository<UserToken> userTokenRepository,
     IUnitOfWork unitOfWork,
     IEmailService emailService)
     : BaseHandler<RegisterUserCommand, RegisterUserCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly IRepository<UserCredentials> _userCredentialsRepository = userCredentialsRepository;
-    private readonly IRepository<UserToken> _userTokenRepository = userTokenRepository;
     private readonly ISecurityService _securityService = securityService;
     private readonly IRoleRepository _roleRepository = roleRepository;
     private readonly IEmailService _emailService = emailService;
@@ -55,17 +51,8 @@ public class RegisterUserCommandHandler(
         string hashedPassword = _securityService.HashSecret(request.Password);
 
         // Generate a new security stamp
-        string securityStamp = Id.New().ToString();
+        string securityStamp = IdGenerator.New().ToString();
 
-        Guid id = Id.New();
-
-        UserCredentials userCreds = new()
-        {
-            Id = Id.New(),
-            UserId = id,
-            PasswordHash = hashedPassword
-
-        };
 
         Role? defaultRole = await _roleRepository.GetRoleByNameAsync(_defaultRole.ToString());
 
@@ -75,52 +62,25 @@ public class RegisterUserCommandHandler(
             throw new InvalidOperationException($"The default role '{_defaultRole}' does not exist in the database. Please seed roles.");
         }
 
-        UserEntity user = new()
-        {
-            Id = id,
-            FullName = new FullName
-            {
-                FirstName = request.FirstName,
-                MiddleName = request.MiddleName,
-                LastName = request.LastName
-            },
-            Email = request.Email,
-            Username = request.Username,
-            IsActive = true,
-            IsDeleted = false,
-            IsVerified = false,
-            SecurityStamp = securityStamp,
-            UserCredentialsId = userCreds.Id
-        };
+        UserEntity user = UserEntity.Create(
+            FullName.Create(request.FirstName, request.LastName, request.MiddleName),
+            request.Username,
+            Email.Create(request.Email),
+            securityStamp
+        );
+        UserCredentials userCreds = UserCredentials.Create(user.Id, hashedPassword);
+
+        user.SetCredentials(userCreds);
 
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            await _userCredentialsRepository.AddAsync(userCreds);
             await _userRepository.AddAsync(user);
 
-            UserRoleTenant userRoleTenant = new()
-            {
-                Id = Id.New(),
-                UserId = user.Id,
-                RoleId = defaultRole.Id,
-                TenantId = null // Null until he enters his business data
-            };
+            user.AssignRole(defaultRole.Id, null);
 
-            await _authenticationRepository.AddUserRoleTenantAsync(userRoleTenant);
-
-            string verificationToken = Id.New().ToString("N");
-            UserToken userToken = new()
-            {
-                Id = Id.New(),
-                UserId = user.Id,
-                Token = verificationToken,
-                Type = UserTokenType.EmailVerification,
-                ExpiryDate = DateTime.UtcNow.AddHours(24),
-                IsUsed = false
-            };
-
-            await _userTokenRepository.AddAsync(userToken);
+            string verificationToken = _securityService.GenerateSecureToken();
+            user.AddUserToken(UserTokenType.EmailVerification, verificationToken, DateTime.UtcNow.AddHours(24));
 
             // TODO: use the correct domain (the FE one)
             string verificationLink = $"https://stambat.app/verify-email?token={verificationToken}&userId={user.Id}";
@@ -137,7 +97,7 @@ public class RegisterUserCommandHandler(
             return new RegisterUserCommandResult(
                 Id: user.Id,
                 FullName: user.FullName,
-                Email: user.Email,
+                Email: user.Email.Value,
                 Username: user.Username,
                 IsActive: user.IsActive,
                 IsVerified: user.IsVerified,

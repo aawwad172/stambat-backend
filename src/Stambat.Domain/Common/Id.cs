@@ -1,6 +1,6 @@
 namespace Stambat.Domain.Common;
 
-public static class Id
+public static class IdGenerator
 {
     public static Guid New() => Guid.CreateVersion7();
 }

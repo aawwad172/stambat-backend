@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Stambat.Application.Utilities;
 using Stambat.Domain.Common;
+using Stambat.Domain.Constants;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Exceptions;
@@ -37,11 +38,11 @@ public class JwtService(
         var claims = new List<Claim>
         {
             // Core Identity Claims
-            new(JwtRegisteredClaimNames.Name, user.FullName.FirstName + " " + user.FullName.MiddleName + " " + user.FullName.LastName),
+            new(JwtRegisteredClaimNames.Name, user.FullName.Formatted),
             new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, user.Username),
-            new(JwtRegisteredClaimNames.Email, user.Email),
-            new(JwtRegisteredClaimNames.Jti, Id.New().ToString()), // Unique Token ID
+            new(JwtRegisteredClaimNames.Email, user.Email.Value),
+            new(JwtRegisteredClaimNames.Jti, IdGenerator.New().ToString()), // Unique Token ID
             // --- ADD SECURITY STAMP CLAIM HERE ---
             new("security_stamp", user.SecurityStamp)
         };
@@ -88,18 +89,14 @@ public class JwtService(
                 ? days
                 : throw new InvalidOperationException("Jwt:RefreshTokenExpirationDays must be a valid integer."));
 
-        RefreshToken refreshToken = new()
-        {
-            Id = Id.New(),
-            TokenHash = combinedHashSalt,
-            PlaintextToken = plaintextToken,
-            UserId = user.Id,
-            ExpiresAt = expiresAt,
-            SecurityStampAtIssue = user.SecurityStamp,
-            TokenFamilyId = tokenFamilyId
-        };
-
-        return refreshToken;
+        return RefreshToken.Create(
+            user.Id,
+            tokenFamilyId,
+            combinedHashSalt,
+            plaintextToken,
+            expiresAt,
+            user.SecurityStamp
+        );
     }
 
     public async Task<ClaimsPrincipal> ValidateToken(string token)

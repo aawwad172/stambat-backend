@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Stambat.Domain.Entities;
+using Stambat.Domain.ValueObjects;
 
 namespace Stambat.Infrastructure.Configurations;
 
@@ -16,6 +17,7 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .HasMaxLength(100);
 
         builder.Property(t => t.Email)
+            .HasConversion(e => e.Value, v => Stambat.Domain.ValueObjects.Email.Create(v))
             .IsRequired();
 
         builder.HasIndex(t => t.Email)
@@ -46,6 +48,11 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.HasOne(t => t.TenantProfile)
             .WithOne(tp => tp.Tenant)
             .HasForeignKey<TenantProfile>(tp => tp.TenantId);
+
+        builder.HasMany(t => t.UserRoleTenants)
+            .WithOne(urt => urt.Tenant)
+            .HasForeignKey(urt => urt.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // The many-to-many relationship is already configured in UserRoleTenantConfiguration,
         // but we define the CardTemplate one-to-many here.

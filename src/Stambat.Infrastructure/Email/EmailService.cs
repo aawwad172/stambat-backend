@@ -1,6 +1,7 @@
 using FluentEmail.Core;
 
 using Stambat.Domain.Interfaces.Infrastructure.IEmail;
+using Stambat.Domain.ValueObjects;
 using Stambat.Infrastructure.Email.Models;
 
 namespace Stambat.Infrastructure.Email;
@@ -11,7 +12,7 @@ public class EmailService(IFluentEmail fluentEmail) : IEmailService
     // Helper to resolve paths correctly across different environments (Mac/Linux)
     private string GetTemplatePath(string templateName)
         => Path.Combine("../Stambat.Infrastructure/", "Email", "Templates", templateName);
-    public async Task SendEmailAsync(Domain.ValueObjects.Email email)
+    public async Task SendEmailAsync(EmailMessage email)
     {
         await _fluentEmail
                 .To(email.To)

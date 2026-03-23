@@ -19,6 +19,7 @@ public static class EndpointRoutes
     // Tenant Operations (Merchant/Owner context)
     public const string SetupTenant = "/setup";
     public const string InviteStaff = "/staff/invitations"; // Plural & clear
+    public const string GetAllTenantStaff = "/staff";
 
     // System Admin (Platform Owner only)
     public const string InviteTenant = "/tenants/onboarding";

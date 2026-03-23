@@ -1,10 +1,11 @@
 using System.Linq.Expressions;
 
 using Stambat.Domain.Entities;
+using Stambat.Domain.Interfaces.Domain;
 
 namespace Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> where T : class, IAggregateRoot
 {
     Task<T?> GetByIdAsync(Guid id);
     Task<PaginationResult<T>> GetAllAsync(

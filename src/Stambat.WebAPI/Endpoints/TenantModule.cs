@@ -1,4 +1,5 @@
 using Stambat.Application.CQRS.Commands.Tenants;
+using Stambat.Application.CQRS.Queries.Tenants;
 using Stambat.Domain.Constants;
 using Stambat.Domain.Enums;
 using Stambat.WebAPI.Interfaces;
@@ -24,6 +25,11 @@ public class TenantModule : IEndpointModule
         tenants.MapPost(EndpointRoutes.SetupTenant, SetupTenant.RegisterRoute)
             .RequireAuthorization(PermissionConstants.TenantsSetup)
             .Produces<ApiResponse<SetupTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
+            .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
+
+        tenants.MapGet(EndpointRoutes.GetAllTenantStaff, GetAllTenantStaff.RegisterRoute)
+            .RequireAuthorization(PermissionConstants.TenantsManage)
+            .Produces<ApiResponse<GetAllTenantStaffQueryResult>>(StatusCodes.Status200OK, "application/json")
             .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
     }
 }

@@ -2,12 +2,14 @@ using Microsoft.Extensions.Logging;
 
 using Stambat.Application.CQRS.Commands.Invitations;
 using Stambat.Domain.Common;
+using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IEmail;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
+using Stambat.Domain.ValueObjects;
 
 
 namespace Stambat.Application.CQRS.CommandHandlers.Invitations;
@@ -20,24 +22,18 @@ public class AcceptInvitationCommandHandler(
     ISecurityService securityService,
     IEmailService emailService,
     IUserRepository userRepository,
-    IInvitationRepository invitationRepository,
-    IRepository<UserCredentials> userCredentialsRepository,
-    IRepository<UserToken> userTokenRepository,
-    IAuthenticationRepository authenticationRepository)
+    IInvitationRepository invitationRepository)
     : BaseHandler<AcceptInvitationCommand, AcceptInvitationCommandResult>(currentUserService, currentTenantProviderService, logger, unitOfWork)
 {
     private readonly ISecurityService _securityService = securityService;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IInvitationRepository _invitationRepository = invitationRepository;
-    private readonly IRepository<UserCredentials> _userCredentialsRepository = userCredentialsRepository;
     private readonly IEmailService _emailService = emailService;
-    private readonly IRepository<UserToken> _userTokenRepository = userTokenRepository;
-    private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
 
     public override async Task<AcceptInvitationCommandResult> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
     {
         string tokenHash = _securityService.HashToken(request.Token);
-        var invitation = await _invitationRepository.GetInvitationByTokenHashAsync(tokenHash);
+        Invitation? invitation = await _invitationRepository.GetInvitationByTokenHashAsync(tokenHash);
 
         if (invitation is null)
             throw new NotFoundException("Invitation not found.");
@@ -59,7 +55,7 @@ public class AcceptInvitationCommandHandler(
             throw new NotFoundException($"The tenant with Id: {invitation.TenantId} does not exist.");
         }
 
-        invitation.IsUsed = true;
+        invitation.MarkAsUsed();
 
         // 2. Business Logic: Existing User Handling
         User? user = await _userRepository.GetUserByEmailAsync(invitation.Email);
@@ -81,48 +77,34 @@ public class AcceptInvitationCommandHandler(
                 string hashedPassword = _securityService.HashSecret(request.Password);
 
                 // Generate a new security stamp
-                string securityStamp = Id.New().ToString();
+                string securityStamp = IdGenerator.New().ToString();
 
-                Guid id = Id.New();
 
-                UserCredentials userCreds = new()
-                {
-                    Id = Id.New(),
-                    UserId = id,
-                    PasswordHash = hashedPassword
+                user = User.Create(
+                    FullName.Create(request.FirstName, request.LastName, request.MiddleName),
+                    request.Username,
+                    Email.Create(invitation.Email),
+                    securityStamp,
+                    isVerified: true
+                );
 
-                };
+                UserCredentials userCreds = UserCredentials.Create(user.Id, hashedPassword);
 
-                user = new()
-                {
-                    Id = id,
-                    FullName = request.FullName,
-                    Email = invitation.Email,
-                    Username = request.Username,
-                    IsActive = true,
-                    IsDeleted = false,
-                    IsVerified = true,
-                    SecurityStamp = securityStamp,
-                    UserCredentialsId = userCreds.Id
-                };
-                await _userCredentialsRepository.AddAsync(userCreds);
+                user.SetCredentials(userCreds);
+
                 await _userRepository.AddAsync(user);
             }
 
-            UserRoleTenant userRoleTenant = new()
-            {
-                Id = Id.New(),
-                UserId = user!.Id,
-                RoleId = invitation.RoleId,
-                TenantId = invitation.TenantId
-            };
+            Guid verifiedTenantId = invitation.TenantId!.Value;
 
-            await _authenticationRepository.AddUserRoleTenantAsync(userRoleTenant);
+            user!.AssignRole(invitation.RoleId, verifiedTenantId);
+
+            _userRepository.Update(user);
 
 
             // Todo: add the FE dashboard link to both and add the role name as enum
             await _emailService.SendExistingUserAccessGrantAsync(
-                user.Email,
+                user.Email.Value,
                 user.FullName.FirstName,
                 invitation.Role.Name,
                 invitation.Tenant.BusinessName,
@@ -135,7 +117,7 @@ public class AcceptInvitationCommandHandler(
             return new AcceptInvitationCommandResult(
                 Id: user.Id,
                 FullName: user.FullName,
-                Email: user.Email,
+                Email: user.Email.Value,
                 Username: user.Username,
                 IsActive: user.IsActive,
                 IsVerified: user.IsVerified,

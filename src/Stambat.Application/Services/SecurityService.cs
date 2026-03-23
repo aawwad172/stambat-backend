@@ -26,6 +26,16 @@ public class SecurityService(IConfiguration configuration) : ISecurityService
         return Convert.ToHexString(bytes); // Deterministic!
     }
 
+    public string GenerateSecureToken(int length = 32)
+    {
+        byte[] bytes = new byte[length];
+        RandomNumberGenerator.Fill(bytes);
+        return Convert.ToBase64String(bytes)
+            .Replace("+", "-")
+            .Replace("/", "_")
+            .TrimEnd('=');
+    }
+
     public string EncryptString(string text)
     {
         using AesGcm aesGcm = new(_encryptionKey, AesGcm.TagByteSizes.MaxSize);
