@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Interfaces.Domain;
 
 namespace Stambat.Domain.Entities.Identity.Authentication;
@@ -20,19 +21,17 @@ public class UserRoleTenant : IEntity
     private UserRoleTenant() { }
 
     // Static factory for creating the link
-    public static UserRoleTenant Create(Guid id, Guid userId, Guid roleId, Guid? tenantId = null)
+    public static UserRoleTenant Create(Guid userId, Guid roleId, Guid? tenantId = null)
     {
+        Guard.AgainstDefault(userId, nameof(userId));
+        Guard.AgainstDefault(roleId, nameof(roleId));
+
         return new UserRoleTenant
         {
-            Id = id,
+            Id = IdGenerator.New(),
             UserId = userId,
             RoleId = roleId,
             TenantId = tenantId
         };
-    }
-
-    public void UpdateRole(Guid roleId)
-    {
-        RoleId = roleId;
     }
 }

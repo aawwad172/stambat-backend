@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using Stambat.Application.Services;
 using Stambat.Application.Utilities;
@@ -27,6 +28,9 @@ public static class DependencyInjection
         {
             options.UseNpgsql(connectionString);
             options.AddInterceptors(provider.GetRequiredService<AuditingInterceptor>());
+            options.LogTo(Console.WriteLine, LogLevel.Information)
+              .EnableSensitiveDataLogging()
+              .EnableDetailedErrors();
         });
         // Add your repositories like this here
         // services.AddScoped<IRepository, Repository>();

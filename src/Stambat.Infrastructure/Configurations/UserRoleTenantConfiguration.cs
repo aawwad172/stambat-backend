@@ -10,6 +10,7 @@ public class UserRoleTenantConfiguration : IEntityTypeConfiguration<UserRoleTena
     public void Configure(EntityTypeBuilder<UserRoleTenant> builder)
     {
         builder.HasKey(urt => urt.Id); // Use the surrogate ID
+        builder.Property(urt => urt.Id).ValueGeneratedNever();
 
         builder.HasOne(urt => urt.User)
             .WithMany(u => u.UserRoleTenants)

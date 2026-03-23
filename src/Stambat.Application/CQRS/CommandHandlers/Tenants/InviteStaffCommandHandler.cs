@@ -22,7 +22,6 @@ public class InviteStaffCommandHandler(
     IEmailService emailService,
     IUserRepository userRepository,
     IRoleRepository roleRepository,
-    IUserRoleTenantRepository userRoleTenantRepository,
     IInvitationRepository invitationRepository,
     IRepository<Tenant> tenantRepository)
     : BaseHandler<InviteStaffCommand, InviteStaffCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
@@ -31,7 +30,6 @@ public class InviteStaffCommandHandler(
     private readonly IEmailService _emailService = emailService;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IRoleRepository _roleRepository = roleRepository;
-    private readonly IUserRoleTenantRepository _userRoleTenantRepository = userRoleTenantRepository;
     private readonly IInvitationRepository _invitationRepository = invitationRepository;
     private readonly IRepository<Tenant> _tenantRepository = tenantRepository;
     private const int _invitationExpiresAfter = 1;
@@ -50,6 +48,7 @@ public class InviteStaffCommandHandler(
         // 1. Basic Validations
         User? user = await _userRepository.GetUserByEmailAsync(request.Email);
         Role? role = await _roleRepository.GetRoleByNameAsync(request.Role.ToString());
+
         Tenant? tenant = await _tenantRepository.GetByIdAsync(validTenantId);
 
         if (tenant is null)
@@ -60,8 +59,7 @@ public class InviteStaffCommandHandler(
 
         if (user is not null)
         {
-            UserRoleTenant? userRoleTenant = await _userRoleTenantRepository.GetUserRoleTenantAsync(user.Id, validTenantId, role.Id);
-            if (userRoleTenant is not null)
+            if (user.UserRoleTenants.Any(urt => urt.TenantId == validTenantId && urt.RoleId == role.Id))
                 throw new ConflictException("User already holds this role in this tenant.");
         }
 
@@ -73,14 +71,12 @@ public class InviteStaffCommandHandler(
         string hashedToken = _securityService.HashToken(rawToken);
 
         Invitation invitation = Invitation.Create(
-            IdGenerator.New(),
             request.Email,
             hashedToken,
             rawToken,
             role.Id,
             validTenantId,
-            DateTime.UtcNow.AddDays(_invitationExpiresAfter),
-            _currentUser.UserId
+            DateTime.UtcNow.AddDays(_invitationExpiresAfter)
         );
 
         await _unitOfWork.BeginTransactionAsync(cancellationToken);

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 
 using Stambat.Application.Utilities;
-using Stambat.Domain.Entities.Identity.Authentication;
+using Stambat.Domain.Constants;
 using Stambat.Domain.Enums;
 using Stambat.WebAPI.Validators.Commands.Authentication;
 using Stambat.WebAPI.Validators.Commands.Users;

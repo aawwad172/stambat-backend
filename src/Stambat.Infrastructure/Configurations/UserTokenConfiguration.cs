@@ -10,6 +10,7 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
     public void Configure(EntityTypeBuilder<UserToken> builder)
     {
         builder.HasKey(ut => ut.Id);
+        builder.Property(ut => ut.Id).ValueGeneratedNever();
 
         builder.Property(ut => ut.Token)
                .IsRequired()
@@ -19,7 +20,8 @@ public class UserTokenConfiguration : IEntityTypeConfiguration<UserToken>
             .IsUnique();
 
         builder.HasOne(ut => ut.User)
-              .WithMany()
-              .HasForeignKey(ut => ut.UserId);
+              .WithMany(u => u.UserTokens)
+              .HasForeignKey(ut => ut.UserId)
+              .OnDelete(DeleteBehavior.Cascade);
     }
 }

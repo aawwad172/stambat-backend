@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Stambat.Application.Utilities;
 using Stambat.Domain.Common;
+using Stambat.Domain.Constants;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Exceptions;
@@ -89,13 +90,11 @@ public class JwtService(
                 : throw new InvalidOperationException("Jwt:RefreshTokenExpirationDays must be a valid integer."));
 
         return RefreshToken.Create(
-            IdGenerator.New(),
             user.Id,
             tokenFamilyId,
             combinedHashSalt,
             plaintextToken,
             expiresAt,
-            user.Id,
             user.SecurityStamp
         );
     }

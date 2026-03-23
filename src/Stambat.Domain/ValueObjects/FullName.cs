@@ -8,6 +8,11 @@ public sealed record FullName
     public string? MiddleName { get; init; }
     public string LastName { get; init; }
 
+#pragma warning disable CS8618
+    // Add this for the Serializer and EF Core
+    private FullName() { }
+#pragma warning restore CS8618 
+
     private FullName(string firstName, string? middleName, string lastName)
     {
         FirstName = firstName;

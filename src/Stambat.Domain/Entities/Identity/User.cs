@@ -1,15 +1,14 @@
-using System.Security.Cryptography.X509Certificates;
-
 using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Enums;
 using Stambat.Domain.Exceptions;
+using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 using Stambat.Domain.ValueObjects;
 
 namespace Stambat.Domain.Entities.Identity;
 
-public class User : IBaseEntity
+public class User : IBaseEntity, IAggregateRoot
 {
     // Properties
     public required Guid Id { get; init; }
@@ -51,7 +50,7 @@ public class User : IBaseEntity
 
     public void UpdateSecurityStamp()
     {
-        SecurityStamp = Guid.CreateVersion7().ToString();
+        SecurityStamp = IdGenerator.New().ToString();
     }
 
     public void VerifyEmail()
@@ -60,26 +59,33 @@ public class User : IBaseEntity
         UpdateSecurityStamp();
     }
 
-    public void LinkToTenant(Guid tenantId, Guid roleId)
+    /// <summary>
+    /// Assigns a role to the user for a specific tenant (or globally if tenantId is null).
+    /// Multiple roles can be assigned for the same tenant.
+    /// </summary>
+    public void AssignRole(Guid roleId, Guid? tenantId = null)
     {
-        Guard.AgainstDefault(tenantId, nameof(tenantId));
         Guard.AgainstDefault(roleId, nameof(roleId));
 
-        var existingLink = UserRoleTenants.FirstOrDefault(x => x.TenantId == tenantId && x.RoleId == roleId);
+        var alreadyHasRole = UserRoleTenants.Any(x => x.TenantId == tenantId && x.RoleId == roleId);
 
-        if (existingLink is null)
+        if (alreadyHasRole)
         {
-            UserRoleTenants.Add(
-                UserRoleTenant.Create(
-                    IdGenerator.New(),
-                    Id,
-                    roleId,
-                    tenantId)
-            );
+            throw new ConflictException($"User already has the specified role for this {(tenantId.HasValue ? "tenant" : "global scope")}.");
         }
-        else
+
+        UserRoleTenants.Add(UserRoleTenant.Create(Id, roleId, tenantId));
+    }
+
+    /// <summary>
+    /// Removes a specific role for a specific tenant (or global scope).
+    /// </summary>
+    public void RemoveRole(Guid roleId, Guid? tenantId = null)
+    {
+        UserRoleTenant? link = UserRoleTenants.FirstOrDefault(x => x.TenantId == tenantId && x.RoleId == roleId);
+        if (link != null)
         {
-            throw new ConflictException("User already has this role in this tenant.");
+            UserRoleTenants.Remove(link);
         }
     }
 
@@ -92,38 +98,35 @@ public class User : IBaseEntity
         Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
         Guard.AgainstNullOrEmpty(plaintextToken, nameof(plaintextToken));
 
-        var refreshToken = RefreshToken.Create(
-            IdGenerator.New(),
-            Id,
-            tokenFamilyId,
-            tokenHash,
-            plaintextToken,
-            expiresAt,
-            Id,
-            SecurityStamp
+        RefreshToken refreshToken = RefreshToken.Create(
+            userId: Id,
+            tokenFamilyId: tokenFamilyId,
+            tokenHash: tokenHash,
+            plaintextToken: plaintextToken,
+            expiresAt: expiresAt,
+            securityStampAtIssue: SecurityStamp
         );
 
         RefreshTokens.Add(refreshToken);
     }
 
-    public void RevokeRefreshToken(string tokenHash)
+    public void RevokeRefreshToken(string tokenHash, string reason, Guid? replacedByTokenId = null)
     {
         Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
 
-        var token = RefreshTokens.FirstOrDefault(rt => rt.TokenHash == tokenHash && !rt.IsRevoked);
-        token?.Revoke("Revoked via User domain method");
+        RefreshToken? token = RefreshTokens.FirstOrDefault(rt => rt.TokenHash == tokenHash && !rt.IsRevoked);
+        token?.Revoke(reason, replacedByTokenId);
     }
 
     public void AddUserToken(UserTokenType type, string value, DateTime expiry)
     {
         Guard.AgainstNullOrEmpty(value, nameof(value));
 
-        var userToken = UserToken.Create(
-            IdGenerator.New(),
-            Id,
-            value,
-            type,
-            expiry
+        UserToken userToken = UserToken.Create(
+            userId: Id,
+            token: value,
+            type: type,
+            expiryDate: expiry
         );
 
         UserTokens.Add(userToken);
@@ -131,24 +134,21 @@ public class User : IBaseEntity
 
     // Static factory for user registration/creation
     public static User Create(
-        Guid id,
         FullName fullName,
         string username,
         Email email,
         string securityStamp,
-        Guid createdBy,
-        bool isVerified = false)
+        bool isVerified = false,
+        Guid? id = null)
     {
-        Guard.AgainstDefault(id, nameof(id));
         Guard.AgainstNullOrEmpty(username, nameof(username));
         Guard.AgainstNull(fullName, nameof(fullName));
         Guard.AgainstNull(email, nameof(email));
         Guard.AgainstNullOrEmpty(securityStamp, nameof(securityStamp));
-        Guard.AgainstDefault(createdBy, nameof(createdBy));
 
         return new User
         {
-            Id = id,
+            Id = id ?? IdGenerator.New(),
             FullName = fullName,
             Username = username,
             Email = email,
@@ -156,8 +156,6 @@ public class User : IBaseEntity
             IsActive = true,
             IsDeleted = false,
             IsVerified = isVerified,
-            CreatedAt = DateTime.UtcNow,
-            CreatedBy = createdBy
         };
     }
 }

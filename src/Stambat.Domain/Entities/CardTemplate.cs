@@ -1,8 +1,9 @@
+using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
 namespace Stambat.Domain.Entities;
 
-public class CardTemplate : IBaseEntity
+public class CardTemplate : IBaseEntity, IAggregateRoot
 {
     public Guid Id { get; init; }
 

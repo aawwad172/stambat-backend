@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Stambat.Domain.Entities.Identity;
-using Stambat.Domain.ValueObjects;
 
 namespace Stambat.Infrastructure.Configurations;
 
@@ -18,7 +17,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         // Email & Username (unique)
         builder.Property(u => u.Email)
-            .HasConversion(e => e.Value, v => Stambat.Domain.ValueObjects.Email.Create(v))
+            .HasConversion(e => e.Value, v => Domain.ValueObjects.Email.Create(v))
             .IsRequired()
             .HasMaxLength(256);
 
@@ -44,6 +43,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.RefreshTokens)
             .WithOne(rt => rt.User)
             .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ✅ ADD THIS — mirrors what UserRoleTenantConfiguration declares
+        builder.HasMany(u => u.UserRoleTenants)
+            .WithOne(urt => urt.User)
+            .HasForeignKey(urt => urt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ✅ ADD THIS too if you have UserTokens configured similarly
+        builder.HasMany(u => u.UserTokens)
+            .WithOne(ut => ut.User)
+            .HasForeignKey(ut => ut.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

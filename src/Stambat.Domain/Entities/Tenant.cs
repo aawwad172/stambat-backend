@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
@@ -7,7 +8,7 @@ namespace Stambat.Domain.Entities;
 /// <summary>
 /// This entity represent the business that subscribe to our business.
 /// </summary>
-public class Tenant : IEntity, IBaseEntity
+public class Tenant : IEntity, IBaseEntity, IAggregateRoot
 {
     public Guid Id { get; init; }
     public string BusinessName { get; private set; }
@@ -42,17 +43,18 @@ public class Tenant : IEntity, IBaseEntity
     public static Tenant Create(
         Guid id,
         string businessName,
-        string email,
-        Guid createdBy)
+        string email)
     {
+        Guard.AgainstDefault(id, nameof(id));
+        Guard.AgainstNullOrEmpty(businessName, nameof(businessName));
+        Guard.AgainstNullOrEmpty(email, nameof(email));
+
         return new Tenant
         {
             Id = id,
             BusinessName = businessName,
             Email = email,
             IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            CreatedBy = createdBy,
             IsDeleted = false
         };
     }

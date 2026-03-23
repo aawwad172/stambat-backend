@@ -18,24 +18,20 @@ public class VerifyEmailCommandHandler(
     ITenantProviderService tenantProviderService,
     ILogger<VerifyEmailCommandHandler> logger,
     IUnitOfWork unitOfWork,
-    IUserTokenRepository userTokenRepository,
     IUserRepository userRepository,
-    IRefreshTokenRepository refreshTokenRepository,
     IJwtService jwtService)
     : BaseHandler<VerifyEmailCommand, VerifyEmailCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly IUserTokenRepository _userTokenRepository = userTokenRepository;
-    private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly IJwtService _jwtService = jwtService;
 
     public override async Task<VerifyEmailCommandResult> Handle(VerifyEmailCommand request, CancellationToken cancellationToken)
     {
-        UserEntity? user = await _userRepository.GetByIdAsync(request.UserId);
+        UserEntity? user = await _userRepository.GetByIdWithDetailsAsync(request.UserId);
         if (user is null)
             throw new NotFoundException($"User with the Id: {request.UserId} was not found");
 
-        UserToken? token = await _userTokenRepository.GetUserTokenByTokenAsync(request.Token);
+        UserToken? token = user.UserTokens.FirstOrDefault(e => e.Token == request.Token);
 
         if (token is null)
             throw new NotFoundException($"Token {request.Token} is not available");
@@ -49,16 +45,19 @@ public class VerifyEmailCommandHandler(
             user.VerifyEmail();
             token.MarkAsUsed();
 
-            _userRepository.Update(user);
-            _userTokenRepository.Update(token);
-
-
             Guid tokenFamilyId = IdGenerator.New();
             string accessToken = await _jwtService.GenerateAccessTokenAsync(user);
             RefreshToken refreshtoken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
 
-            await _refreshTokenRepository.AddAsync(refreshtoken);
+            user.AddRefreshToken(
+                refreshtoken.TokenHash,
+                refreshtoken.PlaintextToken,
+                refreshtoken.ExpiresAt,
+                refreshtoken.TokenFamilyId
+            );
 
+            // We have decided to go with tracking and we won't need any manual update statements here.
+            // _userRepository.Update(user);
 
             await _unitOfWork.SaveAsync(cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

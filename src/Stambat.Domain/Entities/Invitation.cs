@@ -1,9 +1,11 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity.Authentication;
+using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
 namespace Stambat.Domain.Entities;
 
-public class Invitation : IBaseEntity
+public class Invitation : IBaseEntity, IAggregateRoot
 {
     public Guid Id { get; init; }
     public string Email { get; private set; }
@@ -36,34 +38,30 @@ public class Invitation : IBaseEntity
     }
 
     public static Invitation Create(
-        Guid id,
         string email,
         string tokenHash,
         string? token,
         Guid roleId,
         Guid? tenantId,
-        DateTime expiresAt,
-        Guid createdBy)
+        DateTime expiresAt)
     {
+        Guard.AgainstNullOrEmpty(email, nameof(email));
+        Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
+        Guard.AgainstDefault(roleId, nameof(roleId));
+
         return new Invitation
         {
-            Id = id,
+            Id = IdGenerator.New(),
             Email = email,
             TokenHash = tokenHash,
             Token = token,
             RoleId = roleId,
             TenantId = tenantId,
             ExpiresAt = expiresAt,
-            CreatedAt = DateTime.UtcNow,
-            CreatedBy = createdBy,
             IsUsed = false,
             IsDeleted = false
         };
     }
 
-    public void MarkAsUsed()
-    {
-        IsUsed = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
+    public void MarkAsUsed() => IsUsed = true;
 }

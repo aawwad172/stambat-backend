@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Enums;
 using Stambat.Domain.Interfaces.Domain;
 
@@ -18,11 +19,14 @@ public class UserToken : IEntity
     // EF Core constructor
     private UserToken() { }
 
-    public static UserToken Create(Guid id, Guid userId, string token, UserTokenType type, DateTime expiryDate)
+    public static UserToken Create(Guid userId, string token, UserTokenType type, DateTime expiryDate)
     {
+        Guard.AgainstDefault(userId, nameof(userId));
+        Guard.AgainstNullOrEmpty(token, nameof(token));
+
         return new UserToken
         {
-            Id = id,
+            Id = IdGenerator.New(),
             UserId = userId,
             Token = token,
             Type = type,

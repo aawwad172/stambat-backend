@@ -12,7 +12,7 @@ using Stambat.Infrastructure.Persistence;
 namespace Stambat.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260317004356_InitialMigration")]
+    [Migration("20260322215019_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -357,7 +357,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.Authentication.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -944,7 +943,6 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.UserCredentials", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("PasswordHash")
@@ -1374,7 +1372,7 @@ namespace Stambat.Infrastructure.Migrations
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.UserToken", b =>
                 {
                     b.HasOne("Stambat.Domain.Entities.Identity.User", "User")
-                        .WithMany()
+                        .WithMany("UserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1466,6 +1464,8 @@ namespace Stambat.Infrastructure.Migrations
                     b.Navigation("RefreshTokens");
 
                     b.Navigation("UserRoleTenants");
+
+                    b.Navigation("UserTokens");
 
                     b.Navigation("WalletPasses");
                 });

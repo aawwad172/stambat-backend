@@ -13,6 +13,10 @@ public sealed record Email
         Value = value;
     }
 
+#pragma warning disable CS8618
+    public Email() { }
+#pragma warning restore CS8618
+
     public static Email Create(string value)
     {
         Guard.AgainstNullOrEmpty(value, nameof(value));

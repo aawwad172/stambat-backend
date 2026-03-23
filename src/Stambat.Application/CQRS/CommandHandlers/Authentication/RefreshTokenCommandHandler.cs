@@ -15,26 +15,25 @@ public class RefreshTokenCommandHandler(
     ILogger<RefreshTokenCommandHandler> logger,
     ICurrentUserService currentUserService,
     ITenantProviderService tenantProviderService,
-    IRefreshTokenRepository refreshTokenRepository,
     IUserRepository userRepository,
+    ISecurityService securityService,
     IJwtService jwtService)
     : BaseHandler<RefreshTokenCommand, RefreshTokenCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
-    private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly ISecurityService _securityService = securityService;
     private readonly IJwtService _jwtService = jwtService;
 
     public override async Task<RefreshTokenCommandResult> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        RefreshToken? oldToken = await _refreshTokenRepository.GetByTokenAsync(request.RefreshToken, _currentUser.UserId);
+        User? user = await _userRepository.GetByIdWithDetailsAsync(_currentUser.UserId);
+        if (user is null)
+            throw new NotFoundException("User not found");
+
+        RefreshToken? oldToken = user.RefreshTokens.FirstOrDefault(rt => _securityService.VerifySecret(request.RefreshToken, rt.TokenHash));
 
         if (oldToken is null || !oldToken.IsActive)
             throw new UnauthenticatedException("Invalid or expired refresh token.");
-
-
-        User? user = await _userRepository.GetByIdAsync(oldToken.UserId);
-        if (user is null)
-            throw new NotFoundException("User not found");
 
         if (oldToken.SecurityStampAtIssue != user.SecurityStamp)
             throw new UnauthenticatedException("Session security has been compromised. Please log in again.");
@@ -45,12 +44,16 @@ public class RefreshTokenCommandHandler(
             //  Generate a new refresh token
             RefreshToken newRefreshToken = _jwtService.CreateRefreshTokenEntity(user, oldToken.TokenFamilyId);
 
-            oldToken.Revoke("Rotated", newRefreshToken.Id);
+            user.RevokeRefreshToken(oldToken.TokenHash, "Rotated");
 
-            _refreshTokenRepository.Update(oldToken);
+            user.AddRefreshToken(
+                newRefreshToken.TokenHash,
+                newRefreshToken.PlaintextToken,
+                newRefreshToken.ExpiresAt,
+                newRefreshToken.TokenFamilyId
+            );
 
-            // Add the new refresh token to the repository
-            await _refreshTokenRepository.AddAsync(newRefreshToken);
+            _userRepository.Update(user);
 
             // Generate a new access token with desired expiration
             string newAccessToken = await _jwtService.GenerateAccessTokenAsync(user);

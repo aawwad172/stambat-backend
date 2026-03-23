@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
@@ -45,25 +46,27 @@ public class RefreshToken : IEntity, ICreationAudit
     }
 
     public static RefreshToken Create(
-        Guid id,
         Guid userId,
         Guid tokenFamilyId,
         string tokenHash,
         string plaintextToken,
         DateTime expiresAt,
-        Guid createdBy,
         string? securityStampAtIssue = null)
     {
+        Guard.AgainstDefault(userId, nameof(userId));
+        Guard.AgainstDefault(tokenFamilyId, nameof(tokenFamilyId));
+        Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
+        Guard.AgainstNullOrEmpty(plaintextToken, nameof(plaintextToken));
+
         return new RefreshToken
         {
-            Id = id,
+            Id = IdGenerator.New(),
             UserId = userId,
             TokenFamilyId = tokenFamilyId,
             TokenHash = tokenHash,
             PlaintextToken = plaintextToken,
             ExpiresAt = expiresAt,
-            CreatedAt = DateTime.UtcNow,
-            CreatedBy = createdBy,
+            ReplacedByTokenId = null,
             SecurityStampAtIssue = securityStampAtIssue
         };
     }

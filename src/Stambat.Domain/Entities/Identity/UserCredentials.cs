@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Interfaces.Domain;
 
 namespace Stambat.Domain.Entities.Identity;
@@ -15,11 +16,13 @@ public class UserCredentials : IEntity
         PasswordHash = default!;
     }
 
-    public static UserCredentials Create(Guid id, Guid userId, string passwordHash)
+    public static UserCredentials Create(
+        Guid userId,
+        string passwordHash)
     {
         return new UserCredentials
         {
-            Id = id,
+            Id = IdGenerator.New(),
             UserId = userId,
             PasswordHash = passwordHash
         };

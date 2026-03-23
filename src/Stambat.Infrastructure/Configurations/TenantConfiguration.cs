@@ -47,6 +47,11 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .WithOne(tp => tp.Tenant)
             .HasForeignKey<TenantProfile>(tp => tp.TenantId);
 
+        builder.HasMany(t => t.UserRoleTenants)
+            .WithOne(urt => urt.Tenant)
+            .HasForeignKey(urt => urt.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // The many-to-many relationship is already configured in UserRoleTenantConfiguration,
         // but we define the CardTemplate one-to-many here.
         // builder.HasMany(t => t.CardTemplates)

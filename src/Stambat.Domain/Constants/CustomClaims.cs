@@ -1,4 +1,4 @@
-namespace Stambat.Domain.Entities.Identity.Authentication;
+namespace Stambat.Domain.Constants;
 
 /// <summary>
 /// Defines custom claim types used in the application's JWT for authorization.

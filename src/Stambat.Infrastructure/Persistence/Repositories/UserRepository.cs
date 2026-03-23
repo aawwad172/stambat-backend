@@ -13,7 +13,7 @@ public sealed class UserRepository(ApplicationDbContext dbContext) : Repository<
                 .Include(user => user.RefreshTokens)
                 .Include(user => user.UserTokens)
                 .Include(user => user.UserRoleTenants)
-                .FirstOrDefaultAsync(user => user.Email.Value == email);
+                .FirstOrDefaultAsync(user => user.Email == Stambat.Domain.ValueObjects.Email.Create(email));
 
     public async Task<User?> GetUserByUsernameAsync(string username)
         => await _dbSet

@@ -17,12 +17,10 @@ public class LoginCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     ISecurityService securityService,
-    IRefreshTokenRepository refreshTokenRepository,
     IJwtService jwtService) : BaseHandler<LoginCommand, LoginCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly ISecurityService _securityService = securityService;
-    private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly IJwtService _jwtService = jwtService;
 
     public override async Task<LoginCommandResult> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -54,7 +52,14 @@ public class LoginCommandHandler(
 
             RefreshToken refreshToken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
 
-            await _refreshTokenRepository.AddAsync(refreshToken);
+            user.AddRefreshToken(
+                refreshToken.TokenHash,
+                refreshToken.PlaintextToken,
+                refreshToken.ExpiresAt,
+                refreshToken.TokenFamilyId
+            );
+
+            _userRepository.Update(user);
 
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitAsync();

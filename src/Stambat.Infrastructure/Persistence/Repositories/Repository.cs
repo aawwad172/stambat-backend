@@ -1,16 +1,16 @@
 using System.Linq.Expressions;
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 using Stambat.Domain.Entities;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 using Stambat.Infrastructure.Pagination;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-
 namespace Stambat.Infrastructure.Persistence.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class, IEntity
+public class Repository<T> : IRepository<T> where T : class, IAggregateRoot
 {
     private readonly ApplicationDbContext _context;
     protected readonly DbSet<T> _dbSet;
