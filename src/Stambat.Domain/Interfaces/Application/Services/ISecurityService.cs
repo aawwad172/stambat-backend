@@ -18,6 +18,13 @@ public interface ISecurityService
     public string HashToken(string token);
 
     /// <summary>
+    /// Generates a cryptographically secure random token.
+    /// </summary>
+    /// <param name="length">The number of bytes to generate. Defaults to 32.</param>
+    /// <returns>A URL-safe base64 string.</returns>
+    public string GenerateSecureToken(int length = 32);
+
+    /// <summary>
     /// Verifies if the password matches the stored password hash.
     /// </summary>
     /// <param name="secret">The password to verify.</param>

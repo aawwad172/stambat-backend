@@ -29,7 +29,6 @@ public class TenantModule : IEndpointModule
 
         tenants.MapGet(EndpointRoutes.GetAllTenantStaff, GetAllTenantStaff.RegisterRoute)
             .RequireAuthorization(PermissionConstants.TenantsManage)
-            .Accepts<GetAllTenantStaffQuery>("application/json")
             .Produces<ApiResponse<GetAllTenantStaffQueryResult>>(StatusCodes.Status200OK, "application/json")
             .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json");
     }

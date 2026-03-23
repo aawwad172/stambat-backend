@@ -65,7 +65,7 @@ public class InviteStaffCommandHandler(
 
         // 2. Token Generation
         // Create a secure random string (raw token)
-        string rawToken = IdGenerator.New().ToString("N");
+        string rawToken = _securityService.GenerateSecureToken();
 
         // Hash the token for DB storage (one-way hash lSHA256)
         string hashedToken = _securityService.HashToken(rawToken);

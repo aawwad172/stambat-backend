@@ -49,6 +49,14 @@ public class Invitation : IBaseEntity, IAggregateRoot
         Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
         Guard.AgainstDefault(roleId, nameof(roleId));
 
+        if (tenantId.HasValue)
+        {
+            Guard.AgainstDefault(tenantId.Value, nameof(tenantId));
+        }
+
+        Guard.AgainstNonUtc(expiresAt, nameof(expiresAt));
+        Guard.AgainstPast(expiresAt, nameof(expiresAt));
+
         return new Invitation
         {
             Id = IdGenerator.New(),

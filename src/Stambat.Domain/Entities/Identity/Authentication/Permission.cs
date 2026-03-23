@@ -37,6 +37,11 @@ public class Permission : IBaseEntity
     {
         Guard.AgainstNullOrEmpty(name, nameof(name));
 
+        if (id.HasValue)
+        {
+            Guard.AgainstDefault(id.Value, nameof(id));
+        }
+
         return new Permission
         {
             Id = id ?? IdGenerator.New(),

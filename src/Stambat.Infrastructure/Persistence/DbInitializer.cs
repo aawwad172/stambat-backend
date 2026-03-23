@@ -40,9 +40,12 @@ public static class DbInitializer
 
             // 2. STAGE 1: Seed Roles (Crucial First Step)
             // Ensure the SuperAdmin role exists physically in the DB
-            if (!await context.Roles.AnyAsync(r => r.Id == AuthSeedConstants.RoleIdSuperAdmin))
+            Role? adminRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "SuperAdmin");
+            Guid superAdminRoleId;
+
+            if (adminRole is null)
             {
-                var adminRole = Role.Create(
+                adminRole = Role.Create(
                     "SuperAdmin",
                     "Full System Access",
                     AuthSeedConstants.RoleIdSuperAdmin
@@ -50,6 +53,11 @@ public static class DbInitializer
                 context.Roles.Add(adminRole);
                 // We MUST save here so the ID exists for the Foreign Key check in Stage 2
                 await context.SaveChangesAsync();
+                superAdminRoleId = adminRole.Id;
+            }
+            else
+            {
+                superAdminRoleId = adminRole.Id;
             }
 
             // 2. Seed the "System" User and Credentials
@@ -74,7 +82,7 @@ public static class DbInitializer
                 );
 
                 systemUser.SetCredentials(credentials);
-                systemUser.AssignRole(AuthSeedConstants.RoleIdSuperAdmin);
+                systemUser.AssignRole(superAdminRoleId);
 
                 context.Users.Add(systemUser);
 
@@ -85,14 +93,14 @@ public static class DbInitializer
                 // Ensure system user has the SuperAdmin role if it was created previously without it
                 bool hasRole = await context.UserRoleTenants.AnyAsync(ur =>
                     ur.UserId == AuthSeedConstants.SystemUserId &&
-                    ur.RoleId == AuthSeedConstants.RoleIdSuperAdmin);
+                    ur.RoleId == superAdminRoleId);
 
                 if (!hasRole)
                 {
                     context.UserRoleTenants.Add(UserRoleTenant.Create(
                         IdGenerator.New(),
                         AuthSeedConstants.SystemUserId,
-                        AuthSeedConstants.RoleIdSuperAdmin
+                        superAdminRoleId
                     ));
                     await context.SaveChangesAsync();
                 }

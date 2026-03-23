@@ -89,23 +89,9 @@ public class User : IBaseEntity, IAggregateRoot
         }
     }
 
-    public void AddRefreshToken(
-        string tokenHash,
-        string plaintextToken,
-        DateTime expiresAt,
-        Guid tokenFamilyId)
+    public void AddRefreshToken(RefreshToken refreshToken)
     {
-        Guard.AgainstNullOrEmpty(tokenHash, nameof(tokenHash));
-        Guard.AgainstNullOrEmpty(plaintextToken, nameof(plaintextToken));
-
-        RefreshToken refreshToken = RefreshToken.Create(
-            userId: Id,
-            tokenFamilyId: tokenFamilyId,
-            tokenHash: tokenHash,
-            plaintextToken: plaintextToken,
-            expiresAt: expiresAt,
-            securityStampAtIssue: SecurityStamp
-        );
+        Guard.AgainstNull(refreshToken, nameof(refreshToken));
 
         RefreshTokens.Add(refreshToken);
     }
@@ -145,6 +131,11 @@ public class User : IBaseEntity, IAggregateRoot
         Guard.AgainstNull(fullName, nameof(fullName));
         Guard.AgainstNull(email, nameof(email));
         Guard.AgainstNullOrEmpty(securityStamp, nameof(securityStamp));
+
+        if (id.HasValue)
+        {
+            Guard.AgainstDefault(id.Value, nameof(id));
+        }
 
         return new User
         {

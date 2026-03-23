@@ -79,7 +79,7 @@ public class RegisterUserCommandHandler(
 
             user.AssignRole(defaultRole.Id, null);
 
-            string verificationToken = IdGenerator.New().ToString("N");
+            string verificationToken = _securityService.GenerateSecureToken();
             user.AddUserToken(UserTokenType.EmailVerification, verificationToken, DateTime.UtcNow.AddHours(24));
 
             // TODO: use the correct domain (the FE one)
@@ -97,7 +97,7 @@ public class RegisterUserCommandHandler(
             return new RegisterUserCommandResult(
                 Id: user.Id,
                 FullName: user.FullName,
-                Email: user.Email,
+                Email: user.Email.Value,
                 Username: user.Username,
                 IsActive: user.IsActive,
                 IsVerified: user.IsVerified,

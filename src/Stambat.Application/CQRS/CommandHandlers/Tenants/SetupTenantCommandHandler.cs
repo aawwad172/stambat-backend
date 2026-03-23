@@ -66,22 +66,22 @@ public class SetupTenantCommandHandler(
 
             user.AssignRole(tenantAdminRole.Id, tenantId);
 
+            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
             // Todo: add the FE dashboard link to both and add the role name as enum
             await _emailService.SendExistingUserAccessGrantAsync(
-                user.Email,
+                user.Email.Value,
                 user.FullName.FirstName,
                 "Tenant Admin",
                 tenant.BusinessName,
                 "localhost:4200/dashboard");
 
             await _emailService.SendTenantWelcomeEmailAsync(
-                tenant.Email,
+                tenant.Email.Value,
                 $"{user.FullName.FirstName} {user.FullName.LastName}",
                 tenant.BusinessName,
                 "localhost:4200/dashboard");
-
-            await _unitOfWork.SaveAsync(cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
 
             return new SetupTenantCommandResult(tenant.Id, user.Id);
         }

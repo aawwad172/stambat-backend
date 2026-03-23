@@ -49,15 +49,8 @@ public class VerifyEmailCommandHandler(
             string accessToken = await _jwtService.GenerateAccessTokenAsync(user);
             RefreshToken refreshtoken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
 
-            user.AddRefreshToken(
-                refreshtoken.TokenHash,
-                refreshtoken.PlaintextToken,
-                refreshtoken.ExpiresAt,
-                refreshtoken.TokenFamilyId
-            );
-
-            // We have decided to go with tracking and we won't need any manual update statements here.
-            // _userRepository.Update(user);
+            user.AddRefreshToken(refreshtoken);
+            _userRepository.Update(user);
 
             await _unitOfWork.SaveAsync(cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

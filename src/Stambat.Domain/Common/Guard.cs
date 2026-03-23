@@ -59,4 +59,12 @@ public static class Guard
             throw new ArgumentException($"{name} must be in UTC kind.", name);
         }
     }
+
+    public static void AgainstPast(DateTime value, string name)
+    {
+        if (value <= DateTime.UtcNow)
+        {
+            throw new ArgumentException($"{name} must be in the future.", name);
+        }
+    }
 }

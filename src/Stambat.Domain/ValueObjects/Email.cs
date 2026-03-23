@@ -6,7 +6,7 @@ public sealed record Email
 {
     private const string EmailRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
-    public string Value { get; init; }
+    public string Value { get; private init; }
 
     private Email(string value)
     {
@@ -14,8 +14,8 @@ public sealed record Email
     }
 
 #pragma warning disable CS8618
-    public Email() { }
-#pragma warning restore CS8618
+    private Email() { }
+#pragma warning restore CS8618 
 
     public static Email Create(string value)
     {

@@ -52,12 +52,7 @@ public class LoginCommandHandler(
 
             RefreshToken refreshToken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
 
-            user.AddRefreshToken(
-                refreshToken.TokenHash,
-                refreshToken.PlaintextToken,
-                refreshToken.ExpiresAt,
-                refreshToken.TokenFamilyId
-            );
+            user.AddRefreshToken(refreshToken);
 
             _userRepository.Update(user);
 

@@ -4,9 +4,9 @@ namespace Stambat.Domain.ValueObjects;
 
 public sealed record FullName
 {
-    public string FirstName { get; init; }
-    public string? MiddleName { get; init; }
-    public string LastName { get; init; }
+    public string FirstName { get; private init; }
+    public string? MiddleName { get; private init; }
+    public string LastName { get; private init; }
 
 #pragma warning disable CS8618
     // Add this for the Serializer and EF Core
@@ -26,12 +26,14 @@ public sealed record FullName
         Guard.AgainstNullOrEmpty(lastName, nameof(lastName));
 
         return new FullName(
-            firstName.Trim().ToLowerInvariant(),
-            middleName?.Trim().ToLowerInvariant(),
-            lastName.Trim().ToLowerInvariant());
+            firstName.Trim(),
+            middleName?.Trim(),
+            lastName.Trim());
     }
 
     public override string ToString() => string.IsNullOrWhiteSpace(MiddleName)
         ? $"{FirstName} {LastName}"
         : $"{FirstName} {MiddleName} {LastName}";
+
+    public string Formatted => string.Join(" ", new[] { FirstName, MiddleName, LastName }.Where(s => !string.IsNullOrWhiteSpace(s)));
 }

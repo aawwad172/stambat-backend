@@ -46,15 +46,9 @@ public class RefreshTokenCommandHandler(
 
             user.RevokeRefreshToken(oldToken.TokenHash, "Rotated");
 
-            user.AddRefreshToken(
-                newRefreshToken.TokenHash,
-                newRefreshToken.PlaintextToken,
-                newRefreshToken.ExpiresAt,
-                newRefreshToken.TokenFamilyId
-            );
+            user.AddRefreshToken(newRefreshToken);
 
             _userRepository.Update(user);
-
             // Generate a new access token with desired expiration
             string newAccessToken = await _jwtService.GenerateAccessTokenAsync(user);
 

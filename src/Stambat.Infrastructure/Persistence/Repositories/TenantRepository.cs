@@ -9,6 +9,6 @@ public class TenantRepository(ApplicationDbContext dbContext) : Repository<Tenan
 {
     public async Task<Tenant?> GetTenantByEmailAsync(string email)
     {
-        return await _dbSet.FirstOrDefaultAsync(t => t.Email == email);
+        return await _dbSet.FirstOrDefaultAsync(t => t.Email == Stambat.Domain.ValueObjects.Email.Create(email));
     }
 }

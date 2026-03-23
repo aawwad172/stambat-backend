@@ -9,7 +9,7 @@ public class AcceptInvitationCommandValidator : AbstractValidator<AcceptInvitati
     public AcceptInvitationCommandValidator()
     {
         RuleFor(x => x.FirstName)
-            .NotNull()
+            .NotEmpty()
             .WithMessage("First name is required.");
 
         RuleFor(x => x.LastName)

@@ -38,7 +38,7 @@ public class JwtService(
         var claims = new List<Claim>
         {
             // Core Identity Claims
-            new(JwtRegisteredClaimNames.Name, user.FullName.FirstName + " " + user.FullName.MiddleName + " " + user.FullName.LastName),
+            new(JwtRegisteredClaimNames.Name, user.FullName.Formatted),
             new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, user.Username),
             new(JwtRegisteredClaimNames.Email, user.Email.Value),
