@@ -8,19 +8,28 @@ A digital loyalty card system for businesses that replaces physical cards. It al
 ## Vision
 Stambat aims to revolutionize the loyalty card experience by replacing physical cards with a seamless digital solution. We empower businesses to offer loyalty programs that are easily accessible to users through their Apple and Google wallets, enhancing customer engagement and simplifying the stamp process through QR code scanning.
 
-## Target Audience
-- **Businesses (Retail/Service):** Looking for a modern, efficient, and cost-effective way to manage customer loyalty programs.
-- **End Users:** Customers who want a convenient, digital-first way to track and redeem their loyalty rewards without carrying physical cards.
+## Target Audience & Actors
+- **Super Admin (Platform Admin):** Manages the entire platform.
+- **Admin (Tenant Admin/Business Owner):** Manages their own business/tenant.
+- **Employee (Staff):** Operates at the store level (scanning, stamping).
+- **Customer (End User):** Uses loyalty cards via wallet.
+
+## Multi-Tenancy & Authentication
+- The system is multi-tenant — each business is a separate tenant.
+- Users can belong to multiple tenants with different roles.
+- **Authentication flow: 2-step login**
+  1. User authenticates with credentials (email/password).
+  2. After authentication, user selects which tenant to operate under.
+- This allows a single user to work across multiple businesses without separate accounts.
 
 ## Core Features
-- **Digital Wallet Integration:** Support for Apple Wallet and Google Wallet, ensuring loyalty cards are always accessible.
-- **Dynamic Card Definition:** Businesses can define their own loyalty card rules, branding, and reward structures.
-- **QR Code Stamping:** A secure and quick method for businesses to add stamps to a customer's card by scanning a unique QR code.
-- **Advanced Identity Management:** Robust authentication, refresh tokens, and a granular role/permission system to manage business owners, staff, and potentially end-users.
-- **Database Excellence:** A reliable and scalable database schema managed with EF Core and PostgreSQL, including comprehensive seeding for initial setup.
-- **Strict Architecture:** Adherence to Clean Architecture and DDD principles to ensure long-term maintainability and scalability, even for an MVP.
+- **Digital Wallet Integration:** Support for Apple Wallet and Google Wallet.
+- **Dynamic Card Definition:** Businesses define rules, branding, and rewards.
+- **QR Code Stamping:** Zero-friction stamping via scanning unique QR codes.
+- **Advanced Identity Management:** Granular role/permission system.
+- **Database Excellence:** PostgreSQL with EF Core and UUID v7 (time-ordered IDs).
 
 ## Goals & Constraints
-- **Goal:** Deliver a "good enough" MVP that balances high engineering standards with the core functionality needed to start selling to businesses.
+- **Goal:** Deliver a "good enough" MVP that balances high engineering standards with core functionality.
 - **Constraint:** Maintain a strict separation of concerns following DDD and Clean Architecture.
-- **Testing:** While reliability is a priority, the initial MVP will focus on core functionality over comprehensive test case coverage.
+- **ID Strategy:** Always use `IdGenerator.New()` (UUID v7) for new IDs, assigned in code.

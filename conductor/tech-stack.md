@@ -1,8 +1,8 @@
 # Technology Stack: Stambat Backend
 
 ## Core Framework & Language
-- **Language:** C#
-- **Framework:** .NET 8.0 (ASP.NET Core Web API)
+- **Language:** C# (.NET 10.0)
+- **Framework:** ASP.NET Core Minimal API (no controllers — uses endpoint modules)
 - **Architecture:** Clean Architecture with Domain-Driven Design (DDD) principles.
 
 ## Data & Persistence
@@ -17,7 +17,7 @@
 - **Persistence:** Repositories consolidated to manage aggregate roots (e.g., `IUserRepository` manages the full Identity aggregate).
 
 ## Application Logic
-- **Pattern:** CQRS (Command Query Responsibility Segregation)
+- **Pattern:** CQRS (Command Query Responsibility Segregation) via **MediatR**
 - **Mapping:** Mapster
 - **Validation:** Fluent Validation
 
@@ -29,6 +29,6 @@
 
 ## Infrastructure & Tools
 - **CLI Tasks:** Makefile
-- **Pre-commit Hooks:** Husky
+- **Pre-commit Hooks:** Husky.Net
 - **API Documentation:** Swagger/OpenAPI with custom Auth extension.
-- **Static Analysis:** Microsoft.CodeAnalysis.BannedApiAnalyzers (to enforce Guid.CreateVersion7)
+- **Static Analysis:** Microsoft.CodeAnalysis.BannedApiAnalyzers (to enforce Guid.CreateVersion7 via `IdGenerator.New()`)
