@@ -135,9 +135,9 @@ Before marking any task complete, verify:
 - [ ] Documentation updated if needed
 - [ ] No security vulnerabilities introduced
 
-## Development Commands
+## Development & Tooling
 
-### Setup
+### Setup & Installation
 ```bash
 # Spin up the Database
 make dev-db-start
@@ -145,27 +145,51 @@ make dev-db-start
 # Restore .NET packages
 dotnet restore
 
-# Install Husky for pre-commit hooks
-npx husky-init && npm install
+# Install EF Core tools locally
+make install-dotnet-ef
+
+# Restore local .NET tools
+make restore-tool
 ```
 
-### Daily Development
-```bash
-# Run the application (using Makefile)
-make run
+### Daily Commands
+| Command | Description |
+|---------|-------------|
+| `make run` | Run the WebAPI project |
+| `make watch` | Run with hot-reload |
+| `make build` | Build the solution |
+| `make restore` | Restore NuGet packages |
+| `make clean` | Clean build artifacts |
+| `dotnet format` | Format code (also runs on pre-commit) |
 
-# Build the solution
-dotnet build
+### Database Management
+| Command | Description |
+|---------|-------------|
+| `make dev-db-start` | Start PostgreSQL in Docker |
+| `make dev-db-stop` | Stop PostgreSQL Docker container |
+| `make migrate name=<Name>` | Create a new EF Core migration |
+| `make migrate-remove` | Remove the last migration |
+| `make db-update` | Apply pending migrations |
 
-# Apply database migrations
-make db-update
-```
+### Git Workflow & Conventions
 
-### Before Committing
-```bash
-# Build the solution to ensure no compilation errors
-dotnet build
-```
+#### Branch Naming
+- `feat/` or `feature/` — New features
+- `refactor/` — Code cleanup/movement
+- `fix/` or `hotfix/` — Bug fixes
+- `docs/` — Documentation updates
+
+#### Committing & Push
+The project uses **Husky.Net** to enforce standards:
+1. **Pre-commit:** Runs `dotnet format` on staged files.
+2. **Pre-push:** Runs `dotnet clean` and `dotnet build` with warnings-as-errors.
+
+#### Merge Strategy (Squash)
+Always **squash and rebase** your feature branch before merging:
+1. `git rebase -i main` (squash all commits into one).
+2. Write a single descriptive summary for the feature.
+3. Push force-with-lease.
+4. Merge via PR.
 
 ## Code Review Process
 
