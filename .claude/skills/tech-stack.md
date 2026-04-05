@@ -1,7 +1,7 @@
 # Tech Stack
 
 ## Core
-- **Language:** C# (.NET 10, SDK 10.0.101)
+- **Language:** C# (.NET 10, SDK 10.0.201)
 - **Framework:** ASP.NET Core Minimal API (no controllers — uses endpoint modules)
 - **Database:** PostgreSQL
 - **ORM:** Entity Framework Core (Code-First with Migrations)

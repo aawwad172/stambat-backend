@@ -4,7 +4,7 @@
 Stambat is a modern digital loyalty card system that replaces physical stamp cards. It enables businesses to create and manage digital loyalty programs integrated with Apple Wallet and Google Wallet. Customers earn stamps and redeem rewards by scanning QR codes on their digital cards.
 
 ## Repository
-- **Repo:** `git@github.com:aawwad172/stamply-backend.git`
+- **Repo:** `git@github.com:aawwad172/stambat-backend.git`
 - **Main branch:** `main`
 
 ## Business Domain

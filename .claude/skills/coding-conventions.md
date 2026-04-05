@@ -39,6 +39,7 @@
 - Use EF Core Code-First migrations
 - Migration commands via Makefile: `make migrate name=MigrationName`
 - Define all relationships, indexes, and constraints in the configuration file
+- **After any entity/relationship change, UPDATE `.claude/skills/db-diagram.md`** with the new entity, properties, and relationships
 
 ### API Design
 - Return standardized `ApiResponse` from all endpoints
