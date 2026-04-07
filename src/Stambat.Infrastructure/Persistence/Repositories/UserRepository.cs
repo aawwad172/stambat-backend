@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 
+using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Enums;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
+using Stambat.Infrastructure.Pagination;
 
 namespace Stambat.Infrastructure.Persistence.Repositories;
 
@@ -43,4 +45,22 @@ public sealed class UserRepository(ApplicationDbContext dbContext) : Repository<
                     ut.Token == token &&
                     !ut.IsUsed &&
                     ut.ExpiryDate > DateTime.UtcNow));
+
+    public async Task<PaginationResult<User>> GetStaffByTenantAsync(
+        Guid tenantId,
+        int? pageNumber,
+        int? pageSize)
+    {
+        IQueryable<User> query = _dbSet
+            .AsNoTracking()
+            .Include(u => u.UserRoleTenants.Where(
+                urt => urt.TenantId == tenantId
+                ))
+                .ThenInclude(urt => urt.Role)
+                    .Where(u => u.IsActive
+                            && u.UserRoleTenants.Any(urt => urt.TenantId == tenantId));
+
+        return await query.ToPagedQueryAsync(pageNumber, pageSize);
+    }
 }
+

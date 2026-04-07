@@ -21,21 +21,67 @@ public class Repository<T> : IRepository<T> where T : class, IAggregateRoot
         _dbSet = _context.Set<T>();
     }
 
+    /// <summary>
+    /// Applies QueryOptions (includes, ordering, tracking) to an IQueryable.
+    /// Protected so specialized repositories can reuse it in custom query methods.
+    /// </summary>
+    protected IQueryable<T> ApplyOptions(IQueryable<T> query, QueryOptions<T>? options)
+    {
+        if (options is null) return query;
+
+        if (options.AsNoTracking)
+            query = query.AsNoTracking();
+
+        if (options.Includes is not null)
+        {
+            foreach (var include in options.Includes)
+                query = query.Include(include);
+        }
+
+        if (options.OrderBy is not null)
+        {
+            query = options.OrderDescending
+                ? query.OrderByDescending(options.OrderBy)
+                : query.OrderBy(options.OrderBy);
+        }
+
+        return query;
+    }
+
     public virtual async Task<PaginationResult<T>> GetAllAsync(
         int? pageNumber = null,
         int? pageSize = null,
-        Expression<Func<T, bool>>? filter = null)
+        Expression<Func<T, bool>>? filter = null,
+        QueryOptions<T>? options = null)
     {
         IQueryable<T> query = _dbSet;
+        query = ApplyOptions(query, options);
+
         if (filter is not null)
             query = query.Where(filter!);
 
         return await query.ToPagedQueryAsync(pageNumber, pageSize);
     }
 
-    public virtual async Task<T?> GetByIdAsync(Guid id)
+    public virtual async Task<T?> GetByIdAsync(Guid id, QueryOptions<T>? options = null)
     {
-        return await _dbSet.FindAsync(id);
+        // When no options are provided, use FindAsync for best performance (identity map cache).
+        if (options is null)
+            return await _dbSet.FindAsync(id);
+
+        // FindAsync doesn't support Include, so fall back to a LINQ query.
+        IQueryable<T> query = _dbSet;
+        query = ApplyOptions(query, options);
+        return await query.FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+    }
+
+    public virtual async Task<T?> FirstOrDefaultAsync(
+        Expression<Func<T, bool>> predicate,
+        QueryOptions<T>? options = null)
+    {
+        IQueryable<T> query = _dbSet;
+        query = ApplyOptions(query, options);
+        return await query.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<T> AddAsync(T entity)
