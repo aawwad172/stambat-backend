@@ -6,4 +6,8 @@ public interface IPermissionService
 {
     Task<List<string>> GetUserRolesAsync(Guid userId);
     Task<List<string>> GetUserPermissionsAsync(User user);
+
+    // Tenant-scoped
+    Task<List<string>> GetUserRolesForTenantAsync(Guid userId, Guid tenantId);
+    Task<List<string>> GetUserPermissionsForTenantAsync(User user, Guid tenantId);
 }

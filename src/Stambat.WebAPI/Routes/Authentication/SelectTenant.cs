@@ -12,12 +12,12 @@ using Stambat.WebAPI.Models;
 
 namespace Stambat.WebAPI.Routes.Authentication;
 
-public class Login : ICommandRoute<LoginCommand>
+public class SelectTenant : ICommandRoute<SelectTenantCommand>
 {
     public static async Task<IResult> RegisterRoute(
-        [FromBody] LoginCommand request,
+        [FromBody] SelectTenantCommand request,
         [FromServices] IMediator mediator,
-        [FromServices] IValidator<LoginCommand> validator)
+        [FromServices] IValidator<SelectTenantCommand> validator)
     {
         ValidationResult validationResult = await validator.ValidateAsync(request);
 
@@ -27,12 +27,11 @@ public class Login : ICommandRoute<LoginCommand>
                     .Select(e => e.ErrorMessage)
                     .ToList();
 
-            // Throw a custom ValidationException that your middleware will catch
             throw new CustomValidationException("Validation failed", errors);
         }
 
-        LoginCommandResult response = await mediator.Send(request);
+        SelectTenantCommandResult response = await mediator.Send(request);
         return Results.Ok(
-            ApiResponse<LoginCommandResult>.SuccessResponse(response));
+            ApiResponse<SelectTenantCommandResult>.SuccessResponse(response));
     }
 }

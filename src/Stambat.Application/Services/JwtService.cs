@@ -55,6 +55,45 @@ public class JwtService(
             claims.Add(new Claim(CustomClaims.Permission, permission));
         }
 
+        return CreateTokenFromClaims(claims);
+    }
+
+    public async Task<string> GenerateAccessTokenForTenantAsync(User user, Guid tenantId)
+    {
+        // Fetch tenant-scoped roles and permissions
+        List<string> roles = await _permissionService.GetUserRolesForTenantAsync(user.Id, tenantId);
+        List<string> permissions = await _permissionService.GetUserPermissionsForTenantAsync(user, tenantId);
+
+        var claims = new List<Claim>
+        {
+            // Core Identity Claims
+            new(JwtRegisteredClaimNames.Name, user.FullName.Formatted),
+            new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, user.Username),
+            new(JwtRegisteredClaimNames.Email, user.Email.Value),
+            new(JwtRegisteredClaimNames.Jti, IdGenerator.New().ToString()),
+            new("security_stamp", user.SecurityStamp),
+            // Tenant context claims
+            new(CustomClaims.TenantId, tenantId.ToString()),
+        };
+
+        // Add the primary tenant role
+        if (roles.Count > 0)
+        {
+            claims.Add(new Claim(CustomClaims.TenantRole, roles[0]));
+        }
+
+        // Add tenant-scoped permission claims
+        foreach (string permission in permissions)
+        {
+            claims.Add(new Claim(CustomClaims.Permission, permission));
+        }
+
+        return CreateTokenFromClaims(claims);
+    }
+
+    private string CreateTokenFromClaims(List<Claim> claims)
+    {
         byte[] keyBytes = GetKeyBytes();
         SymmetricSecurityKey key = new(keyBytes);
         SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha256);
@@ -80,7 +119,8 @@ public class JwtService(
 
     public RefreshToken CreateRefreshTokenEntity(
         User user,
-        Guid tokenFamilyId)
+        Guid tokenFamilyId,
+        Guid? tenantId = null)
     {
         string plaintextToken = GenerateRefreshToken();
         string combinedHashSalt = _securityService.HashSecret(plaintextToken);
@@ -95,7 +135,8 @@ public class JwtService(
             combinedHashSalt,
             plaintextToken,
             expiresAt,
-            user.SecurityStamp
+            user.SecurityStamp,
+            tenantId
         );
     }
 

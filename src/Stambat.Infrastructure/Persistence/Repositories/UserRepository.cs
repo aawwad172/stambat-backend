@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Stambat.Domain.Entities.Identity;
+using Stambat.Domain.Enums;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stambat.Infrastructure.Persistence.Repositories;
@@ -30,4 +31,16 @@ public sealed class UserRepository(ApplicationDbContext dbContext) : Repository<
                 .Include(user => user.UserTokens)
                 .Include(user => user.UserRoleTenants)
                 .FirstOrDefaultAsync(user => user.Id == id);
+
+    public async Task<User?> GetUserByIdentityTokenAsync(string token)
+        => await _dbSet
+                .Include(user => user.Credentials)
+                .Include(user => user.RefreshTokens)
+                .Include(user => user.UserTokens)
+                .Include(user => user.UserRoleTenants)
+                .FirstOrDefaultAsync(user => user.UserTokens.Any(ut =>
+                    ut.Type == UserTokenType.TenantSelection &&
+                    ut.Token == token &&
+                    !ut.IsUsed &&
+                    ut.ExpiryDate > DateTime.UtcNow));
 }

@@ -4,6 +4,7 @@ using Stambat.Application.CQRS.Commands.Authentication;
 using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;
+using Stambat.Domain.Enums;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
@@ -17,11 +18,13 @@ public class LoginCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     ISecurityService securityService,
-    IJwtService jwtService) : BaseHandler<LoginCommand, LoginCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
+    IJwtService jwtService,
+    IAuthenticationRepository authenticationRepository) : BaseHandler<LoginCommand, LoginCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly ISecurityService _securityService = securityService;
     private readonly IJwtService _jwtService = jwtService;
+    private readonly IAuthenticationRepository _authenticationRepository = authenticationRepository;
 
     public override async Task<LoginCommandResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -45,21 +48,50 @@ public class LoginCommandHandler(
                 )
                 throw new UnauthenticatedException("Invalid email or password");
 
-            // All tokens for this session belong to one family ID
-            Guid tokenFamilyId = IdGenerator.New();
+            // Check if user is a SuperAdmin (global role, TenantId = NULL)
+            bool isSuperAdmin = await _authenticationRepository.IsUserInRoleAsync(user.Id, "SuperAdmin");
 
-            string accessToken = await _jwtService.GenerateAccessTokenAsync(user);
+            if (isSuperAdmin)
+            {
+                // SuperAdmin: issue tokens directly, skip tenant selection
+                Guid tokenFamilyId = IdGenerator.New();
+                string accessToken = await _jwtService.GenerateAccessTokenAsync(user);
+                RefreshToken refreshToken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
 
-            RefreshToken refreshToken = _jwtService.CreateRefreshTokenEntity(user, tokenFamilyId);
+                user.AddRefreshToken(refreshToken);
+                _userRepository.Update(user);
 
-            user.AddRefreshToken(refreshToken);
+                await _unitOfWork.SaveAsync();
+                await _unitOfWork.CommitAsync();
 
-            _userRepository.Update(user);
+                return new LoginCommandResult(
+                    IdentityToken: null,
+                    AccessToken: accessToken,
+                    RefreshToken: refreshToken.PlaintextToken,
+                    IsSuperAdmin: true,
+                    Tenants: []);
+            }
+            else
+            {
+                // Regular user: generate identity token + return tenant list
+                string identityTokenPlaintext = _securityService.GenerateSecureToken();
+                DateTime expiry = DateTime.UtcNow.AddMinutes(5);
 
-            await _unitOfWork.SaveAsync();
-            await _unitOfWork.CommitAsync();
+                user.AddUserToken(UserTokenType.TenantSelection, identityTokenPlaintext, expiry);
+                _userRepository.Update(user);
 
-            return new LoginCommandResult(AccessToken: accessToken, RefreshToken: refreshToken.PlaintextToken);
+                List<TenantInfo> tenants = await _authenticationRepository.GetUserTenantsAsync(user.Id);
+
+                await _unitOfWork.SaveAsync();
+                await _unitOfWork.CommitAsync();
+
+                return new LoginCommandResult(
+                    IdentityToken: identityTokenPlaintext,
+                    AccessToken: null,
+                    RefreshToken: null,
+                    IsSuperAdmin: false,
+                    Tenants: tenants);
+            }
         }
         catch (UnauthenticatedException)
         {

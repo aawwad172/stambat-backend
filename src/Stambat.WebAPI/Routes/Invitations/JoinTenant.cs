@@ -5,19 +5,19 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Stambat.Application.CQRS.Commands.Authentication;
+using Stambat.Application.CQRS.Commands.Invitations;
 using Stambat.Domain.Exceptions;
 using Stambat.WebAPI.Interfaces;
 using Stambat.WebAPI.Models;
 
-namespace Stambat.WebAPI.Routes.Authentication;
+namespace Stambat.WebAPI.Routes.Invitations;
 
-public class Login : ICommandRoute<LoginCommand>
+public class JoinTenant : ICommandRoute<JoinTenantCommand>
 {
     public static async Task<IResult> RegisterRoute(
-        [FromBody] LoginCommand request,
+        [FromBody] JoinTenantCommand request,
         [FromServices] IMediator mediator,
-        [FromServices] IValidator<LoginCommand> validator)
+        [FromServices] IValidator<JoinTenantCommand> validator)
     {
         ValidationResult validationResult = await validator.ValidateAsync(request);
 
@@ -27,12 +27,11 @@ public class Login : ICommandRoute<LoginCommand>
                     .Select(e => e.ErrorMessage)
                     .ToList();
 
-            // Throw a custom ValidationException that your middleware will catch
             throw new CustomValidationException("Validation failed", errors);
         }
 
-        LoginCommandResult response = await mediator.Send(request);
+        JoinTenantCommandResult response = await mediator.Send(request);
         return Results.Ok(
-            ApiResponse<LoginCommandResult>.SuccessResponse(response));
+            ApiResponse<JoinTenantCommandResult>.SuccessResponse(response));
     }
 }

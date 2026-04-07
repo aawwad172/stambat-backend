@@ -6,6 +6,8 @@ public static class EndpointRoutes
     public const string Login = "/login";
     public const string Logout = "/logout";
     public const string RefreshToken = "/refresh-token";
+    public const string SelectTenant = "/select-tenant";
+    public const string SwitchTenant = "/switch-tenant";
 
     // User / Profile
     public const string RegisterUser = "/register";
@@ -15,6 +17,7 @@ public static class EndpointRoutes
     // Invitations (Public/Token-based)
     public const string ValidateInvitation = "/validate";
     public const string AcceptInvitation = "/accept";
+    public const string JoinTenant = "/join";
 
     // Tenant Operations (Merchant/Owner context)
     public const string SetupTenant = "/setup";

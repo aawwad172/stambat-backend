@@ -6,4 +6,5 @@ public sealed record ValidateInvitationQuery(string Token) : IRequest<ValidateIn
 
 public sealed record ValidateInvitationQueryResult(string Email,
     string TenantName,
-    string RoleName);
+    string RoleName,
+    bool UserExists);

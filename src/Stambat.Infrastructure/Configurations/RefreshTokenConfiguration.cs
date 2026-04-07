@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity.Authentication;
 
 namespace Stambat.Infrastructure.Configurations;
@@ -28,8 +29,14 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
             .HasForeignKey(x => x.ReplacedByTokenId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasOne(x => x.Tenant)
+            .WithMany()
+            .HasForeignKey(x => x.TenantId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasIndex(x => x.UserId);
         builder.HasIndex(x => new { x.UserId, x.TokenFamilyId });
+        builder.HasIndex(x => new { x.UserId, x.TenantId });
         builder.HasIndex(x => x.ExpiresAt);
         builder.HasIndex(x => x.TokenHash).IsUnique(); // fast lookup by presented token (after hashing)
     }
