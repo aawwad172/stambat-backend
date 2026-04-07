@@ -41,7 +41,7 @@ public class InviteStaffCommandHandler(
         Guid? optionalTenantId = _currentTenant.TenantId;
 
         if (!optionalTenantId.HasValue)
-            throw new ArgumentException("TenantId can't be null, please provide it via the X-Tenant-Id header.", nameof(_currentTenant.TenantId));
+            throw new ArgumentException("TenantId is required. Please ensure you are logged in with a tenant-scoped token.", nameof(_currentTenant.TenantId));
 
         Guid validTenantId = optionalTenantId.Value;
 
@@ -92,8 +92,9 @@ public class InviteStaffCommandHandler(
                 throw new InvitationStillActiveException($"Invitation for {role.Name} is still active.");
 
             // 3. Construct the Invitation Link
-            // todo: In a real scenario, pull "https://stambat.app/register" from IConfiguration
-            string registrationLink = $"https://stambat.app/register?token={Uri.EscapeDataString(rawToken)}";
+            // todo: In a real scenario, pull "https://stambat.app" from IConfiguration
+            string route = user is not null ? "join" : "register";
+            string registrationLink = $"https://stambat.app/{route}?token={Uri.EscapeDataString(rawToken)}";
 
             // 4. Send the Email
             // Assuming your IEmailService has a SendInvitationEmailAsync method

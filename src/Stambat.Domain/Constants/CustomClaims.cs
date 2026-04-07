@@ -10,4 +10,8 @@ public static class CustomClaims
 
     // Other custom claims can go here, like user's full name, etc.
     public const string FullName = "full_name";
+
+    // Tenant context claims
+    public const string TenantId = "tenant_id";
+    public const string TenantRole = "tenant_role";
 }

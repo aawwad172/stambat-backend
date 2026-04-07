@@ -32,4 +32,26 @@ public class PermissionService(IAuthenticationRepository authenticationRepositor
         // Simple passthrough to the repository
         return await _authenticationRepository.GetUserRolesAsync(userId);
     }
+
+    // --- Tenant-scoped methods ---
+
+    public async Task<List<string>> GetUserPermissionsForTenantAsync(User user, Guid tenantId)
+    {
+        // For tenant context, get only the roles assigned in that specific tenant
+        List<Guid> tenantRoleIds = await _authenticationRepository.GetUserRoleIdsForTenantAsync(user.Id, tenantId);
+
+        if (tenantRoleIds.Count == 0)
+            return [];
+
+        List<string> baseGrantedPermissions = await _authenticationRepository.GetBaseGrantedPermissionsAsync(tenantRoleIds);
+
+        HashSet<string> finalPermissions = new(baseGrantedPermissions, StringComparer.OrdinalIgnoreCase);
+
+        return finalPermissions.ToList();
+    }
+
+    public async Task<List<string>> GetUserRolesForTenantAsync(Guid userId, Guid tenantId)
+    {
+        return await _authenticationRepository.GetUserRolesForTenantAsync(userId, tenantId);
+    }
 }

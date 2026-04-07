@@ -3,6 +3,7 @@ using System.Security.Claims;
 
 using Microsoft.IdentityModel.Tokens;
 
+using Stambat.Domain.Constants;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 
@@ -33,7 +34,8 @@ public class JwtMiddleware(
     {
         IJwtService _jwtService = context.RequestServices.GetRequiredService<IJwtService>();
 
-        // 1. Always try to get the Tenant ID from the header first, regardless of the Token status
+        // Fallback: Read tenant from header for unauthenticated routes only.
+        // For authenticated routes, the JWT claim (extracted below) takes priority.
         string? tenantIdHeader = context.Request.Headers["X-Tenant-Id"].ToString();
         if (!string.IsNullOrEmpty(tenantIdHeader) && Guid.TryParse(tenantIdHeader, out var tId))
         {
@@ -56,7 +58,6 @@ public class JwtMiddleware(
             {
                 context.User = principal;
 
-
                 // Try the short alias ('nameid') which is the standard JWT name for the ID.
                 string? userId = principal.FindFirst(JwtRegisteredClaimNames.NameId)?.Value
                                  // Fallback to other common aliases if needed
@@ -66,16 +67,16 @@ public class JwtMiddleware(
                 // If you want to keep the .NET URI constant, ensure you check that too:
                 userId ??= principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                string? tenantId = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].ToString();
-
                 if (!string.IsNullOrEmpty(userId))
                 {
                     currentUser.UserId = Guid.Parse(userId);
                 }
 
-                if (!string.IsNullOrEmpty(tenantId))
+                // Extract tenant_id from JWT claims (authoritative source for authenticated requests)
+                string? tenantIdClaim = principal.FindFirst(CustomClaims.TenantId)?.Value;
+                if (!string.IsNullOrEmpty(tenantIdClaim) && Guid.TryParse(tenantIdClaim, out var tenantGuid))
                 {
-                    currentTenant.TenantId = Guid.Parse(tenantId);
+                    currentTenant.TenantId = tenantGuid;
                 }
             }
         }
@@ -99,6 +100,13 @@ public class JwtMiddleware(
                     {
                         currentUser.UserId = Guid.Parse(userId);
                         _logger.LogDebug("Extracted userId from expired token for refresh flow");
+                    }
+
+                    // Also extract tenant_id from expired token for refresh flow
+                    string? expiredTenantId = jwtToken.Claims.FirstOrDefault(c => c.Type == CustomClaims.TenantId)?.Value;
+                    if (!string.IsNullOrEmpty(expiredTenantId) && Guid.TryParse(expiredTenantId, out var expiredTenantGuid))
+                    {
+                        currentTenant.TenantId = expiredTenantGuid;
                     }
                 }
                 catch (Exception readEx)

@@ -1,5 +1,6 @@
 using Stambat.Domain.Common;
 using Stambat.Domain.Entities.Identity.Authentication;
+using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
@@ -72,4 +73,23 @@ public class Invitation : IBaseEntity, IAggregateRoot
     }
 
     public void MarkAsUsed() => IsUsed = true;
+
+    /// <summary>
+    /// Validates that this invitation is eligible for use.
+    /// Throws domain exceptions if the invitation is used, expired, or missing required relations.
+    /// </summary>
+    public void ValidateForUse()
+    {
+        if (IsUsed)
+            throw new InvitationExpiredException("This invitation has already been used.");
+
+        if (ExpiresAt < DateTime.UtcNow)
+            throw new InvitationExpiredException("This invitation has expired.");
+
+        if (Role is null)
+            throw new InvalidOperationException($"The role with Id: {RoleId} does not exist in the database. Please seed roles.");
+
+        if (Tenant is null)
+            throw new NotFoundException($"The tenant with Id: {TenantId} does not exist.");
+    }
 }

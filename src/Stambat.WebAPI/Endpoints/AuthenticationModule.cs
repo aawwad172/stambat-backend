@@ -22,6 +22,19 @@ public class AuthenticationModule : IEndpointModule
            .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
            .Produces<ApiResponse<LoginCommandResult>>(StatusCodes.Status401Unauthorized, "application/json");
 
+        auth.MapPost(EndpointRoutes.SelectTenant, SelectTenant.RegisterRoute)
+           .Accepts<SelectTenantCommand>("application/json")
+           .Produces<ApiResponse<SelectTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
+           .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+           .Produces<ApiResponse<SelectTenantCommandResult>>(StatusCodes.Status401Unauthorized, "application/json");
+
+        auth.MapPost(EndpointRoutes.SwitchTenant, SwitchTenant.RegisterRoute)
+           .RequireAuthorization()
+           .Accepts<SwitchTenantCommand>("application/json")
+           .Produces<ApiResponse<SwitchTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
+           .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+           .Produces<ApiResponse<SwitchTenantCommandResult>>(StatusCodes.Status401Unauthorized, "application/json");
+
         auth.MapPost(EndpointRoutes.RefreshToken, RefreshToken.RegisterRoute)
            .Accepts<RefreshTokenCommand>("application/json")
            .Produces<ApiResponse<RefreshTokenCommandResult>>(StatusCodes.Status200OK, "application/json")

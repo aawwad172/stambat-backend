@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 
 using Stambat.Application.CQRS.Queries.Invitations;
 using Stambat.Domain.Entities;
+using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
@@ -14,11 +15,13 @@ public class ValidateInvitationQueryHandler(
     ISecurityService securityService,
     ILogger<ValidateInvitationQueryHandler> logger,
     IUnitOfWork unitOfWork,
-    IInvitationRepository invitationRepository)
+    IInvitationRepository invitationRepository,
+    IUserRepository userRepository)
     : BaseHandler<ValidateInvitationQuery, ValidateInvitationQueryResult>(currentUserService, currentTenantProviderService, logger, unitOfWork)
 {
     private readonly IInvitationRepository _invitationRepository = invitationRepository;
     private readonly ISecurityService _securityService = securityService;
+    private readonly IUserRepository _userRepository = userRepository;
 
     public override async Task<ValidateInvitationQueryResult> Handle(ValidateInvitationQuery request, CancellationToken cancellationToken)
     {
@@ -31,20 +34,16 @@ public class ValidateInvitationQueryHandler(
             if (invitation is null)
                 throw new NotFoundException($"Invitation with token not found");
 
-            if (invitation.IsUsed)
-                throw new InvitationExpiredException($"Invitation with token already used");
+            invitation.ValidateForUse();
 
-            if (invitation.ExpiresAt < DateTime.UtcNow)
-                throw new InvitationExpiredException($"Invitation with token expired");
+            // Check if a user with this email already exists in the system
+            User? existingUser = await _userRepository.GetUserByEmailAsync(invitation.Email);
 
-            if (invitation.Tenant is null)
-                throw new NotFoundException($"The tenant with Id: {invitation.TenantId} does not exist.");
-
-            if (invitation.Role is null)
-                throw new NotFoundException($"The role with Id: {invitation.RoleId} does not exist.");
-
-
-            return new ValidateInvitationQueryResult(Email: invitation.Email, TenantName: invitation.Tenant.BusinessName, RoleName: invitation.Role.Name);
+            return new ValidateInvitationQueryResult(
+                Email: invitation.Email,
+                TenantName: invitation.Tenant!.BusinessName,
+                RoleName: invitation.Role!.Name,
+                UserExists: existingUser is not null);
 
         }
         catch (Exception ex)

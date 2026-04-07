@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<LoginCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<RefreshTokenCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<LogoutCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<SelectTenantCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<SwitchTenantCommandValidator>();
         services.AddValidatorsFromAssemblyContaining<IsUserVerifiedQueryValidator>();
 
         // Configure JSON options for Minimal APIs

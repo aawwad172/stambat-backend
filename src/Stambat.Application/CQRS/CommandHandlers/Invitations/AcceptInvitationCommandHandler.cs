@@ -38,78 +38,58 @@ public class AcceptInvitationCommandHandler(
         if (invitation is null)
             throw new NotFoundException("Invitation not found.");
 
-        if (invitation.IsUsed)
-            throw new InvitationExpiredException("This invitation has already been used.");
+        invitation.ValidateForUse();
 
-        if (invitation.ExpiresAt < DateTime.UtcNow)
-            throw new InvitationExpiredException("This invitation has expired.");
-
-        if (invitation.Role is null)
-        {
-            // IMPORTANT: This prevents users from being created without a role if the DB isn't seeded.
-            throw new InvalidOperationException($"The role with Id: {invitation.RoleId} does not exist in the database. Please seed roles.");
-        }
-
-        if (invitation.Tenant is null)
-        {
-            throw new NotFoundException($"The tenant with Id: {invitation.TenantId} does not exist.");
-        }
+        // Reject existing users — they should use POST /invitations/join instead
+        User? existingUser = await _userRepository.GetUserByEmailAsync(invitation.Email);
+        if (existingUser is not null)
+            throw new ConflictException("A user with this email already exists. Use the /invitations/join endpoint instead.");
 
         invitation.MarkAsUsed();
-
-        // 2. Business Logic: Existing User Handling
-        User? user = await _userRepository.GetUserByEmailAsync(invitation.Email);
-        bool isNewUser = user is null;
-
 
         await _unitOfWork.BeginTransactionAsync(cancellationToken);
         try
         {
             _invitationRepository.Update(invitation);
-            if (isNewUser)
-            {
-                // Check if a user already exists with the same username.
-                User? existingUsername = await _userRepository.GetUserByUsernameAsync(request.Username);
-                if (existingUsername is not null)
-                    throw new ConflictException("A user with this username already exists.");
 
-                // Hash the password using the security service (BCrypt)
-                string hashedPassword = _securityService.HashSecret(request.Password);
+            // Check if a user already exists with the same username.
+            User? existingUsername = await _userRepository.GetUserByUsernameAsync(request.Username);
+            if (existingUsername is not null)
+                throw new ConflictException("A user with this username already exists.");
 
-                // Generate a new security stamp
-                string securityStamp = IdGenerator.New().ToString();
+            // Hash the password using the security service (BCrypt)
+            string hashedPassword = _securityService.HashSecret(request.Password);
 
+            // Generate a new security stamp
+            string securityStamp = IdGenerator.New().ToString();
 
-                user = User.Create(
-                    FullName.Create(request.FirstName, request.LastName, request.MiddleName),
-                    request.Username,
-                    Email.Create(invitation.Email),
-                    securityStamp,
-                    isVerified: true
-                );
+            User user = User.Create(
+                FullName.Create(request.FirstName, request.LastName, request.MiddleName),
+                request.Username,
+                Email.Create(invitation.Email),
+                securityStamp,
+                isVerified: true
+            );
 
-                UserCredentials userCreds = UserCredentials.Create(user.Id, hashedPassword);
+            UserCredentials userCreds = UserCredentials.Create(user.Id, hashedPassword);
 
-                user.SetCredentials(userCreds);
+            user.SetCredentials(userCreds);
 
-                await _userRepository.AddAsync(user);
-            }
+            await _userRepository.AddAsync(user);
 
             Guid verifiedTenantId = invitation.TenantId!.Value;
 
-            user!.AssignRole(invitation.RoleId, verifiedTenantId);
+            user.AssignRole(invitation.RoleId, verifiedTenantId);
 
             _userRepository.Update(user);
-
 
             // Todo: add the FE dashboard link to both and add the role name as enum
             await _emailService.SendExistingUserAccessGrantAsync(
                 user.Email.Value,
                 user.FullName.FirstName,
-                invitation.Role.Name,
-                invitation.Tenant.BusinessName,
+                invitation.Role!.Name,
+                invitation.Tenant!.BusinessName,
                 "localhost:4200/dashboard");
-
 
             await _unitOfWork.SaveAsync(cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);

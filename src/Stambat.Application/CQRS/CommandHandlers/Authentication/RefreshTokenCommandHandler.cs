@@ -41,16 +41,26 @@ public class RefreshTokenCommandHandler(
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            //  Generate a new refresh token
-            RefreshToken newRefreshToken = _jwtService.CreateRefreshTokenEntity(user, oldToken.TokenFamilyId);
+            //  Generate a new refresh token (inheriting the tenant scope from the old token)
+            RefreshToken newRefreshToken = _jwtService.CreateRefreshTokenEntity(user, oldToken.TokenFamilyId, oldToken.TenantId);
 
             user.RevokeRefreshToken(oldToken.TokenHash, "Rotated");
 
             user.AddRefreshToken(newRefreshToken);
 
             _userRepository.Update(user);
-            // Generate a new access token with desired expiration
-            string newAccessToken = await _jwtService.GenerateAccessTokenAsync(user);
+
+            // Generate a new access token — tenant-scoped if the old token had a tenant
+            string newAccessToken;
+            if (oldToken.TenantId.HasValue)
+            {
+                newAccessToken = await _jwtService.GenerateAccessTokenForTenantAsync(user, oldToken.TenantId.Value);
+            }
+            else
+            {
+                // SuperAdmin or legacy token — generate global access token
+                newAccessToken = await _jwtService.GenerateAccessTokenAsync(user);
+            }
 
             // Save all changes and commit the transaction
             await _unitOfWork.SaveAsync();

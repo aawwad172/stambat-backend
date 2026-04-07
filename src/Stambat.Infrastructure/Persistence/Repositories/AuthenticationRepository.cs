@@ -47,4 +47,34 @@ public class AuthenticationRepository(ApplicationDbContext dbContext) : IAuthent
         return await _dbContext.UserRoleTenants
                 .AnyAsync(ur => ur.UserId == userId && ur.Role!.Name == roleName);
     }
+
+    // --- Tenant-scoped methods ---
+
+    public async Task<List<Guid>> GetUserRoleIdsForTenantAsync(Guid userId, Guid tenantId)
+    {
+        return await _dbContext.UserRoleTenants
+               .Where(ur => ur.UserId == userId && ur.TenantId == tenantId)
+               .Select(ur => ur.RoleId)
+               .ToListAsync();
+    }
+
+    public async Task<List<string>> GetUserRolesForTenantAsync(Guid userId, Guid tenantId)
+    {
+        return await _dbContext.UserRoleTenants
+               .Where(ur => ur.UserId == userId && ur.TenantId == tenantId)
+               .Select(ur => ur.Role!.Name)
+               .ToListAsync();
+    }
+
+    public async Task<List<TenantInfo>> GetUserTenantsAsync(Guid userId)
+    {
+        return await _dbContext.UserRoleTenants
+               .Where(ur => ur.UserId == userId && ur.TenantId != null)
+               .GroupBy(ur => new { ur.TenantId, ur.Tenant!.BusinessName })
+               .Select(g => new TenantInfo(
+                   g.Key.TenantId!.Value,
+                   g.Key.BusinessName,
+                   g.Select(ur => ur.Role!.Name).ToList()))
+               .ToListAsync();
+    }
 }

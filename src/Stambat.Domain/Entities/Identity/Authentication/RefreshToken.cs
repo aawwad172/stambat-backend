@@ -1,4 +1,5 @@
 using Stambat.Domain.Common;
+using Stambat.Domain.Entities;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
@@ -27,6 +28,10 @@ public class RefreshToken : IEntity, ICreationAudit
     public Guid? ReplacedByTokenId { get; private set; }
     public RefreshToken? ReplacedByToken { get; private set; }
 
+    // Tenant scoping
+    public Guid? TenantId { get; private set; }
+    public Tenant? Tenant { get; private set; }
+
     // Issuance metadata
     public string? SecurityStampAtIssue { get; private set; }
 
@@ -51,7 +56,8 @@ public class RefreshToken : IEntity, ICreationAudit
         string tokenHash,
         string plaintextToken,
         DateTime expiresAt,
-        string? securityStampAtIssue = null)
+        string? securityStampAtIssue = null,
+        Guid? tenantId = null)
     {
         Guard.AgainstDefault(userId, nameof(userId));
         Guard.AgainstDefault(tokenFamilyId, nameof(tokenFamilyId));
@@ -67,7 +73,8 @@ public class RefreshToken : IEntity, ICreationAudit
             PlaintextToken = plaintextToken,
             ExpiresAt = expiresAt,
             ReplacedByTokenId = null,
-            SecurityStampAtIssue = securityStampAtIssue
+            SecurityStampAtIssue = securityStampAtIssue,
+            TenantId = tenantId
         };
     }
 
