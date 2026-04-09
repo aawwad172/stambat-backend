@@ -38,7 +38,9 @@ public class GetAllTenantStaffQueryHandler(
                 .Where(urt => urt.TenantId == tenantId)
                 .Select(urt => urt.RoleId),
             JoinedDate: DateOnly.FromDateTime(user.CreatedAt),
-            IsActive: user.IsActive));
+            IsActive: user.UserRoleTenants
+                .Where(urt => urt.TenantId == tenantId)
+                .Any(urt => urt.IsActive)));
 
         return new GetAllTenantStaffQueryResult(
             Staff: staff,

@@ -43,6 +43,6 @@ public class GetTenantInvitationsQueryHandler(
 
     private static InvitationStatus DeriveStatus(Invitation i) =>
         i.IsCancelled ? InvitationStatus.Cancelled :
-        i.ExpiresAt < DateTime.UtcNow ? InvitationStatus.Expired :
+        i.ExpiresAt <= DateTime.UtcNow ? InvitationStatus.Expired :
         InvitationStatus.Pending;
 }

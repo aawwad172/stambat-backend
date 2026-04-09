@@ -13,16 +13,15 @@ public class UpdateStaffRolesCommandValidator : AbstractValidator<UpdateStaffRol
             .WithMessage("StaffId is required.");
 
         RuleFor(x => x.Roles)
+            .Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .WithMessage("Roles list must not be empty.");
+            .WithMessage("Roles list must not be empty.")
+            .Must(roles => roles.Any(r => r.IsSelected))
+            .WithMessage("At least one role must be selected.");
 
         RuleForEach(x => x.Roles).ChildRules(role =>
             role.RuleFor(r => r.RoleId)
                 .NotEmpty()
                 .WithMessage("Each role must have a valid RoleId."));
-
-        RuleFor(x => x.Roles)
-            .Must(roles => roles.Any(r => r.IsSelected))
-            .WithMessage("At least one role must be selected.");
     }
 }

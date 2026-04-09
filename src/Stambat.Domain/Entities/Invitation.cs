@@ -76,7 +76,19 @@ public class Invitation : IBaseEntity, IAggregateRoot
 
     public void MarkAsUsed() => IsUsed = true;
 
-    public void Cancel() => IsCancelled = true;
+    public void Cancel()
+    {
+        if (IsUsed)
+            throw new InvalidOperationException("Cannot cancel an invitation that has already been used.");
+
+        if (IsCancelled)
+            throw new InvalidOperationException("This invitation has already been cancelled.");
+
+        if (ExpiresAt <= DateTime.UtcNow)
+            throw new InvalidOperationException("Cannot cancel an expired invitation.");
+
+        IsCancelled = true;
+    }
 
     /// <summary>
     /// Validates that this invitation is eligible for use.

@@ -31,12 +31,6 @@ public class CancelInvitationCommandHandler(
             Invitation invitation = await _invitationRepository.GetByIdForTenantAsync(request.InvitationId, tenantId)
                 ?? throw new NotFoundException($"Invitation {request.InvitationId} was not found in this tenant.");
 
-            if (invitation.IsUsed)
-                throw new InvalidOperationException("This invitation has already been used and cannot be cancelled.");
-
-            if (invitation.IsCancelled)
-                throw new InvalidOperationException("This invitation has already been cancelled.");
-
             invitation.Cancel();
 
             await _unitOfWork.SaveAsync(cancellationToken);
