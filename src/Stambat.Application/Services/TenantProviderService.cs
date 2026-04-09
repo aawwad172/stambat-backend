@@ -1,5 +1,3 @@
-using System;
-
 using Stambat.Domain.Interfaces.Application.Services;
 
 namespace Stambat.Application.Services;

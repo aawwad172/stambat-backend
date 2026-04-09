@@ -21,8 +21,13 @@ public static class EndpointRoutes
 
     // Tenant Operations (Merchant/Owner context)
     public const string SetupTenant = "/setup";
-    public const string InviteStaff = "/staff/invitations"; // Plural & clear
+    public const string StaffInvitations = "/staff/invitations"; // GET = list, POST = invite, DELETE = cancel
+    public const string InviteStaff = StaffInvitations;
     public const string GetAllTenantStaff = "/staff";
+    public const string GetStaffMember = "/staff/details";
+    public const string RemoveStaff = "/staff";
+    public const string DeactivateStaff = "/staff/deactivate";
+    public const string StaffRoles = "/staff/roles"; // GET = catalog, PATCH = update assignments
 
     // System Admin (Platform Owner only)
     public const string InviteTenant = "/tenants/onboarding";

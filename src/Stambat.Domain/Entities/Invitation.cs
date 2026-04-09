@@ -23,6 +23,7 @@ public class Invitation : IBaseEntity, IAggregateRoot
 
     public DateTime ExpiresAt { get; private set; }
     public bool IsUsed { get; private set; }
+    public bool IsCancelled { get; private set; }
 
     // Auditing
     public DateTime CreatedAt { get; set; }
@@ -68,11 +69,26 @@ public class Invitation : IBaseEntity, IAggregateRoot
             TenantId = tenantId,
             ExpiresAt = expiresAt,
             IsUsed = false,
+            IsCancelled = false,
             IsDeleted = false
         };
     }
 
     public void MarkAsUsed() => IsUsed = true;
+
+    public void Cancel()
+    {
+        if (IsUsed)
+            throw new InvalidOperationException("Cannot cancel an invitation that has already been used.");
+
+        if (IsCancelled)
+            throw new InvalidOperationException("This invitation has already been cancelled.");
+
+        if (ExpiresAt <= DateTime.UtcNow)
+            throw new InvalidOperationException("Cannot cancel an expired invitation.");
+
+        IsCancelled = true;
+    }
 
     /// <summary>
     /// Validates that this invitation is eligible for use.
@@ -80,6 +96,9 @@ public class Invitation : IBaseEntity, IAggregateRoot
     /// </summary>
     public void ValidateForUse()
     {
+        if (IsCancelled)
+            throw new InvitationExpiredException("This invitation has been cancelled.");
+
         if (IsUsed)
             throw new InvitationExpiredException("This invitation has already been used.");
 

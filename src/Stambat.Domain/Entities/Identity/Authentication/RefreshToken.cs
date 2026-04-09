@@ -1,5 +1,4 @@
 using Stambat.Domain.Common;
-using Stambat.Domain.Entities;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 

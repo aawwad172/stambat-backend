@@ -857,6 +857,11 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
@@ -1011,6 +1016,11 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsCancelled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -1045,7 +1055,7 @@ namespace Stambat.Infrastructure.Migrations
 
                     b.HasIndex("Email", "TenantId", "RoleId")
                         .IsUnique()
-                        .HasFilter("\"IsUsed\" = false");
+                        .HasFilter("\"IsUsed\" = false AND \"IsCancelled\" = false");
 
                     b.ToTable("Invitations");
                 });

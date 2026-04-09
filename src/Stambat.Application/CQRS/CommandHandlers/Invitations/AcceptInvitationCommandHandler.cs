@@ -4,7 +4,6 @@ using Stambat.Application.CQRS.Commands.Invitations;
 using Stambat.Domain.Common;
 using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity;
-using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IEmail;

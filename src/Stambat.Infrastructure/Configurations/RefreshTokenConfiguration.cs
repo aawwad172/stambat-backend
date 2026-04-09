@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity.Authentication;
 
 namespace Stambat.Infrastructure.Configurations;

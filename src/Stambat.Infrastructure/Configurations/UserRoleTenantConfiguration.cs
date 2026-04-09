@@ -24,6 +24,10 @@ public class UserRoleTenantConfiguration : IEntityTypeConfiguration<UserRoleTena
             .HasForeignKey(urt => urt.TenantId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Property(urt => urt.IsActive)
+            .IsRequired()
+            .HasDefaultValue(true);
+
         // Unique constraint for tenant-specific roles (excludes super admins)
         builder.HasIndex(urt => new { urt.UserId, urt.RoleId, urt.TenantId })
             .IsUnique()

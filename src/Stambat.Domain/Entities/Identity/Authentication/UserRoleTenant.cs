@@ -17,8 +17,13 @@ public class UserRoleTenant : IEntity
     public Guid? TenantId { get; private set; }
     public Tenant? Tenant { get; private set; }
 
+    public bool IsActive { get; private set; } = true;
+
     // EF Core constructor
     private UserRoleTenant() { }
+
+    public void Activate() => IsActive = true;
+    public void Deactivate() => IsActive = false;
 
     // Static factory for creating the link
     public static UserRoleTenant Create(Guid userId, Guid roleId, Guid? tenantId = null)
@@ -31,7 +36,8 @@ public class UserRoleTenant : IEntity
             Id = IdGenerator.New(),
             UserId = userId,
             RoleId = roleId,
-            TenantId = tenantId
+            TenantId = tenantId,
+            IsActive = true
         };
     }
 }

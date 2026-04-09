@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using Stambat.Domain.Entities.Identity.Authentication;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 
 namespace Stambat.Infrastructure.Persistence.Repositories;

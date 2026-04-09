@@ -18,11 +18,9 @@ namespace Stambat.WebAPI.Middlewares;
 /// </remarks>
 public class JwtMiddleware(
     RequestDelegate next,
-    IHttpContextAccessor httpContextAccessor,
     ILogger<JwtMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly ILogger<JwtMiddleware> _logger = logger;
 
     /// <summary>
