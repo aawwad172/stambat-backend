@@ -1,0 +1,50 @@
+using System.Text.RegularExpressions;
+
+using FluentValidation;
+
+using Stambat.Application.CQRS.Commands.Cards;
+
+namespace Stambat.WebAPI.Validators.Commands.Cards;
+
+public partial class CreateCardCommandValidator : AbstractValidator<CreateCardCommand>
+{
+    private static readonly int[] AllowedStampCounts = [5, 10, 15, 20];
+
+    [GeneratedRegex(@"^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$")]
+    private static partial Regex HexColorRegex();
+
+    public CreateCardCommandValidator()
+    {
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .WithMessage("Card title is required")
+            .MaximumLength(100)
+            .WithMessage("Card title must not exceed 100 characters");
+
+        RuleFor(x => x.Description)
+            .MaximumLength(500)
+            .WithMessage("Description must not exceed 500 characters");
+
+        RuleFor(x => x.StampsRequired)
+            .Must(v => AllowedStampCounts.Contains(v))
+            .WithMessage("Stamps required must be 5, 10, 15, or 20");
+
+        RuleFor(x => x.RewardDescription)
+            .MaximumLength(200)
+            .WithMessage("Reward description must not exceed 200 characters");
+
+        RuleFor(x => x.PrimaryColorOverride)
+            .Matches(HexColorRegex())
+            .When(x => x.PrimaryColorOverride is not null)
+            .WithMessage("Primary color must be a valid hex color (e.g. #FF5733 or #F00)");
+
+        RuleFor(x => x.SecondaryColorOverride)
+            .Matches(HexColorRegex())
+            .When(x => x.SecondaryColorOverride is not null)
+            .WithMessage("Secondary color must be a valid hex color (e.g. #FF5733 or #F00)");
+
+        RuleFor(x => x.TermsAndConditions)
+            .MaximumLength(2000)
+            .WithMessage("Terms and conditions must not exceed 2000 characters");
+    }
+}

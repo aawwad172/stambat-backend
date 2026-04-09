@@ -29,6 +29,13 @@ public static class EndpointRoutes
     public const string DeactivateStaff = "/staff/deactivate";
     public const string StaffRoles = "/staff/roles"; // GET = catalog, PATCH = update assignments
 
+    // Cards (under /cards group)
+    public const string GetAllCards = "/list";
+    public const string CreateCard = "/create";
+    public const string GetCardById = "/details";
+    public const string UpdateCard = "/update";
+    public const string DeleteCard = "/delete";
+
     // System Admin (Platform Owner only)
     public const string InviteTenant = "/tenants/onboarding";
 }
