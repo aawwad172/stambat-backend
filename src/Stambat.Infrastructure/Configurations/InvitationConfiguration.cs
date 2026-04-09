@@ -18,8 +18,10 @@ public class InvitationConfiguration : IEntityTypeConfiguration<Invitation>
         builder.HasIndex(i => i.TokenHash)
             .IsUnique();
 
+        builder.Property(i => i.IsCancelled).IsRequired().HasDefaultValue(false);
+
         builder.HasIndex(i => new { i.Email, i.TenantId, i.RoleId })
-            .HasFilter("\"IsUsed\" = false")
+            .HasFilter("\"IsUsed\" = false AND \"IsCancelled\" = false")
             .IsUnique();
 
         builder.Ignore(i => i.Token);

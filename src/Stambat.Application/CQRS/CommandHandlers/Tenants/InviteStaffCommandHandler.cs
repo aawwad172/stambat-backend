@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 
 using Stambat.Application.CQRS.Commands.Tenants;
-using Stambat.Domain.Common;
 using Stambat.Domain.Entities;
 using Stambat.Domain.Entities.Identity;
 using Stambat.Domain.Entities.Identity.Authentication;

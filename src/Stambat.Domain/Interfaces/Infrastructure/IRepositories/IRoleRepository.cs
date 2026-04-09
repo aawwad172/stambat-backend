@@ -5,4 +5,5 @@ namespace Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 public interface IRoleRepository
 {
     Task<Role?> GetRoleByNameAsync(string name);
+    Task<IEnumerable<Role>> GetStaffRolesAsync();
 }

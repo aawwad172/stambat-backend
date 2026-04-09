@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
 using Stambat.Domain.Entities;
+using Stambat.Domain.Enums;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
+using Stambat.Infrastructure.Pagination;
 
 namespace Stambat.Infrastructure.Persistence.Repositories;
 
@@ -35,5 +37,37 @@ public class InvitationRepository(ApplicationDbContext context)
             i.Email == email &&
             i.TenantId == tenantId &&
             i.RoleId == roleId, cancellationToken);
+    }
+
+    public async Task<PaginationResult<Invitation>> GetTenantInvitationsAsync(
+        Guid tenantId, int page, int size,
+        InvitationStatus? status, Guid? roleId,
+        CancellationToken cancellationToken = default)
+    {
+        IQueryable<Invitation> query = _dbSet
+            .AsNoTracking()
+            .Include(i => i.Role)
+            .Where(i => i.TenantId == tenantId && !i.IsUsed && !i.IsDeleted);
+
+        if (roleId.HasValue)
+            query = query.Where(i => i.RoleId == roleId.Value);
+
+        query = status switch
+        {
+            InvitationStatus.Pending => query.Where(i => !i.IsCancelled && i.ExpiresAt >= DateTime.UtcNow),
+            InvitationStatus.Expired => query.Where(i => !i.IsCancelled && i.ExpiresAt < DateTime.UtcNow),
+            InvitationStatus.Cancelled => query.Where(i => i.IsCancelled),
+            _ => query
+        };
+
+        return await query
+            .OrderByDescending(i => i.CreatedAt)
+            .ToPagedQueryAsync(page, size);
+    }
+
+    public async Task<Invitation?> GetByIdForTenantAsync(Guid invitationId, Guid tenantId)
+    {
+        return await _dbSet
+            .FirstOrDefaultAsync(i => i.Id == invitationId && i.TenantId == tenantId);
     }
 }

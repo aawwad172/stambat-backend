@@ -46,6 +46,116 @@
 - Use middleware for cross-cutting concerns (exception handling, auth)
 - Use FluentValidation for request validation in the WebAPI layer
 
+### Minimal API Route Handlers
+Every route handler class implements exactly one of three interfaces depending on how it receives its input:
+
+| Interface | Use when | Validation |
+|-----------|----------|-----------|
+| `IQueryRoute<TQuery>` | No input parameters needed | No — no validator injected |
+| `IParameterizedQueryRoute<TQuery>` | Parameters from query string or route segment (any method) | Yes |
+| `ICommandRoute<TRequest>` | Full payload from the request body (`[FromBody]`) | Yes |
+
+**Rules:**
+- Use `[AsParameters] T query` — ASP.NET Core auto-binds properties from route/query string; **never manually construct the object inside the handler**
+- **Never use `[FromRoute]` on individual properties** — bind the entire record via `[AsParameters]`
+- **Do not put `{paramName}` in route constants** when the parameter can be passed as a query string — keep route paths flat (e.g. `/staff/details?staffId=` not `/staff/{staffId}`)
+- Route handler classes contain **no business logic** — validate → send to MediatR → return `ApiResponse<T>`
+
+**Reference implementations:**
+
+```csharp
+// IQueryRoute<T> — no parameters, no validation
+public class MyRoute : IQueryRoute<MyQuery>
+{
+    public static async Task<IResult> RegisterRoute(
+        [AsParameters] MyQuery query,
+        [FromServices] IMediator mediator)
+    {
+        MyQueryResult response = await mediator.Send(query);
+        return Results.Ok(ApiResponse<MyQueryResult>.SuccessResponse(response));
+    }
+}
+
+// IParameterizedQueryRoute<T> — query string / route params, with validation
+public class GetStaffMember : IParameterizedQueryRoute<GetStaffMemberQuery>
+{
+    public static async Task<IResult> RegisterRoute(
+        [AsParameters] GetStaffMemberQuery query,
+        [FromServices] IMediator mediator,
+        [FromServices] IValidator<GetStaffMemberQuery> validator)
+    {
+        ValidationResult validationResult = await validator.ValidateAsync(query);
+        if (!validationResult.IsValid)
+            throw new CustomValidationException("Validation failed",
+                validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+
+        GetStaffMemberQueryResult response = await mediator.Send(query);
+        return Results.Ok(ApiResponse<StaffRecord>.SuccessResponse(response.Staff));
+    }
+}
+
+// ICommandRoute<T> — full body payload, with validation
+public class InviteStaff : ICommandRoute<InviteStaffCommand>
+{
+    public static async Task<IResult> RegisterRoute(
+        [FromBody] InviteStaffCommand request,
+        [FromServices] IMediator mediator,
+        [FromServices] IValidator<InviteStaffCommand> validator)
+    {
+        ValidationResult validationResult = await validator.ValidateAsync(request);
+        if (!validationResult.IsValid)
+            throw new CustomValidationException("Validation failed",
+                validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+
+        InviteStaffCommandResult response = await mediator.Send(request);
+        return Results.Ok(ApiResponse<InviteStaffCommandResult>.SuccessResponse(response));
+    }
+}
+```
+
+### Command Handler Structure
+Every command handler **must** wrap its logic in a transaction with a try/catch — even for single-operation commands — to ensure uniform error handling and rollback behavior across all handlers.
+
+**Required structure:**
+```csharp
+public override async Task<TResult> Handle(TCommand request, CancellationToken cancellationToken)
+{
+    await _unitOfWork.BeginTransactionAsync(cancellationToken);
+    try
+    {
+        // 1. Guard: validate context (e.g. TenantId from JWT)
+        if (_currentTenant.TenantId is null)
+            throw new ArgumentException("TenantId should be provided via JWT claims.");
+
+        // 2. Load aggregates, apply domain logic
+        Entity entity = await _repository.GetAsync(...)
+            ?? throw new NotFoundException("...");
+
+        entity.DoSomething();
+
+        // 3. Persist
+        await _unitOfWork.SaveAsync(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
+
+        return new TResult("Success message.");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Descriptive message about what failed: {Message}", ex.Message);
+        await _unitOfWork.RollbackAsync(cancellationToken);
+        throw;  // always rethrow — exception middleware handles the HTTP response
+    }
+}
+```
+
+**Key rules:**
+- `BeginTransactionAsync` is called **before** the try block
+- `SaveAsync` + `CommitAsync` are always the last two lines inside try
+- The catch always logs with `_logger.LogError(ex, ...)` and rolls back — **never swallow exceptions**
+- Always rethrow (`throw;`) — never transform domain exceptions into generic ones (let exception middleware map them)
+- Use `?? throw new NotFoundException(...)` for null checks on loaded entities (not `if (x is null) throw`)
+- Use collection expressions `[.. query.Where(...)]` instead of `.Where(...).ToList()`
+
 ## ❌ DON'T
 
 ### Architecture

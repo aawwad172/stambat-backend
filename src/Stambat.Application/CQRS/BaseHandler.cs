@@ -2,7 +2,6 @@ using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-using Stambat.Application.Services;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 

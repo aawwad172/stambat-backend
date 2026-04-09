@@ -1,5 +1,3 @@
-using System.Reflection;
-
 using Stambat.WebAPI.Interfaces;
 
 namespace Stambat.WebAPI.Endpoints;

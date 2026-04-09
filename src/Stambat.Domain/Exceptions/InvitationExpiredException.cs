@@ -1,6 +1,3 @@
-using System;
-using System.Runtime.Serialization;
-
 namespace Stambat.Domain.Exceptions;
 
 public class InvitationExpiredException : Exception

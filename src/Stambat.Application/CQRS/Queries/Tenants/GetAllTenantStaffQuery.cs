@@ -1,8 +1,5 @@
 using MediatR;
 
-using Stambat.Domain.Entities;
-using Stambat.Domain.Enums;
-
 namespace Stambat.Application.CQRS.Queries.Tenants;
 
 public sealed record GetAllTenantStaffQuery(
@@ -18,6 +15,6 @@ public sealed record StaffRecord(
     Guid Id,
     string Name,
     string Email,
-    RolesEnum Role,
+    IEnumerable<Guid> Roles,
     DateOnly JoinedDate,
     bool IsActive);

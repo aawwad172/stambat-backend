@@ -10,4 +10,5 @@ public interface IUserRepository : IRepository<User>
     Task<User?> GetByIdWithDetailsAsync(Guid id);
     Task<User?> GetUserByIdentityTokenAsync(string token);
     Task<PaginationResult<User>> GetStaffByTenantAsync(Guid tenantId, int? pageNumber, int? pageSize);
+    Task<User?> GetStaffMemberByTenantAsync(Guid tenantId, Guid staffId);
 }

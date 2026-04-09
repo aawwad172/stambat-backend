@@ -54,13 +54,20 @@ public sealed class UserRepository(ApplicationDbContext dbContext) : Repository<
         IQueryable<User> query = _dbSet
             .AsNoTracking()
             .Include(u => u.UserRoleTenants.Where(
-                urt => urt.TenantId == tenantId
+                urt => urt.TenantId == tenantId && urt.IsActive
                 ))
                 .ThenInclude(urt => urt.Role)
                     .Where(u => u.IsActive
-                            && u.UserRoleTenants.Any(urt => urt.TenantId == tenantId));
+                            && u.UserRoleTenants.Any(urt => urt.TenantId == tenantId && urt.IsActive));
 
         return await query.ToPagedQueryAsync(pageNumber, pageSize);
     }
+
+    public async Task<User?> GetStaffMemberByTenantAsync(Guid tenantId, Guid staffId)
+        => await _dbSet
+            .Include(u => u.UserRoleTenants.Where(urt => urt.TenantId == tenantId))
+                .ThenInclude(urt => urt.Role)
+            .FirstOrDefaultAsync(u => u.Id == staffId
+                && u.UserRoleTenants.Any(urt => urt.TenantId == tenantId));
 }
 
