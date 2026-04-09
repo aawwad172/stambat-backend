@@ -21,19 +21,21 @@ public class GetTenantInvitationsQueryHandler(
     public override async Task<GetTenantInvitationsQueryResult> Handle(GetTenantInvitationsQuery request, CancellationToken cancellationToken)
     {
         if (_currentTenant.TenantId is null)
-            throw new ArgumentNullException("TenantId should be provided via JWT claims");
+            throw new InvalidOperationException("TenantId should be provided via JWT claims");
 
         Guid tenantId = _currentTenant.TenantId.Value;
 
         PaginationResult<Invitation> result = await _invitationRepository.GetTenantInvitationsAsync(
             tenantId, request.Page, request.Size, request.Status, request.RoleId, cancellationToken);
 
-        IEnumerable<InvitationRecord> invitations = (result.Page ?? []).Select(i => new InvitationRecord(
+        DateTime now = DateTime.UtcNow;
+
+        List<InvitationRecord> invitations = (result.Page ?? []).Select(i => new InvitationRecord(
             Id: i.Id,
             RecipientEmail: i.Email,
             SentDate: DateOnly.FromDateTime(i.CreatedAt),
             Role: i.Role.Name,
-            Status: DeriveStatus(i)));
+            Status: DeriveStatus(i, now))).ToList();
 
         return new GetTenantInvitationsQueryResult(
             Invitations: invitations,
@@ -41,8 +43,8 @@ public class GetTenantInvitationsQueryHandler(
             TotalDisplayRecords: result.TotalDisplayRecords);
     }
 
-    private static InvitationStatus DeriveStatus(Invitation i) =>
+    private static InvitationStatus DeriveStatus(Invitation i, DateTime now) =>
         i.IsCancelled ? InvitationStatus.Cancelled :
-        i.ExpiresAt <= DateTime.UtcNow ? InvitationStatus.Expired :
+        i.ExpiresAt <= now ? InvitationStatus.Expired :
         InvitationStatus.Pending;
 }
