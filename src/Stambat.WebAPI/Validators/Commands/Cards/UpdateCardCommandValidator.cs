@@ -45,6 +45,18 @@ public partial class UpdateCardCommandValidator : AbstractValidator<UpdateCardCo
             .When(x => x.SecondaryColorOverride is not null)
             .WithMessage("Secondary color must be a valid hex color (e.g. #FF5733 or #F00)");
 
+        RuleFor(x => x.LogoUrlOverride)
+            .MaximumLength(500)
+            .WithMessage("Logo URL must not exceed 500 characters");
+
+        RuleFor(x => x.EmptyStampUrl)
+            .MaximumLength(500)
+            .WithMessage("Empty stamp URL must not exceed 500 characters");
+
+        RuleFor(x => x.EarnedStampUrl)
+            .MaximumLength(500)
+            .WithMessage("Earned stamp URL must not exceed 500 characters");
+
         RuleFor(x => x.TermsAndConditions)
             .MaximumLength(2000)
             .WithMessage("Terms and conditions must not exceed 2000 characters");
