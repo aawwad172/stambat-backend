@@ -7,4 +7,5 @@ public static class EndpointTags
     public const string Admin = "Admin";
     public const string Users = "Users";
     public const string Invitations = "Invitations";
+    public const string Cards = "Cards";
 }

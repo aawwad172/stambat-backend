@@ -1,3 +1,4 @@
+using Stambat.Domain.Common;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
@@ -40,4 +41,66 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
 
     // Navigation
     public virtual ICollection<WalletPass> IssuedPasses { get; set; } = [];
+
+    public static CardTemplate Create(
+        Guid tenantId,
+        string title,
+        string? description,
+        int stampsRequired,
+        string? rewardDescription,
+        string? primaryColorOverride,
+        string? secondaryColorOverride,
+        string? logoUrlOverride,
+        string? emptyStampUrl,
+        string? earnedStampUrl,
+        string? termsAndConditions)
+    {
+        return new CardTemplate
+        {
+            Id = IdGenerator.New(),
+            TenantId = tenantId,
+            Title = title,
+            Description = description,
+            StampsRequired = stampsRequired,
+            RewardDescription = rewardDescription,
+            PrimaryColorOverride = primaryColorOverride,
+            SecondaryColorOverride = secondaryColorOverride,
+            LogoUrlOverride = logoUrlOverride,
+            EmptyStampUrl = emptyStampUrl,
+            EarnedStampUrl = earnedStampUrl,
+            TermsAndConditions = termsAndConditions
+        };
+    }
+
+    public void Update(
+        string title,
+        string? description,
+        int stampsRequired,
+        string? rewardDescription,
+        string? primaryColorOverride,
+        string? secondaryColorOverride,
+        string? logoUrlOverride,
+        string? emptyStampUrl,
+        string? earnedStampUrl,
+        string? termsAndConditions,
+        bool isActive)
+    {
+        Title = title;
+        Description = description;
+        StampsRequired = stampsRequired;
+        RewardDescription = rewardDescription;
+        PrimaryColorOverride = primaryColorOverride;
+        SecondaryColorOverride = secondaryColorOverride;
+        LogoUrlOverride = logoUrlOverride;
+        EmptyStampUrl = emptyStampUrl;
+        EarnedStampUrl = earnedStampUrl;
+        TermsAndConditions = termsAndConditions;
+        IsActive = isActive;
+    }
+
+    public void SoftDelete()
+    {
+        IsDeleted = true;
+        IsActive = false;
+    }
 }
