@@ -56,6 +56,8 @@ public class GetAllCardsQueryHandler(
             EmptyStampUrl: ct.EmptyStampUrl,
             EarnedStampUrl: ct.EarnedStampUrl,
             TermsAndConditions: ct.TermsAndConditions,
+            JoinUrl: ct.JoinUrl,
+            JoinQrCodeBase64: ct.JoinQrCodeBase64,
             IsActive: ct.IsActive,
             CreatedAt: ct.CreatedAt))];
 

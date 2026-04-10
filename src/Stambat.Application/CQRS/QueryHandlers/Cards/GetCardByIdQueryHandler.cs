@@ -41,6 +41,8 @@ public class GetCardByIdQueryHandler(
             EmptyStampUrl: cardTemplate.EmptyStampUrl,
             EarnedStampUrl: cardTemplate.EarnedStampUrl,
             TermsAndConditions: cardTemplate.TermsAndConditions,
+            JoinUrl: cardTemplate.JoinUrl,
+            JoinQrCodeBase64: cardTemplate.JoinQrCodeBase64,
             IsActive: cardTemplate.IsActive,
             CreatedAt: cardTemplate.CreatedAt);
 

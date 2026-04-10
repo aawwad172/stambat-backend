@@ -46,6 +46,10 @@ public class PermissionsSeed : IEntityTypeConfiguration<Permission>
             CreatePermission(AuthSeedConstants.PermissionIdScanStamping, PermissionConstants.ScanStamping),
             CreatePermission(AuthSeedConstants.PermissionIdScanRedeem, PermissionConstants.ScanRedeem),
 
+            // Wallet Pass
+            CreatePermission(AuthSeedConstants.PermissionIdWalletPassView, PermissionConstants.WalletPassView),
+            CreatePermission(AuthSeedConstants.PermissionIdWalletPassCreate, PermissionConstants.WalletPassCreate),
+
             // Super Admin
             CreatePermission(AuthSeedConstants.PermissionIdSystemManage, PermissionConstants.SystemManage),
             CreatePermission(AuthSeedConstants.PermissionIdSystemLogsView, PermissionConstants.SystemLogsView),
@@ -57,7 +61,7 @@ public class PermissionsSeed : IEntityTypeConfiguration<Permission>
 
     private static Permission CreatePermission(Guid id, string name)
     {
-        var p = Permission.Create(name, id: id);
+        Permission p = Permission.Create(name, id: id);
         p.CreatedAt = AuthSeedConstants.SeedDateUtc;
         p.CreatedBy = AuthSeedConstants.SystemUserId;
         return p;

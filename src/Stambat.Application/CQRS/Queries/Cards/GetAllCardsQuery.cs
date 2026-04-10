@@ -21,6 +21,8 @@ public sealed record CardRecord(
     string? EmptyStampUrl,
     string? EarnedStampUrl,
     string? TermsAndConditions,
+    string? JoinUrl,
+    string? JoinQrCodeBase64,
     bool IsActive,
     DateTime CreatedAt);
 

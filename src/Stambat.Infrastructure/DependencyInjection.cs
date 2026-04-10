@@ -6,9 +6,13 @@ using Microsoft.Extensions.Logging;
 using Stambat.Application.Services;
 using Stambat.Application.Utilities;
 using Stambat.Domain.Interfaces.Application.Services;
+using Stambat.Domain.Interfaces.Infrastructure.IClients;
 using Stambat.Domain.Interfaces.Infrastructure.IEmail;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
 using Stambat.Domain.ValueObjects;
+using Stambat.Infrastructure.Clients.QrCode;
+using Stambat.Infrastructure.Clients.WalletPass;
+using Stambat.Infrastructure.Clients.WalletPass.Options;
 using Stambat.Infrastructure.Email;
 using Stambat.Infrastructure.Persistence;
 using Stambat.Infrastructure.Persistence.Interceptors;
@@ -45,6 +49,15 @@ public static class DependencyInjection
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddLogging();
 
+
+        // QR Code Service
+        services.AddScoped<IQrCodeService, QrCodeService>();
+
+        // Wallet Pass Providers (Factory + Strategy)
+        services.AddScoped<IWalletPassProvider, GoogleWalletPassProvider>();
+        services.AddScoped<IWalletPassProviderFactory, WalletPassProviderFactory>();
+        services.Configure<GoogleWalletOptions>(configuration.GetSection(GoogleWalletOptions.SectionName));
+        services.Configure<AppleWalletOptions>(configuration.GetSection(AppleWalletOptions.SectionName));
 
         services.AddScoped<IEmailService, EmailService>();
         // Bind the JSON section to the EmailSettings class

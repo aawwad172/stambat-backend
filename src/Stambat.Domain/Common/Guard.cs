@@ -36,6 +36,14 @@ public static class Guard
         }
     }
 
+    public static void AgainstNegativeOrZero(int value, string name)
+    {
+        if (value <= 0)
+        {
+            throw new ArgumentException($"{name} must be greater than zero.", name);
+        }
+    }
+
     public static void AgainstDefault<T>(T value, string name) where T : struct
     {
         if (value.Equals(default(T)))
