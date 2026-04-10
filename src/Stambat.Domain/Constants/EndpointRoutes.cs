@@ -38,4 +38,15 @@ public static class EndpointRoutes
 
     // System Admin (Platform Owner only)
     public const string InviteTenant = "/tenants/onboarding";
+
+    // Customer Onboarding (Public)
+    public const string CustomerOnboard = "/join";
+
+    // Scanning (Authenticated Staff)
+    public const string ScanStamp = "/stamp";
+    public const string ScanRedeem = "/redeem";
+
+    // Wallet Pass Management
+    public const string GetWalletPassDetails = "/pass/details";
+    public const string GetGoogleWalletUrl = "/google/{walletPassId}";
 }

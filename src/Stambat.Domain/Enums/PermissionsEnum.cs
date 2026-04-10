@@ -37,6 +37,10 @@ public static class PermissionConstants
     public const string ScanStamping = "Scan.Stamping";
     public const string ScanRedeem = "Scan.Redeem";
 
+    // Wallet Pass
+    public const string WalletPassView = "WalletPass.View";
+    public const string WalletPassCreate = "WalletPass.Create";
+
     // System (Super Admin)
     public const string SystemManage = "System.Manage";
     public const string SystemLogsView = "System.Logs.View";

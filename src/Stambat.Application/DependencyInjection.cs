@@ -22,6 +22,7 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(typeof(IsUserVerifiedQueryHandler).Assembly);
         });
         services.AddScoped<ISecurityService, SecurityService>();
+        services.AddScoped<IWalletQrTokenService, WalletQrTokenService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<ITenantProviderService, TenantProviderService>();

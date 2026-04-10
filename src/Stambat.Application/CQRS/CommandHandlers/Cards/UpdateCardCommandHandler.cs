@@ -2,9 +2,12 @@ using Microsoft.Extensions.Logging;
 
 using Stambat.Application.CQRS.Commands.Cards;
 using Stambat.Domain.Entities;
+using Stambat.Domain.Enums;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
+using Stambat.Domain.Interfaces.Infrastructure.IClients;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
+using Stambat.Domain.ValueObjects;
 
 namespace Stambat.Application.CQRS.CommandHandlers.Cards;
 
@@ -13,10 +16,14 @@ public class UpdateCardCommandHandler(
     ITenantProviderService tenantProviderService,
     ILogger<UpdateCardCommandHandler> logger,
     IUnitOfWork unitOfWork,
-    IRepository<CardTemplate> cardTemplateRepository)
+    IRepository<CardTemplate> cardTemplateRepository,
+    ITenantRepository tenantRepository,
+    IWalletPassProviderFactory walletPassProviderFactory)
     : BaseHandler<UpdateCardCommand, UpdateCardCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IRepository<CardTemplate> _cardTemplateRepository = cardTemplateRepository;
+    private readonly ITenantRepository _tenantRepository = tenantRepository;
+    private readonly IWalletPassProviderFactory _walletPassProviderFactory = walletPassProviderFactory;
 
     public override async Task<UpdateCardCommandResult> Handle(
         UpdateCardCommand request,
@@ -54,6 +61,32 @@ public class UpdateCardCommandHandler(
                 earnedStampUrl: request.EarnedStampUrl,
                 termsAndConditions: request.TermsAndConditions,
                 isActive: request.IsActive);
+
+            // Update branding in Google Wallet class if it exists
+            if (cardTemplate.WalletClassId is not null)
+            {
+                Tenant tenant = await _tenantRepository.GetByIdAsync(tenantId, new QueryOptions<Tenant>
+                {
+                    Includes = [t => t.TenantProfile!]
+                })
+                    ?? throw new NotFoundException($"Tenant: {tenantId} was not found");
+
+                IWalletPassProvider provider = _walletPassProviderFactory.GetProvider(WalletProviderType.Google);
+                await provider.UpdateClassAsync(new WalletClassRequest(
+                    CardTemplateId: cardTemplate.Id,
+                    TenantId: tenantId,
+                    TenantName: tenant.BusinessName,
+                    CardTitle: cardTemplate.Title,
+                    CardDescription: cardTemplate.Description,
+                    StampsRequired: cardTemplate.StampsRequired,
+                    RewardDescription: cardTemplate.RewardDescription,
+                    LogoUrl: cardTemplate.LogoUrlOverride ?? tenant.TenantProfile?.LogoUrl,
+                    PrimaryColor: cardTemplate.PrimaryColorOverride ?? tenant.TenantProfile?.PrimaryColor,
+                    SecondaryColor: cardTemplate.SecondaryColorOverride ?? tenant.TenantProfile?.SecondaryColor),
+                    cardTemplate.WalletClassId, cancellationToken);
+
+                // TODO: Update Apple Wallet pass type here when Apple Wallet integration is implemented
+            }
 
             _cardTemplateRepository.Update(cardTemplate);
 

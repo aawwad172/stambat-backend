@@ -38,6 +38,9 @@ public class ApplicationDbContext(
     public DbSet<TenantProfile> TenantProfiles { get; set; } = null!;
     public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<Invitation> Invitations { get; set; } = null!;
+    public DbSet<CardTemplate> CardTemplates { get; set; } = null!;
+    public DbSet<WalletPass> WalletPasses { get; set; } = null!;
+    public DbSet<StampTransaction> StampTransactions { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,6 +67,11 @@ public class ApplicationDbContext(
         modelBuilder.ApplyConfiguration(new InvitationConfiguration());
         modelBuilder.ApplyConfiguration(new TenantProfileConfiguration());
         modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
+
+        // Loyalty / Wallet
+        modelBuilder.ApplyConfiguration(new CardTemplateConfiguration());
+        modelBuilder.ApplyConfiguration(new WalletPassConfiguration());
+        modelBuilder.ApplyConfiguration(new StampTransactionConfiguration());
 
         // todo: refactor this to be more clean (add it into a method)
         // In ApplicationDbContext.OnModelCreating, after base.OnModelCreating:

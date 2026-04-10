@@ -20,6 +20,9 @@ public class CardTemplateConfiguration : IEntityTypeConfiguration<CardTemplate>
         builder.Property(ct => ct.LogoUrlOverride).HasMaxLength(500);
         builder.Property(ct => ct.EmptyStampUrl).HasMaxLength(500);
         builder.Property(ct => ct.EarnedStampUrl).HasMaxLength(500);
+        builder.Property(ct => ct.JoinUrl).HasMaxLength(500);
+        builder.Property(ct => ct.JoinQrCodeBase64).HasColumnType("text");
+        builder.Property(ct => ct.WalletClassId).HasMaxLength(200);
 
         // Ensure a shop doesn't have two templates with the exact same name (soft-deleted rows excluded)
         builder.HasIndex(ct => new { ct.TenantId, ct.Title })

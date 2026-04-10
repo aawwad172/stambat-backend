@@ -34,13 +34,16 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("EarnedStampUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("EmptyStampUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -48,17 +51,28 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("LogoUrlOverride")
+                    b.Property<string>("JoinQrCodeBase64")
                         .HasColumnType("text");
+
+                    b.Property<string>("JoinUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("LogoUrlOverride")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("PrimaryColorOverride")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("RewardDescription")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("SecondaryColorOverride")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("StampsRequired")
                         .HasColumnType("integer");
@@ -67,11 +81,13 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TermsAndConditions")
-                        .HasColumnType("text");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -79,11 +95,17 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("WalletClassId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("TenantId");
+                    b.HasIndex("TenantId", "Title")
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false");
 
-                    b.ToTable("CardTemplate");
+                    b.ToTable("CardTemplates");
                 });
 
             modelBuilder.Entity("Stambat.Domain.Entities.Identity.Authentication.Permission", b =>
@@ -306,6 +328,22 @@ namespace Stambat.Infrastructure.Migrations
                             CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
                             IsDeleted = false,
                             Name = "Scan.Redeem"
+                        },
+                        new
+                        {
+                            Id = new Guid("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12"),
+                            CreatedAt = new DateTime(2025, 10, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
+                            IsDeleted = false,
+                            Name = "WalletPass.View"
+                        },
+                        new
+                        {
+                            Id = new Guid("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23"),
+                            CreatedAt = new DateTime(2025, 10, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = new Guid("a0000000-0000-7000-8000-000000000000"),
+                            IsDeleted = false,
+                            Name = "WalletPass.Create"
                         },
                         new
                         {
@@ -652,6 +690,16 @@ namespace Stambat.Infrastructure.Migrations
                         },
                         new
                         {
+                            PermissionId = new Guid("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12"),
+                            RoleId = new Guid("019cd46a-80a8-76a2-b7eb-20ca5903c25e")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23"),
+                            RoleId = new Guid("019cd46a-80a8-76a2-b7eb-20ca5903c25e")
+                        },
+                        new
+                        {
                             PermissionId = new Guid("019cd45e-7cf2-7f36-9595-2bd07dc9e25b"),
                             RoleId = new Guid("019cd46a-80b3-7eb0-9861-254e15e297db")
                         },
@@ -752,6 +800,16 @@ namespace Stambat.Infrastructure.Migrations
                         },
                         new
                         {
+                            PermissionId = new Guid("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12"),
+                            RoleId = new Guid("019cd46a-80b3-7eb0-9861-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23"),
+                            RoleId = new Guid("019cd46a-80b3-7eb0-9861-254e15e297db")
+                        },
+                        new
+                        {
                             PermissionId = new Guid("019cd45e-7cf2-7f36-9595-2bd07dc9e25b"),
                             RoleId = new Guid("019cd46a-80b3-712e-8b82-edbae70f6a0d")
                         },
@@ -778,6 +836,16 @@ namespace Stambat.Infrastructure.Migrations
                         new
                         {
                             PermissionId = new Guid("019cd45e-7cfc-735f-ac03-e6b5ebe67f6e"),
+                            RoleId = new Guid("019cd46a-80b3-712e-8b82-edbae70f6a0d")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12"),
+                            RoleId = new Guid("019cd46a-80b3-712e-8b82-edbae70f6a0d")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23"),
                             RoleId = new Guid("019cd46a-80b3-712e-8b82-edbae70f6a0d")
                         },
                         new
@@ -828,6 +896,16 @@ namespace Stambat.Infrastructure.Migrations
                         new
                         {
                             PermissionId = new Guid("019cd45e-7cfc-75ec-9acf-136b67adda34"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12"),
+                            RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
+                        },
+                        new
+                        {
+                            PermissionId = new Guid("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23"),
                             RoleId = new Guid("019cd46a-80b3-7a1a-a1b1-254e15e297db")
                         },
                         new
@@ -1072,16 +1150,26 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<Guid>("MerchantId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Note")
-                        .HasColumnType("text");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<int>("StampsAdded")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -1098,7 +1186,7 @@ namespace Stambat.Infrastructure.Migrations
 
                     b.HasIndex("WalletPassId");
 
-                    b.ToTable("StampTransaction");
+                    b.ToTable("StampTransactions");
                 });
 
             modelBuilder.Entity("Stambat.Domain.Entities.Tenant", b =>
@@ -1225,7 +1313,8 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ApplePassSerialNumber")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("CardTemplateId")
                         .HasColumnType("uuid");
@@ -1237,13 +1326,48 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int>("CurrentStamps")
-                        .HasColumnType("integer");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("GooglePayId")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("LastStampedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProviderType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("QrTokenPayload")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime?>("RedeemedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RedemptionCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -1252,9 +1376,11 @@ namespace Stambat.Infrastructure.Migrations
 
                     b.HasIndex("CardTemplateId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "CardTemplateId")
+                        .IsUnique()
+                        .HasFilter("\"Status\" IN (1, 2)");
 
-                    b.ToTable("WalletPass");
+                    b.ToTable("WalletPasses");
                 });
 
             modelBuilder.Entity("Stambat.Domain.Entities.CardTemplate", b =>
@@ -1262,7 +1388,7 @@ namespace Stambat.Infrastructure.Migrations
                     b.HasOne("Stambat.Domain.Entities.Tenant", "Tenant")
                         .WithMany("CardTemplates")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Tenant");
@@ -1413,7 +1539,7 @@ namespace Stambat.Infrastructure.Migrations
                     b.HasOne("Stambat.Domain.Entities.Identity.User", "Merchant")
                         .WithMany()
                         .HasForeignKey("MerchantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Stambat.Domain.Entities.WalletPass", "WalletPass")
@@ -1443,7 +1569,7 @@ namespace Stambat.Infrastructure.Migrations
                     b.HasOne("Stambat.Domain.Entities.CardTemplate", "CardTemplate")
                         .WithMany("IssuedPasses")
                         .HasForeignKey("CardTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Stambat.Domain.Entities.Identity.User", "User")

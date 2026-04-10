@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Stambat.Domain.Entities;
+using Stambat.Domain.Enums;
 
 namespace Stambat.Infrastructure.Configurations;
 
@@ -17,6 +18,11 @@ public class StampTransactionConfiguration : IEntityTypeConfiguration<StampTrans
             .IsRequired()
             .HasDefaultValue(1);
 
+        builder.Property(st => st.Type)
+            .IsRequired()
+            .HasDefaultValue(StampTransactionType.Stamp)
+            .HasSentinel((StampTransactionType)0);
+
         builder.Property(st => st.Note)
             .HasMaxLength(250);
 
@@ -29,7 +35,7 @@ public class StampTransactionConfiguration : IEntityTypeConfiguration<StampTrans
 
         // 1. Link to the specific Wallet Pass
         builder.HasOne(st => st.WalletPass)
-            .WithMany(wp => wp.Transactions) // Make sure to add this collection to WalletPass.cs
+            .WithMany(wp => wp.Transactions)
             .HasForeignKey(st => st.WalletPassId)
             .OnDelete(DeleteBehavior.Cascade);
 
