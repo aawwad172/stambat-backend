@@ -19,11 +19,13 @@ using Stambat.Infrastructure.Clients.WalletPass.Options;
 
 namespace Stambat.Infrastructure.Clients.WalletPass;
 
-public class GoogleWalletPassProvider : IWalletPassProvider
+public class GoogleWalletPassProvider : IWalletPassProvider, IDisposable
 {
     private readonly GoogleWalletOptions _options;
     private readonly ILogger<GoogleWalletPassProvider> _logger;
     private readonly WalletobjectsService _walletService;
+    private readonly RSA _signingKey;
+    private readonly string _clientEmail;
 
     private const string SaveUrlBase = "https://pay.google.com/gp/v/save";
 
@@ -46,6 +48,14 @@ public class GoogleWalletPassProvider : IWalletPassProvider
             HttpClientInitializer = credential,
             ApplicationName = _options.ApplicationName
         });
+
+        // Cache signing key and client email for JWT generation
+        string serviceAccountJson = File.ReadAllText(_options.ServiceAccountKeyPath);
+        JsonElement serviceAccount = JsonSerializer.Deserialize<JsonElement>(serviceAccountJson);
+
+        _clientEmail = serviceAccount.GetProperty("client_email").GetString()!;
+        _signingKey = RSA.Create();
+        _signingKey.ImportFromPem(serviceAccount.GetProperty("private_key").GetString()!);
     }
 
     public async Task<WalletClassResult> CreateClassAsync(
@@ -247,18 +257,9 @@ public class GoogleWalletPassProvider : IWalletPassProvider
 
     private string CreateSignedJwt(object payload)
     {
-        string serviceAccountJson = File.ReadAllText(_options.ServiceAccountKeyPath);
-        JsonElement serviceAccount = JsonSerializer.Deserialize<JsonElement>(serviceAccountJson);
-
-        string privateKeyPem = serviceAccount.GetProperty("private_key").GetString()!;
-        string clientEmail = serviceAccount.GetProperty("client_email").GetString()!;
-
-        RSA rsa = RSA.Create();
-        rsa.ImportFromPem(privateKeyPem);
-
         var claims = new Dictionary<string, object>
         {
-            ["iss"] = clientEmail,
+            ["iss"] = _clientEmail,
             ["aud"] = "google",
             ["typ"] = "savetowallet",
             ["iat"] = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
@@ -271,11 +272,18 @@ public class GoogleWalletPassProvider : IWalletPassProvider
             Encoding.UTF8.GetBytes(JsonSerializer.Serialize(claims)));
 
         string unsignedToken = $"{headerBase64}.{claimsBase64}";
-        byte[] signature = rsa.SignData(
+        byte[] signature = _signingKey.SignData(
             Encoding.UTF8.GetBytes(unsignedToken),
             HashAlgorithmName.SHA256,
             RSASignaturePadding.Pkcs1);
 
         return $"{unsignedToken}.{Base64UrlEncoder.Encode(signature)}";
+    }
+
+    public void Dispose()
+    {
+        _signingKey.Dispose();
+        _walletService.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

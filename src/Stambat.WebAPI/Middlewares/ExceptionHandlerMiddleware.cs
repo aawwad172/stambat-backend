@@ -81,7 +81,7 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
         catch (WalletProviderException ex)
         {
             _logger.LogError(ex, "WalletProviderException occurred: {Message}", ex.Message);
-            await HandleExceptionAsync(context, "WALLET_PROVIDER_ERROR", ex.Message, StatusCodes.Status502BadGateway);
+            await HandleExceptionAsync(context, "WALLET_PROVIDER_ERROR", "An error occurred while communicating with the wallet provider.", StatusCodes.Status502BadGateway);
         }
         catch (CustomValidationException ex)
         {

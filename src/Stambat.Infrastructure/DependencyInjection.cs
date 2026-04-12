@@ -57,7 +57,6 @@ public static class DependencyInjection
         services.AddScoped<IWalletPassProvider, GoogleWalletPassProvider>();
         services.AddScoped<IWalletPassProviderFactory, WalletPassProviderFactory>();
         services.Configure<GoogleWalletOptions>(configuration.GetSection(GoogleWalletOptions.SectionName));
-        services.Configure<AppleWalletOptions>(configuration.GetSection(AppleWalletOptions.SectionName));
 
         services.AddScoped<IEmailService, EmailService>();
         // Bind the JSON section to the EmailSettings class

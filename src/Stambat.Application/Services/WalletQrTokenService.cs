@@ -1,5 +1,6 @@
 using System.Text.Json;
 
+using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 
 namespace Stambat.Application.Services;
@@ -21,11 +22,28 @@ public class WalletQrTokenService(ISecurityService securityService) : IWalletQrT
 
     public (Guid WalletPassId, Guid TenantId) DecodeQrToken(string encryptedToken)
     {
-        string json = _securityService.DecryptString(encryptedToken);
-        var payload = JsonSerializer.Deserialize<QrTokenPayload>(json)
-            ?? throw new InvalidOperationException("Invalid QR token payload.");
+        try
+        {
+            string json = _securityService.DecryptString(encryptedToken);
+            QrTokenPayload? payload = JsonSerializer.Deserialize<QrTokenPayload>(json);
 
-        return (Guid.Parse(payload.WpId), Guid.Parse(payload.Tid));
+            if (payload is null
+                || !Guid.TryParse(payload.WpId, out Guid walletPassId)
+                || !Guid.TryParse(payload.Tid, out Guid tenantId))
+            {
+                throw new InvalidTokenException("The scanned QR code is invalid or corrupted.");
+            }
+
+            return (walletPassId, tenantId);
+        }
+        catch (InvalidTokenException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidTokenException("The scanned QR code is invalid or could not be decrypted.", ex);
+        }
     }
 
     private sealed record QrTokenPayload(string WpId, string Tid, long Iat);

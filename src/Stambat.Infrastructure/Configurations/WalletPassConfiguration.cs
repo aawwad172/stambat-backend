@@ -56,7 +56,7 @@ public class WalletPassConfiguration : IEntityTypeConfiguration<WalletPass>
         // Redeemed or cancelled passes don't block a new cycle.
         builder.HasIndex(wp => new { wp.UserId, wp.CardTemplateId })
             .IsUnique()
-            .HasFilter("\"Status\" IN (1, 2)");
+            .HasFilter($"\"IsDeleted\" = false AND \"Status\" IN ({(int)WalletPassStatus.Active}, {(int)WalletPassStatus.Completed})");
 
         // 1. Link to the User (The Customer)
         builder.HasOne(wp => wp.User)
