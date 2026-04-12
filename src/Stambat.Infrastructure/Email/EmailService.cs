@@ -89,7 +89,7 @@ public class EmailService(IFluentEmail fluentEmail) : IEmailService
         int expiresAfterDays,
         CancellationToken cancellationToken = default)
     {
-        var model = new MerchantInvitationEmailModel
+        MerchantInvitationEmailModel model = new MerchantInvitationEmailModel
         {
             Email = to,
             TenantName = tenantName,

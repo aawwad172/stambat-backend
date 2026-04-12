@@ -35,7 +35,7 @@ public class JwtService(
         List<string> permissions = await _permissionService.GetUserPermissionsAsync(user);
 
         // Use a List<Claim> to dynamically add all claims
-        var claims = new List<Claim>
+        List<Claim> claims = new List<Claim>
         {
             // Core Identity Claims
             new(JwtRegisteredClaimNames.Name, user.FullName.Formatted),
@@ -64,7 +64,7 @@ public class JwtService(
         List<string> roles = await _permissionService.GetUserRolesForTenantAsync(user.Id, tenantId);
         List<string> permissions = await _permissionService.GetUserPermissionsForTenantAsync(user, tenantId);
 
-        var claims = new List<Claim>
+        List<Claim> claims = new List<Claim>
         {
             // Core Identity Claims
             new(JwtRegisteredClaimNames.Name, user.FullName.Formatted),

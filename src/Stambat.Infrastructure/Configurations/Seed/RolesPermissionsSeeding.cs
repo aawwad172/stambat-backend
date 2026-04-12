@@ -10,7 +10,7 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
         builder.HasData([
-            // SuperAdmin (All 27)
+            // SuperAdmin (All 29)
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdTenantsView),
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdTenantsAdd),
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdTenantsEdit),
@@ -39,8 +39,10 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdSystemAuditView),
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdSystemSettingsEdit),
             RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdTenantsManage),
+            RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdWalletPassView),
+            RolePermission.Create(AuthSeedConstants.RoleIdSuperAdmin, AuthSeedConstants.PermissionIdWalletPassCreate),
 
-            // TenantAdmin (20)
+            // TenantAdmin (22)
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdTenantsView),
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdTenantsEdit),
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdUsersView),
@@ -61,16 +63,20 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdRewardsDelete),
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdScanStamping),
             RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdScanRedeem),
+            RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdWalletPassView),
+            RolePermission.Create(AuthSeedConstants.RoleIdAdmin, AuthSeedConstants.PermissionIdWalletPassCreate),
 
-            // Merchant (6)
+            // Merchant (8)
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdTenantsView),
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdUsersView),
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdCardsView),
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdRewardsView),
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdScanStamping),
             RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdScanRedeem),
+            RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdWalletPassView),
+            RolePermission.Create(AuthSeedConstants.RoleIdMerchant, AuthSeedConstants.PermissionIdWalletPassCreate),
 
-            // Manager (10)
+            // Manager (12)
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdTenantsView),
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdUsersView),
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdUsersAdd),
@@ -81,6 +87,8 @@ public class RolesPermissionsSeed : IEntityTypeConfiguration<RolePermission>
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdScanStamping),
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdScanRedeem),
             RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdCardsAdd),
+            RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdWalletPassView),
+            RolePermission.Create(AuthSeedConstants.RoleIdManager, AuthSeedConstants.PermissionIdWalletPassCreate),
 
             // User (4)
             RolePermission.Create(AuthSeedConstants.RoleIdUser, AuthSeedConstants.PermissionIdTenantsView),

@@ -30,6 +30,13 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
     public string? EarnedStampUrl { get; set; }
     public string? TermsAndConditions { get; set; }
 
+    // Customer Onboarding
+    public string? JoinUrl { get; private set; }
+    public string? JoinQrCodeBase64 { get; private set; }
+
+    // Wallet Integration (Google Loyalty Class ID, Apple Pass Type ID, etc.)
+    public string? WalletClassId { get; private set; }
+
     // Status
     public bool IsActive { get; set; } = true;
 
@@ -55,6 +62,10 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         string? earnedStampUrl,
         string? termsAndConditions)
     {
+        Guard.AgainstDefault(tenantId, nameof(tenantId));
+        Guard.AgainstNullOrEmpty(title, nameof(title));
+        Guard.AgainstNegativeOrZero(stampsRequired, nameof(stampsRequired));
+
         return new CardTemplate
         {
             Id = IdGenerator.New(),
@@ -85,6 +96,9 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         string? termsAndConditions,
         bool isActive)
     {
+        Guard.AgainstNullOrEmpty(title, nameof(title));
+        Guard.AgainstNegativeOrZero(stampsRequired, nameof(stampsRequired));
+
         Title = title;
         Description = description;
         StampsRequired = stampsRequired;
@@ -96,6 +110,21 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         EarnedStampUrl = earnedStampUrl;
         TermsAndConditions = termsAndConditions;
         IsActive = isActive;
+    }
+
+    public void SetJoinInfo(string joinUrl, string joinQrCodeBase64)
+    {
+        Guard.AgainstNullOrEmpty(joinUrl, nameof(joinUrl));
+        Guard.AgainstNullOrEmpty(joinQrCodeBase64, nameof(joinQrCodeBase64));
+
+        JoinUrl = joinUrl;
+        JoinQrCodeBase64 = joinQrCodeBase64;
+    }
+
+    public void SetWalletClassId(string walletClassId)
+    {
+        Guard.AgainstNullOrEmpty(walletClassId, nameof(walletClassId));
+        WalletClassId = walletClassId;
     }
 
     public void SoftDelete()

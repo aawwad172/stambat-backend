@@ -63,6 +63,10 @@ public static class AuthSeedConstants
     public static readonly Guid PermissionIdScanStamping = new("019cd45e-7cfc-78ba-b9fc-d69399cdc202");
     public static readonly Guid PermissionIdScanRedeem = new("019cd45e-7cfc-735f-ac03-e6b5ebe67f6e");
 
+    // Wallet Pass
+    public static readonly Guid PermissionIdWalletPassView = new("01966b3a-1c00-7a01-b5e8-4a3f6d8c9e12");
+    public static readonly Guid PermissionIdWalletPassCreate = new("01966b3a-1c00-7b02-c6f9-5b4e7e9d0f23");
+
     // Super Admin
     public static readonly Guid PermissionIdSystemManage = new("019cd465-18f5-7e38-951f-99444e306980");
     public static readonly Guid PermissionIdSystemLogsView = new("019cd465-18ff-7956-a606-0c8f350e2330");

@@ -158,18 +158,26 @@ erDiagram
         Guid Id PK
         Guid UserId FK
         Guid CardTemplateId FK
-        int CurrentStamps "default 0"
-        string ApplePassSerialNumber "nullable"
-        string GooglePayId "nullable"
+        int CurrentStamps "default 0, concurrency token"
+        WalletPassStatus Status "default Active"
+        string ApplePassSerialNumber "nullable, max 100"
+        string GooglePayId "nullable, max 100"
+        string QrTokenPayload "nullable, max 500"
         DateTime LastStampedAt "nullable"
+        DateTime RedeemedAt "nullable"
+        int RedemptionCount "default 0"
         DateTime CreatedAt
         Guid CreatedBy
+        DateTime UpdatedAt "nullable"
+        Guid UpdatedBy "nullable"
+        bool IsDeleted
     }
 
     StampTransaction {
         Guid Id PK
         Guid WalletPassId FK
         Guid MerchantId FK "User who scanned"
+        StampTransactionType Type "default Stamp"
         int StampsAdded "default 1"
         string Note "nullable"
         DateTime CreatedAt

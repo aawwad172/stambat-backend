@@ -8,4 +8,7 @@ public static class EndpointTags
     public const string Users = "Users";
     public const string Invitations = "Invitations";
     public const string Cards = "Cards";
+    public const string Wallet = "Wallet";
+    public const string Scanning = "Scanning";
+    public const string CustomerOnboarding = "Customer Onboarding";
 }

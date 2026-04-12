@@ -73,6 +73,16 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
             _logger.LogWarning("InvitationExpiredException occured: {Message}", ex.Message);
             await HandleExceptionAsync(context, "INVITATION_EXPIRED", ex.Message, StatusCodes.Status400BadRequest);
         }
+        catch (BusinessRuleException ex)
+        {
+            _logger.LogWarning("BusinessRuleException occurred: {Message}", ex.Message);
+            await HandleExceptionAsync(context, "BUSINESS_RULE_VIOLATION", ex.Message, StatusCodes.Status422UnprocessableEntity);
+        }
+        catch (WalletProviderException ex)
+        {
+            _logger.LogError(ex, "WalletProviderException occurred: {Message}", ex.Message);
+            await HandleExceptionAsync(context, "WALLET_PROVIDER_ERROR", "An error occurred while communicating with the wallet provider.", StatusCodes.Status502BadGateway);
+        }
         catch (CustomValidationException ex)
         {
             _logger.LogWarning("CustomValidationException occurred: {Message}", ex.Message);
