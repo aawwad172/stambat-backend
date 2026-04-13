@@ -36,7 +36,23 @@ public static class Guard
         }
     }
 
+    public static void AgainstNegative(decimal value, string name)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentException($"{name} cannot be negative.", name);
+        }
+    }
+
     public static void AgainstNegativeOrZero(int value, string name)
+    {
+        if (value <= 0)
+        {
+            throw new ArgumentException($"{name} must be greater than zero.", name);
+        }
+    }
+
+    public static void AgainstNegativeOrZero(decimal value, string name)
     {
         if (value <= 0)
         {

@@ -9,7 +9,7 @@ public class StampTransaction : IBaseEntity
 {
     public Guid Id { get; init; }
 
-    // Link to the specific pass being stamped
+    // Link to the specific pass
     public Guid WalletPassId { get; set; }
     public virtual WalletPass WalletPass { get; set; } = null!;
 
@@ -21,7 +21,7 @@ public class StampTransaction : IBaseEntity
     public StampTransactionType Type { get; set; } = StampTransactionType.Stamp;
 
     // Data for the transaction
-    public int StampsAdded { get; set; } = 1; // Usually 1, but could be more for promos
+    public decimal AmountAdded { get; set; } // Stamps count or points earned
     public string? Note { get; set; } // e.g., "Double stamp Tuesday"
 
     // Auditing
@@ -35,20 +35,20 @@ public class StampTransaction : IBaseEntity
     public static StampTransaction Create(
         Guid walletPassId,
         Guid merchantId,
-        int stampsAdded,
+        decimal amountAdded,
         StampTransactionType type,
         string? note = null)
     {
         Guard.AgainstDefault(walletPassId, nameof(walletPassId));
         Guard.AgainstDefault(merchantId, nameof(merchantId));
-        Guard.AgainstNegative(stampsAdded, nameof(stampsAdded));
+        Guard.AgainstNegative(amountAdded, nameof(amountAdded));
 
         return new StampTransaction
         {
             Id = IdGenerator.New(),
             WalletPassId = walletPassId,
             MerchantId = merchantId,
-            StampsAdded = stampsAdded,
+            AmountAdded = amountAdded,
             Type = type,
             Note = note
         };

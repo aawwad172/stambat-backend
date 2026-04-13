@@ -14,9 +14,10 @@ public class StampTransactionConfiguration : IEntityTypeConfiguration<StampTrans
         builder.HasKey(st => st.Id);
 
         // Data fields
-        builder.Property(st => st.StampsAdded)
+        builder.Property(st => st.AmountAdded)
             .IsRequired()
-            .HasDefaultValue(1);
+            .HasDefaultValue(0m)
+            .HasColumnType("numeric");
 
         builder.Property(st => st.Type)
             .IsRequired()

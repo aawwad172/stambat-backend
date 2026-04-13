@@ -1,4 +1,5 @@
 using Stambat.Domain.Common;
+using Stambat.Domain.Enums;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
 
@@ -17,8 +18,12 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
     public string? Description { get; set; } // e.g., "Valid for all large drinks"
 
     // The "Rules"
-    public int StampsRequired { get; set; } = 10; // The goal
+    public decimal RequiredBalance { get; set; } = 10; // The goal (stamps count or points total)
     public string? RewardDescription { get; set; }
+    public CardType CardType { get; set; } = CardType.Standard;
+    public int? ExpiryDurationInDays { get; set; }
+    public RedemptionType RedemptionType { get; set; } = RedemptionType.Stamps;
+    public decimal? PointsPerCurrencyUnit { get; set; } // Conversion rate for Points cards (e.g., 10 = 1 JOD → 10 points)
 
     // Branding Overrides (Optional - defaults to Tenant colors if null)
     public string? PrimaryColorOverride { get; set; }
@@ -53,8 +58,12 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         Guid tenantId,
         string title,
         string? description,
-        int stampsRequired,
+        decimal requiredBalance,
         string? rewardDescription,
+        CardType cardType,
+        int? expiryDurationInDays,
+        RedemptionType redemptionType,
+        decimal? pointsPerCurrencyUnit,
         string? primaryColorOverride,
         string? secondaryColorOverride,
         string? logoUrlOverride,
@@ -64,7 +73,9 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
     {
         Guard.AgainstDefault(tenantId, nameof(tenantId));
         Guard.AgainstNullOrEmpty(title, nameof(title));
-        Guard.AgainstNegativeOrZero(stampsRequired, nameof(stampsRequired));
+        Guard.AgainstNegativeOrZero(requiredBalance, nameof(requiredBalance));
+        ValidateExpiryRules(cardType, expiryDurationInDays);
+        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit, requiredBalance);
 
         return new CardTemplate
         {
@@ -72,8 +83,12 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
             TenantId = tenantId,
             Title = title,
             Description = description,
-            StampsRequired = stampsRequired,
+            RequiredBalance = requiredBalance,
             RewardDescription = rewardDescription,
+            CardType = cardType,
+            ExpiryDurationInDays = expiryDurationInDays,
+            RedemptionType = redemptionType,
+            PointsPerCurrencyUnit = pointsPerCurrencyUnit,
             PrimaryColorOverride = primaryColorOverride,
             SecondaryColorOverride = secondaryColorOverride,
             LogoUrlOverride = logoUrlOverride,
@@ -86,8 +101,12 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
     public void Update(
         string title,
         string? description,
-        int stampsRequired,
+        decimal requiredBalance,
         string? rewardDescription,
+        CardType cardType,
+        int? expiryDurationInDays,
+        RedemptionType redemptionType,
+        decimal? pointsPerCurrencyUnit,
         string? primaryColorOverride,
         string? secondaryColorOverride,
         string? logoUrlOverride,
@@ -97,12 +116,18 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         bool isActive)
     {
         Guard.AgainstNullOrEmpty(title, nameof(title));
-        Guard.AgainstNegativeOrZero(stampsRequired, nameof(stampsRequired));
+        Guard.AgainstNegativeOrZero(requiredBalance, nameof(requiredBalance));
+        ValidateExpiryRules(cardType, expiryDurationInDays);
+        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit, requiredBalance);
 
         Title = title;
         Description = description;
-        StampsRequired = stampsRequired;
+        RequiredBalance = requiredBalance;
         RewardDescription = rewardDescription;
+        CardType = cardType;
+        ExpiryDurationInDays = expiryDurationInDays;
+        RedemptionType = redemptionType;
+        PointsPerCurrencyUnit = pointsPerCurrencyUnit;
         PrimaryColorOverride = primaryColorOverride;
         SecondaryColorOverride = secondaryColorOverride;
         LogoUrlOverride = logoUrlOverride;
@@ -131,5 +156,40 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
     {
         IsDeleted = true;
         IsActive = false;
+    }
+
+    private static void ValidateExpiryRules(CardType cardType, int? expiryDurationInDays)
+    {
+        if (cardType == CardType.Expirable)
+        {
+            if (expiryDurationInDays is null)
+                throw new ArgumentException("ExpiryDurationInDays is required for Expirable cards.", nameof(expiryDurationInDays));
+
+            Guard.AgainstNegativeOrZero(expiryDurationInDays.Value, nameof(expiryDurationInDays));
+        }
+        else
+        {
+            if (expiryDurationInDays is not null)
+                throw new ArgumentException("ExpiryDurationInDays must be null for Standard cards.", nameof(expiryDurationInDays));
+        }
+    }
+
+    private static void ValidateRedemptionRules(RedemptionType redemptionType, decimal? pointsPerCurrencyUnit, decimal requiredBalance)
+    {
+        if (redemptionType == RedemptionType.Points)
+        {
+            if (pointsPerCurrencyUnit is null)
+                throw new ArgumentException("PointsPerCurrencyUnit is required for Points cards.", nameof(pointsPerCurrencyUnit));
+
+            Guard.AgainstNegativeOrZero(pointsPerCurrencyUnit.Value, nameof(pointsPerCurrencyUnit));
+        }
+        else
+        {
+            if (pointsPerCurrencyUnit is not null)
+                throw new ArgumentException("PointsPerCurrencyUnit must be null for Stamps cards.", nameof(pointsPerCurrencyUnit));
+
+            if (requiredBalance != Math.Floor(requiredBalance))
+                throw new ArgumentException("RequiredBalance must be a whole number for Stamps cards.", nameof(requiredBalance));
+        }
     }
 }

@@ -7,8 +7,6 @@ using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Application.Services;
 using Stambat.Domain.Interfaces.Infrastructure.IClients;
 using Stambat.Domain.Interfaces.Infrastructure.IRepositories;
-using Stambat.Domain.ValueObjects;
-
 namespace Stambat.Application.CQRS.CommandHandlers.Scanning;
 
 public class ScanStampCommandHandler(
@@ -49,36 +47,38 @@ public class ScanStampCommandHandler(
             })
                 ?? throw new NotFoundException($"Wallet pass: {walletPassId} was not found.");
 
-            // 4. Validate can stamp
-            if (!walletPass.CanStamp())
-                throw new BusinessRuleException($"Cannot stamp this card. Current status: {walletPass.Status}");
+            // 4. Check and enforce expiry (for Expirable cards)
+            if (walletPass.TryEnforceExpiry())
+            {
+                IWalletPassProvider expiryProvider = _walletPassProviderFactory.GetProvider(walletPass.ProviderType);
+                await expiryProvider.UpdatePassAsync(walletPass.BuildUpdateRequest(), cancellationToken);
 
-            // 5. Add stamp
-            walletPass.AddStamp(request.StampsToAdd);
+                _walletPassRepository.Update(walletPass);
+                await _unitOfWork.SaveAsync(cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
+                throw new BusinessRuleException("This loyalty card has expired and can no longer receive progress.");
+            }
 
-            // 6. Create stamp transaction
+            // 5. Validate can add progress
+            if (!walletPass.CanAddProgress())
+                throw new BusinessRuleException($"Cannot add progress to this card. Current status: {walletPass.Status}");
+
+            // 6. Add progress (domain entity handles conversion and validation)
+            walletPass.AddProgress(request.AmountToAdd);
+
+            // 7. Create transaction
             StampTransaction transaction = StampTransaction.Create(
                 walletPassId: walletPass.Id,
                 merchantId: _currentUser.UserId,
-                stampsAdded: request.StampsToAdd,
+                amountAdded: request.AmountToAdd,
                 type: StampTransactionType.Stamp,
                 note: request.Note);
 
             walletPass.Transactions.Add(transaction);
 
-            // 7. Update wallet pass via provider
+            // 9. Update wallet pass via provider
             IWalletPassProvider provider = _walletPassProviderFactory.GetProvider(walletPass.ProviderType);
-            await provider.UpdatePassAsync(new WalletPassUpdateRequest(
-                WalletPassId: walletPass.Id,
-                ApplePassSerialNumber: walletPass.ApplePassSerialNumber,
-                GooglePayId: walletPass.GooglePayId,
-                CurrentStamps: walletPass.CurrentStamps,
-                StampsRequired: walletPass.CardTemplate.StampsRequired,
-                Status: walletPass.Status,
-                QrCodeContent: walletPass.QrTokenPayload,
-                LogoUrl: walletPass.CardTemplate.LogoUrlOverride,
-                PrimaryColor: walletPass.CardTemplate.PrimaryColorOverride,
-                SecondaryColor: walletPass.CardTemplate.SecondaryColorOverride), cancellationToken);
+            await provider.UpdatePassAsync(walletPass.BuildUpdateRequest(), cancellationToken);
 
             _walletPassRepository.Update(walletPass);
             await _unitOfWork.SaveAsync(cancellationToken);
@@ -86,14 +86,15 @@ public class ScanStampCommandHandler(
 
             return new ScanStampCommandResult(
                 WalletPassId: walletPass.Id,
-                NewStampCount: walletPass.CurrentStamps,
-                StampsRequired: walletPass.CardTemplate.StampsRequired,
+                CurrentBalance: walletPass.CurrentBalance,
+                RequiredBalance: walletPass.RequiredBalance,
+                RedemptionType: walletPass.RedemptionType,
                 IsCompleted: walletPass.Status == WalletPassStatus.Completed,
                 CardTitle: walletPass.CardTemplate.Title);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while stamping wallet pass: {Message}", ex.Message);
+            _logger.LogError(ex, "An error occurred while processing wallet pass: {Message}", ex.Message);
             await _unitOfWork.RollbackAsync(cancellationToken);
             throw;
         }

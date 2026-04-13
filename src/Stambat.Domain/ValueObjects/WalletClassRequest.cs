@@ -1,3 +1,5 @@
+using Stambat.Domain.Enums;
+
 namespace Stambat.Domain.ValueObjects;
 
 public sealed record WalletClassRequest(
@@ -6,7 +8,8 @@ public sealed record WalletClassRequest(
     string TenantName,
     string CardTitle,
     string? CardDescription,
-    int StampsRequired,
+    decimal RequiredBalance,
+    RedemptionType RedemptionType,
     string? RewardDescription,
     string? LogoUrl,
     string? PrimaryColor,

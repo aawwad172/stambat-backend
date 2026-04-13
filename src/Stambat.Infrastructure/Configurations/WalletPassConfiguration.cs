@@ -13,15 +13,25 @@ public class WalletPassConfiguration : IEntityTypeConfiguration<WalletPass>
         // Primary Key
         builder.HasKey(wp => wp.Id);
 
-        // Data fields
-        builder.Property(wp => wp.CurrentStamps)
+        // Progress fields
+        builder.Property(wp => wp.CurrentBalance)
             .IsRequired()
-            .HasDefaultValue(0);
+            .HasDefaultValue(0m)
+            .HasColumnType("numeric");
+
+        builder.Property(wp => wp.RequiredBalance)
+            .IsRequired()
+            .HasColumnType("numeric");
+
+        builder.Property(wp => wp.RedemptionType)
+            .IsRequired()
+            .HasDefaultValue(RedemptionType.Stamps)
+            .HasSentinel(0);
 
         builder.Property(wp => wp.Status)
             .IsRequired()
             .HasDefaultValue(WalletPassStatus.Active)
-            .HasSentinel((WalletPassStatus)0);
+            .HasSentinel(0);
 
         // Wallet Provider Type
         builder.Property(wp => wp.ProviderType)
@@ -38,18 +48,17 @@ public class WalletPassConfiguration : IEntityTypeConfiguration<WalletPass>
         builder.Property(wp => wp.QrTokenPayload)
             .HasMaxLength(500);
 
-        // Redemption
-        builder.Property(wp => wp.RedemptionCount)
-            .IsRequired()
-            .HasDefaultValue(0);
+        // Expiry (for Expirable card types)
+        builder.Property(wp => wp.ExpiresAt)
+            .IsRequired(false);
 
         // Auditing (from IBaseEntity)
         builder.Property(wp => wp.CreatedAt).IsRequired();
         builder.Property(wp => wp.CreatedBy).IsRequired();
         builder.Property(wp => wp.IsDeleted).HasDefaultValue(false);
 
-        // Concurrency token to prevent double-stamping
-        builder.Property(wp => wp.CurrentStamps)
+        // Concurrency token to prevent double progress updates
+        builder.Property(wp => wp.CurrentBalance)
             .IsConcurrencyToken();
 
         // Unique Constraint: One user can only have one active/completed pass per template

@@ -4,6 +4,7 @@ using Stambat.Domain.Enums;
 using Stambat.Domain.Exceptions;
 using Stambat.Domain.Interfaces.Domain;
 using Stambat.Domain.Interfaces.Domain.Auditing;
+using Stambat.Domain.ValueObjects;
 
 namespace Stambat.Domain.Entities;
 
@@ -20,8 +21,13 @@ public class WalletPass : IBaseEntity, IAggregateRoot
     public virtual CardTemplate CardTemplate { get; set; } = null!;
 
     // Progress
-    public int CurrentStamps { get; private set; }
+    public decimal CurrentBalance { get; private set; }
+    public decimal RequiredBalance { get; private set; }
+    public RedemptionType RedemptionType { get; private set; } = RedemptionType.Stamps;
     public WalletPassStatus Status { get; private set; } = WalletPassStatus.Active;
+
+    // Expiry (for Expirable card types)
+    public DateTime? ExpiresAt { get; private set; }
 
     // Wallet Integration
     public WalletProviderType ProviderType { get; private set; }
@@ -31,10 +37,9 @@ public class WalletPass : IBaseEntity, IAggregateRoot
     // QR Token (encrypted payload stored for reference)
     public string? QrTokenPayload { get; private set; }
 
-    // Redemption Tracking
-    public DateTime? LastStampedAt { get; private set; }
+    // Tracking
+    public DateTime? LastProgressAt { get; private set; }
     public DateTime? RedeemedAt { get; private set; }
-    public int RedemptionCount { get; private set; }
 
     // Audit (IBaseEntity)
     public DateTime CreatedAt { get; set; }
@@ -50,10 +55,19 @@ public class WalletPass : IBaseEntity, IAggregateRoot
     public static WalletPass Create(
         Guid userId,
         Guid cardTemplateId,
-        WalletProviderType providerType)
+        WalletProviderType providerType,
+        decimal requiredBalance,
+        RedemptionType redemptionType,
+        CardType cardType,
+        int? expiryDurationInDays)
     {
         Guard.AgainstDefault(userId, nameof(userId));
         Guard.AgainstDefault(cardTemplateId, nameof(cardTemplateId));
+        Guard.AgainstNegativeOrZero(requiredBalance, nameof(requiredBalance));
+
+        DateTime? expiresAt = cardType == CardType.Expirable && expiryDurationInDays.HasValue
+            ? DateTime.UtcNow.AddDays(expiryDurationInDays.Value)
+            : null;
 
         return new WalletPass
         {
@@ -61,31 +75,70 @@ public class WalletPass : IBaseEntity, IAggregateRoot
             UserId = userId,
             CardTemplateId = cardTemplateId,
             ProviderType = providerType,
-            CurrentStamps = 0,
+            CurrentBalance = 0,
+            RequiredBalance = requiredBalance,
+            RedemptionType = redemptionType,
             Status = WalletPassStatus.Active,
-            RedemptionCount = 0
+            ExpiresAt = expiresAt
         };
     }
 
     // Behavior Methods
-    public bool CanStamp() => Status == WalletPassStatus.Active;
+    public bool IsExpired => ExpiresAt.HasValue && DateTime.UtcNow > ExpiresAt.Value;
+
+    public bool CanAddProgress() => Status == WalletPassStatus.Active && !IsExpired;
 
     public bool CanRedeem() => Status == WalletPassStatus.Completed;
 
-    public void AddStamp(int count)
+    public bool TryEnforceExpiry()
     {
-        if (!CanStamp())
-            throw new BusinessRuleException($"Cannot stamp a wallet pass with status '{Status}'.");
-
-        if (count <= 0)
-            throw new ArgumentOutOfRangeException(nameof(count), "Stamp count must be positive.");
-
-        CurrentStamps += count;
-        LastStampedAt = DateTime.UtcNow;
-
-        if (CurrentStamps >= CardTemplate.StampsRequired)
+        if (Status == WalletPassStatus.Active && IsExpired)
         {
-            CurrentStamps = CardTemplate.StampsRequired; // Cap at max
+            Status = WalletPassStatus.Expired;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Adds progress to the wallet pass.
+    /// For Stamps: <paramref name="rawAmount"/> is the stamp count (must be whole number, max 5).
+    /// For Points: <paramref name="rawAmount"/> is the purchase amount, converted using PointsPerCurrencyUnit.
+    /// </summary>
+    public void AddProgress(decimal rawAmount)
+    {
+        if (!CanAddProgress())
+            throw new BusinessRuleException($"Cannot add progress to a wallet pass with status '{Status}'.");
+
+        if (rawAmount <= 0)
+            throw new BusinessRuleException("Amount must be positive.");
+
+        decimal progressToAdd;
+        if (RedemptionType == RedemptionType.Points)
+        {
+            if (CardTemplate.PointsPerCurrencyUnit is null or <= 0)
+                throw new BusinessRuleException("Points per currency unit is not configured for this card.");
+
+            progressToAdd = rawAmount * CardTemplate.PointsPerCurrencyUnit.Value;
+        }
+        else
+        {
+            if (rawAmount != Math.Floor(rawAmount))
+                throw new BusinessRuleException("Stamp count must be a whole number.");
+
+            if (rawAmount > 5)
+                throw new BusinessRuleException("Cannot add more than 5 stamps at once.");
+
+            progressToAdd = rawAmount;
+        }
+
+        CurrentBalance += progressToAdd;
+        LastProgressAt = DateTime.UtcNow;
+
+        if (CurrentBalance >= RequiredBalance)
+        {
+            CurrentBalance = RequiredBalance; // Cap at max
             Status = WalletPassStatus.Completed;
         }
     }
@@ -97,7 +150,6 @@ public class WalletPass : IBaseEntity, IAggregateRoot
 
         Status = WalletPassStatus.Redeemed;
         RedeemedAt = DateTime.UtcNow;
-        RedemptionCount++;
     }
 
     public void Cancel()
@@ -119,4 +171,19 @@ public class WalletPass : IBaseEntity, IAggregateRoot
         Guard.AgainstNullOrEmpty(qrTokenPayload, nameof(qrTokenPayload));
         QrTokenPayload = qrTokenPayload;
     }
+
+    public WalletPassUpdateRequest BuildUpdateRequest() =>
+        new(
+            WalletPassId: Id,
+            ApplePassSerialNumber: ApplePassSerialNumber,
+            GooglePayId: GooglePayId,
+            CurrentBalance: CurrentBalance,
+            RequiredBalance: RequiredBalance,
+            RedemptionType: RedemptionType,
+            Status: Status,
+            QrCodeContent: QrTokenPayload,
+            LogoUrl: CardTemplate.LogoUrlOverride,
+            PrimaryColor: CardTemplate.PrimaryColorOverride,
+            SecondaryColor: CardTemplate.SecondaryColorOverride,
+            ExpiresAt: ExpiresAt);
 }
