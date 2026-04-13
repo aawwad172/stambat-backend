@@ -87,7 +87,14 @@ public class CustomerOnboardCommandHandler(
             }
 
             // 4. Create wallet pass
-            WalletPass walletPass = WalletPass.Create(user.Id, cardTemplate.Id, request.WalletProvider);
+            WalletPass walletPass = WalletPass.Create(
+                user.Id,
+                cardTemplate.Id,
+                request.WalletProvider,
+                cardTemplate.RequiredBalance,
+                cardTemplate.RedemptionType,
+                cardTemplate.CardType,
+                cardTemplate.ExpiryDurationInDays);
 
             // 5. Generate encrypted QR token
             string qrToken = _walletQrTokenService.GenerateQrToken(walletPass.Id, cardTemplate.TenantId);
@@ -103,14 +110,16 @@ public class CustomerOnboardCommandHandler(
                 TenantName: tenant.BusinessName,
                 CardTitle: cardTemplate.Title,
                 CardDescription: cardTemplate.Description,
-                StampsRequired: cardTemplate.StampsRequired,
-                CurrentStamps: 0,
+                RequiredBalance: cardTemplate.RequiredBalance,
+                CurrentBalance: 0,
+                RedemptionType: cardTemplate.RedemptionType,
                 RewardDescription: cardTemplate.RewardDescription,
                 QrCodeContent: qrToken,
                 LogoUrl: cardTemplate.LogoUrlOverride ?? tenant.TenantProfile?.LogoUrl,
                 PrimaryColor: cardTemplate.PrimaryColorOverride ?? tenant.TenantProfile?.PrimaryColor,
                 SecondaryColor: cardTemplate.SecondaryColorOverride ?? tenant.TenantProfile?.SecondaryColor,
-                TermsAndConditions: cardTemplate.TermsAndConditions), cancellationToken);
+                TermsAndConditions: cardTemplate.TermsAndConditions,
+                ExpiresAt: walletPass.ExpiresAt), cancellationToken);
 
             // 7. Set wallet IDs on the pass
             walletPass.SetWalletIds(walletResult.ApplePassSerialNumber, walletResult.GooglePayId);

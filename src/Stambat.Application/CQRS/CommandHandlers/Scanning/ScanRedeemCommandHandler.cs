@@ -60,7 +60,7 @@ public class ScanRedeemCommandHandler(
             StampTransaction transaction = StampTransaction.Create(
                 walletPassId: walletPass.Id,
                 merchantId: _currentUser.UserId,
-                stampsAdded: 0,
+                amountAdded: 0,
                 type: StampTransactionType.Redeem,
                 note: $"Reward redeemed: {walletPass.CardTemplate.RewardDescription}");
 
@@ -69,17 +69,7 @@ public class ScanRedeemCommandHandler(
             // 7. Update wallet pass via provider
             IWalletPassProvider provider = _walletPassProviderFactory.GetProvider(walletPass.ProviderType);
 
-            await provider.UpdatePassAsync(new WalletPassUpdateRequest(
-                WalletPassId: walletPass.Id,
-                ApplePassSerialNumber: walletPass.ApplePassSerialNumber,
-                GooglePayId: walletPass.GooglePayId,
-                CurrentStamps: walletPass.CurrentStamps,
-                StampsRequired: walletPass.CardTemplate.StampsRequired,
-                Status: walletPass.Status,
-                QrCodeContent: walletPass.QrTokenPayload,
-                LogoUrl: walletPass.CardTemplate.LogoUrlOverride,
-                PrimaryColor: walletPass.CardTemplate.PrimaryColorOverride,
-                SecondaryColor: walletPass.CardTemplate.SecondaryColorOverride), cancellationToken);
+            await provider.UpdatePassAsync(walletPass.BuildUpdateRequest(), cancellationToken);
 
             _walletPassRepository.Update(walletPass);
             await _unitOfWork.SaveAsync(cancellationToken);

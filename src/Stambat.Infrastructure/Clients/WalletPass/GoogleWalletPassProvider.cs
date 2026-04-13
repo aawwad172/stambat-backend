@@ -178,11 +178,29 @@ public class GoogleWalletPassProvider : IWalletPassProvider, IDisposable
             {
                 LoyaltyPoints = new LoyaltyPoints
                 {
-                    Balance = new LoyaltyPointsBalance { Int__ = request.CurrentStamps },
-                    Label = "Stamps"
+                    Balance = request.RedemptionType == RedemptionType.Points
+                        ? new LoyaltyPointsBalance { Double__ = (double)request.CurrentBalance }
+                        : new LoyaltyPointsBalance { Int__ = (int)request.CurrentBalance },
+                    Label = request.RedemptionType == RedemptionType.Points ? "Points" : "Stamps"
                 },
-                State = request.Status == WalletPassStatus.Redeemed ? "COMPLETED" : null
+                State = request.Status switch
+                {
+                    WalletPassStatus.Redeemed => "COMPLETED",
+                    WalletPassStatus.Expired => "EXPIRED",
+                    _ => null
+                }
             };
+
+            if (request.ExpiresAt.HasValue)
+            {
+                patch.ValidTimeInterval = new TimeInterval
+                {
+                    End = new Google.Apis.Walletobjects.v1.Data.DateTime
+                    {
+                        Date = request.ExpiresAt.Value.ToString("yyyy-MM-ddTHH:mm:ssZ")
+                    }
+                };
+            }
 
             await _walletService.Loyaltyobject
                 .Patch(patch, objectId)
@@ -213,8 +231,10 @@ public class GoogleWalletPassProvider : IWalletPassProvider, IDisposable
             State = "ACTIVE",
             LoyaltyPoints = new LoyaltyPoints
             {
-                Balance = new LoyaltyPointsBalance { Int__ = request.CurrentStamps },
-                Label = "Stamps"
+                Balance = request.RedemptionType == RedemptionType.Points
+                    ? new LoyaltyPointsBalance { Double__ = (double)request.CurrentBalance }
+                    : new LoyaltyPointsBalance { Int__ = (int)request.CurrentBalance },
+                Label = request.RedemptionType == RedemptionType.Points ? "Points" : "Stamps"
             },
             Barcode = new Barcode
             {
@@ -236,6 +256,17 @@ public class GoogleWalletPassProvider : IWalletPassProvider, IDisposable
                     Body = request.RewardDescription
                 }
             ];
+        }
+
+        if (request.ExpiresAt.HasValue)
+        {
+            loyaltyObject.ValidTimeInterval = new TimeInterval
+            {
+                End = new Google.Apis.Walletobjects.v1.Data.DateTime
+                {
+                    Date = request.ExpiresAt.Value.ToString("yyyy-MM-ddTHH:mm:ssZ")
+                }
+            };
         }
 
         return loyaltyObject;

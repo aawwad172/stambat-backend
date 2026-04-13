@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using FluentValidation;
 
 using Stambat.Application.CQRS.Commands.Cards;
+using Stambat.Domain.Enums;
 
 namespace Stambat.WebAPI.Validators.Commands.Cards;
 
@@ -27,9 +28,53 @@ public partial class UpdateCardCommandValidator : AbstractValidator<UpdateCardCo
             .MaximumLength(500)
             .WithMessage("Description must not exceed 500 characters");
 
-        RuleFor(x => x.StampsRequired)
+        // Redemption type
+        RuleFor(x => x.RedemptionType)
+            .IsInEnum()
+            .WithMessage("Redemption type must be a valid value (1 = Stamps, 2 = Points)");
+
+        // Stamp-specific validation
+        When(x => x.RedemptionType == RedemptionType.Stamps, () =>
+        {
+            RuleFor(x => x.RequiredBalance)
+                .GreaterThan(0)
+                .WithMessage("Stamps required must be greater than 0");
+
+            RuleFor(x => x.PointsPerCurrencyUnit)
+                .Null()
+                .WithMessage("Points per currency unit must not be set for stamp cards");
+        });
+
+        // Points-specific validation
+        When(x => x.RedemptionType == RedemptionType.Points, () =>
+        {
+            RuleFor(x => x.RequiredBalance)
+                .InclusiveBetween(50, 10_000)
+                .WithMessage("Points required must be between 50 and 10,000");
+
+            RuleFor(x => x.PointsPerCurrencyUnit)
+                .NotNull()
+                .WithMessage("Points per currency unit is required for point cards")
+                .GreaterThan(0)
+                .When(x => x.PointsPerCurrencyUnit.HasValue)
+                .WithMessage("Points per currency unit must be greater than 0");
+        });
+
+        RuleFor(x => x.CardType)
+            .IsInEnum()
+            .WithMessage("Card type must be a valid value (1 = Standard, 2 = Expirable)");
+
+        RuleFor(x => x.ExpiryDurationInDays)
+            .NotNull()
             .GreaterThan(0)
-            .WithMessage("Stamps required must be greater than 0");
+            .LessThanOrEqualTo(365)
+            .When(x => x.CardType == CardType.Expirable)
+            .WithMessage("Expiry duration must be between 1 and 365 days for expirable cards");
+
+        RuleFor(x => x.ExpiryDurationInDays)
+            .Null()
+            .When(x => x.CardType == CardType.Standard)
+            .WithMessage("Expiry duration must not be set for standard cards");
 
         RuleFor(x => x.RewardDescription)
             .MaximumLength(200)

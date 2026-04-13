@@ -1,12 +1,18 @@
 using MediatR;
 
+using Stambat.Domain.Enums;
+
 namespace Stambat.Application.CQRS.Commands.Cards;
 
 public sealed record CreateCardCommand(
     string Title,
     string? Description,
-    int StampsRequired,
+    decimal RequiredBalance,
     string? RewardDescription,
+    CardType CardType,
+    int? ExpiryDurationInDays,
+    RedemptionType RedemptionType,
+    decimal? PointsPerCurrencyUnit,
     string? PrimaryColorOverride,
     string? SecondaryColorOverride,
     string? LogoUrlOverride,

@@ -1,3 +1,5 @@
+using Stambat.Domain.Enums;
+
 namespace Stambat.Domain.ValueObjects;
 
 public sealed record WalletPassRequest(
@@ -7,11 +9,13 @@ public sealed record WalletPassRequest(
     string TenantName,
     string CardTitle,
     string? CardDescription,
-    int StampsRequired,
-    int CurrentStamps,
+    decimal RequiredBalance,
+    decimal CurrentBalance,
+    RedemptionType RedemptionType,
     string? RewardDescription,
     string QrCodeContent,
     string? LogoUrl,
     string? PrimaryColor,
     string? SecondaryColor,
-    string? TermsAndConditions);
+    string? TermsAndConditions,
+    DateTime? ExpiresAt);

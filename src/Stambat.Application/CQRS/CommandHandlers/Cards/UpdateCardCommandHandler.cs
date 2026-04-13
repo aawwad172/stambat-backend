@@ -17,11 +17,13 @@ public class UpdateCardCommandHandler(
     ILogger<UpdateCardCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IRepository<CardTemplate> cardTemplateRepository,
+    IRepository<WalletPass> walletPassRepository,
     ITenantRepository tenantRepository,
     IWalletPassProviderFactory walletPassProviderFactory)
     : BaseHandler<UpdateCardCommand, UpdateCardCommandResult>(currentUserService, tenantProviderService, logger, unitOfWork)
 {
     private readonly IRepository<CardTemplate> _cardTemplateRepository = cardTemplateRepository;
+    private readonly IRepository<WalletPass> _walletPassRepository = walletPassRepository;
     private readonly ITenantRepository _tenantRepository = tenantRepository;
     private readonly IWalletPassProviderFactory _walletPassProviderFactory = walletPassProviderFactory;
 
@@ -49,11 +51,26 @@ public class UpdateCardCommandHandler(
                     throw new ConflictException($"A card template with the title '{request.Title}' already exists for this tenant.");
             }
 
+            // Prevent changing RedemptionType if active/completed passes exist
+            if (request.RedemptionType != cardTemplate.RedemptionType)
+            {
+                WalletPass? activePass = await _walletPassRepository.FirstOrDefaultAsync(
+                    wp => wp.CardTemplateId == cardTemplate.Id
+                        && (wp.Status == WalletPassStatus.Active || wp.Status == WalletPassStatus.Completed));
+
+                if (activePass is not null)
+                    throw new BusinessRuleException("Cannot change redemption type while active or completed passes exist.");
+            }
+
             cardTemplate.Update(
                 title: request.Title,
                 description: request.Description,
-                stampsRequired: request.StampsRequired,
+                requiredBalance: request.RequiredBalance,
                 rewardDescription: request.RewardDescription,
+                cardType: request.CardType,
+                expiryDurationInDays: request.ExpiryDurationInDays,
+                redemptionType: request.RedemptionType,
+                pointsPerCurrencyUnit: request.PointsPerCurrencyUnit,
                 primaryColorOverride: request.PrimaryColorOverride,
                 secondaryColorOverride: request.SecondaryColorOverride,
                 logoUrlOverride: request.LogoUrlOverride,
@@ -78,7 +95,8 @@ public class UpdateCardCommandHandler(
                     TenantName: tenant.BusinessName,
                     CardTitle: cardTemplate.Title,
                     CardDescription: cardTemplate.Description,
-                    StampsRequired: cardTemplate.StampsRequired,
+                    RequiredBalance: cardTemplate.RequiredBalance,
+                    RedemptionType: cardTemplate.RedemptionType,
                     RewardDescription: cardTemplate.RewardDescription,
                     LogoUrl: cardTemplate.LogoUrlOverride ?? tenant.TenantProfile?.LogoUrl,
                     PrimaryColor: cardTemplate.PrimaryColorOverride ?? tenant.TenantProfile?.PrimaryColor,

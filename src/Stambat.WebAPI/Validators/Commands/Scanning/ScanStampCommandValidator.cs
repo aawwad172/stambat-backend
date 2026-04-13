@@ -12,11 +12,11 @@ public class ScanStampCommandValidator : AbstractValidator<ScanStampCommand>
             .NotEmpty()
             .WithMessage("QR token is required");
 
-        RuleFor(x => x.StampsToAdd)
+        RuleFor(x => x.AmountToAdd)
             .GreaterThan(0)
-            .WithMessage("Stamps to add must be greater than 0")
-            .LessThanOrEqualTo(5)
-            .WithMessage("Cannot add more than 5 stamps at once");
+            .WithMessage("Amount to add must be greater than 0")
+            .LessThanOrEqualTo(100_000)
+            .WithMessage("Amount to add must not exceed 100,000");
 
         RuleFor(x => x.Note)
             .MaximumLength(250)

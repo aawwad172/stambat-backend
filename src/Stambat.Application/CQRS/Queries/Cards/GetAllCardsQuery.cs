@@ -1,5 +1,7 @@
 using MediatR;
 
+using Stambat.Domain.Enums;
+
 namespace Stambat.Application.CQRS.Queries.Cards;
 
 public sealed record GetAllCardsQuery(
@@ -13,8 +15,12 @@ public sealed record CardRecord(
     Guid Id,
     string Title,
     string? Description,
-    int StampsRequired,
+    decimal RequiredBalance,
     string? RewardDescription,
+    CardType CardType,
+    int? ExpiryDurationInDays,
+    RedemptionType RedemptionType,
+    decimal? PointsPerCurrencyUnit,
     string? PrimaryColorOverride,
     string? SecondaryColorOverride,
     string? LogoUrlOverride,

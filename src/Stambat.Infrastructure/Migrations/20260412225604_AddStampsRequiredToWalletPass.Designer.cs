@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stambat.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Stambat.Infrastructure.Persistence;
 namespace Stambat.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260412225604_AddStampsRequiredToWalletPass")]
+    partial class AddStampsRequiredToWalletPass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,20 +73,9 @@ namespace Stambat.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<decimal?>("PointsPerCurrencyUnit")
-                        .HasColumnType("numeric");
-
                     b.Property<string>("PrimaryColorOverride")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
-
-                    b.Property<int>("RedemptionType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1);
-
-                    b.Property<decimal>("RequiredBalance")
-                        .HasColumnType("numeric");
 
                     b.Property<string>("RewardDescription")
                         .HasMaxLength(200)
@@ -92,6 +84,9 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<string>("SecondaryColorOverride")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<int>("StampsRequired")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid");
@@ -1159,11 +1154,6 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("AmountAdded")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric")
-                        .HasDefaultValue(0m);
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -1181,6 +1171,11 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<string>("Note")
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
+
+                    b.Property<int>("StampsAdded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
 
                     b.Property<int>("Type")
                         .ValueGeneratedOnAdd()
@@ -1341,11 +1336,11 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("CurrentBalance")
+                    b.Property<int>("CurrentStamps")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime?>("ExpiresAt")
                         .HasColumnType("timestamp with time zone");
@@ -1359,7 +1354,7 @@ namespace Stambat.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<DateTime?>("LastProgressAt")
+                    b.Property<DateTime?>("LastStampedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ProviderType")
@@ -1372,13 +1367,13 @@ namespace Stambat.Infrastructure.Migrations
                     b.Property<DateTime?>("RedeemedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("RedemptionType")
+                    b.Property<int>("RedemptionCount")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(1);
+                        .HasDefaultValue(0);
 
-                    b.Property<decimal>("RequiredBalance")
-                        .HasColumnType("numeric");
+                    b.Property<int>("StampsRequired")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()

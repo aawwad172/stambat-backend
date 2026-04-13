@@ -138,8 +138,12 @@ erDiagram
         Guid TenantId FK
         string Title
         string Description "nullable"
-        int StampsRequired "default 10"
+        decimal RequiredBalance "goal for stamps or points"
         string RewardDescription "nullable"
+        CardType CardType "default Standard"
+        int ExpiryDurationInDays "nullable"
+        RedemptionType RedemptionType "default Stamps"
+        decimal PointsPerCurrencyUnit "nullable, for Points cards"
         string PrimaryColorOverride "nullable"
         string SecondaryColorOverride "nullable"
         string LogoUrlOverride "nullable"
@@ -158,14 +162,16 @@ erDiagram
         Guid Id PK
         Guid UserId FK
         Guid CardTemplateId FK
-        int CurrentStamps "default 0, concurrency token"
+        decimal CurrentBalance "default 0, concurrency token"
+        decimal RequiredBalance "snapshot from CardTemplate"
+        RedemptionType RedemptionType "default Stamps, snapshot"
         WalletPassStatus Status "default Active"
+        DateTime ExpiresAt "nullable"
         string ApplePassSerialNumber "nullable, max 100"
         string GooglePayId "nullable, max 100"
         string QrTokenPayload "nullable, max 500"
-        DateTime LastStampedAt "nullable"
+        DateTime LastProgressAt "nullable"
         DateTime RedeemedAt "nullable"
-        int RedemptionCount "default 0"
         DateTime CreatedAt
         Guid CreatedBy
         DateTime UpdatedAt "nullable"
@@ -178,7 +184,7 @@ erDiagram
         Guid WalletPassId FK
         Guid MerchantId FK "User who scanned"
         StampTransactionType Type "default Stamp"
-        int StampsAdded "default 1"
+        decimal AmountAdded "stamps count or points earned"
         string Note "nullable"
         DateTime CreatedAt
         Guid CreatedBy
