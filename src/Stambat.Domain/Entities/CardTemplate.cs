@@ -75,7 +75,7 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         Guard.AgainstNullOrEmpty(title, nameof(title));
         Guard.AgainstNegativeOrZero(requiredBalance, nameof(requiredBalance));
         ValidateExpiryRules(cardType, expiryDurationInDays);
-        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit);
+        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit, requiredBalance);
 
         return new CardTemplate
         {
@@ -118,7 +118,7 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         Guard.AgainstNullOrEmpty(title, nameof(title));
         Guard.AgainstNegativeOrZero(requiredBalance, nameof(requiredBalance));
         ValidateExpiryRules(cardType, expiryDurationInDays);
-        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit);
+        ValidateRedemptionRules(redemptionType, pointsPerCurrencyUnit, requiredBalance);
 
         Title = title;
         Description = description;
@@ -174,7 +174,7 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         }
     }
 
-    private static void ValidateRedemptionRules(RedemptionType redemptionType, decimal? pointsPerCurrencyUnit)
+    private static void ValidateRedemptionRules(RedemptionType redemptionType, decimal? pointsPerCurrencyUnit, decimal requiredBalance)
     {
         if (redemptionType == RedemptionType.Points)
         {
@@ -187,6 +187,9 @@ public class CardTemplate : IBaseEntity, IAggregateRoot
         {
             if (pointsPerCurrencyUnit is not null)
                 throw new ArgumentException("PointsPerCurrencyUnit must be null for Stamps cards.", nameof(pointsPerCurrencyUnit));
+
+            if (requiredBalance != Math.Floor(requiredBalance))
+                throw new ArgumentException("RequiredBalance must be a whole number for Stamps cards.", nameof(requiredBalance));
         }
     }
 }
