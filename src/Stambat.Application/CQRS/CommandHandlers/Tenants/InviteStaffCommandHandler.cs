@@ -92,7 +92,12 @@ public class InviteStaffCommandHandler(
 
             // 3. Construct the Invitation Link
             // todo: In a real scenario, pull "https://stambat.app" from IConfiguration
-            string route = user is not null ? "join" : "register";
+            string route = user switch
+            {
+                null => "register",
+                { UserCredentialsId: not null } => "join",
+                _ => "setup-credentials"
+            };
             string registrationLink = $"https://stambat.app/{route}?token={Uri.EscapeDataString(rawToken)}";
 
             // 4. Send the Email

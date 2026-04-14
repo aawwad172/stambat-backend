@@ -18,6 +18,7 @@ public static class EndpointRoutes
     public const string ValidateInvitation = "/validate";
     public const string AcceptInvitation = "/accept";
     public const string JoinTenant = "/join";
+    public const string SetupCredentialsAndJoin = "/setup-credentials";
 
     // Tenant Operations (Merchant/Owner context)
     public const string SetupTenant = "/setup";

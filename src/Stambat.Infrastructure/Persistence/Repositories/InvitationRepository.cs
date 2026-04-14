@@ -36,6 +36,7 @@ public class InvitationRepository(ApplicationDbContext context)
             i.IsUsed == false &&
             i.Email == email &&
             i.TenantId == tenantId &&
+            i.IsCancelled == false &&
             i.RoleId == roleId, cancellationToken);
     }
 

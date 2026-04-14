@@ -36,14 +36,22 @@ public class ValidateInvitationQueryHandler(
 
             invitation.ValidateForUse();
 
-            // Check if a user with this email already exists in the system
+            // Determine which flow the invitee should use based on whether they
+            // already exist and whether they have credentials.
             User? existingUser = await _userRepository.GetUserByEmailAsync(invitation.Email);
+
+            string inviteAction = existingUser switch
+            {
+                null => "register",
+                { UserCredentialsId: not null } => "join",
+                _ => "setup-credentials"
+            };
 
             return new ValidateInvitationQueryResult(
                 Email: invitation.Email,
                 TenantName: invitation.Tenant!.BusinessName,
                 RoleName: invitation.Role!.Name,
-                UserExists: existingUser is not null);
+                InviteAction: inviteAction);
 
         }
         catch (Exception ex)

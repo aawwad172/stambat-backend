@@ -29,6 +29,11 @@ public class InvitationModule : IEndpointModule
             .Produces<ApiResponse<JoinTenantCommandResult>>(StatusCodes.Status200OK, "application/json")
             .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
             .Accepts<JoinTenantCommand>("application/json");
+
+        invitationGroup.MapPost(EndpointRoutes.SetupCredentialsAndJoin, SetupCredentialsAndJoin.RegisterRoute)
+            .Produces<ApiResponse<SetupCredentialsAndJoinCommandResult>>(StatusCodes.Status200OK, "application/json")
+            .Produces<ApiResponse<IEnumerable<string>>>(StatusCodes.Status400BadRequest, "application/json")
+            .Accepts<SetupCredentialsAndJoinCommand>("application/json");
     }
 }
 

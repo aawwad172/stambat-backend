@@ -48,6 +48,12 @@ public class User : IBaseEntity, IAggregateRoot
         UserCredentialsId = credentials.Id;
     }
 
+    public void UpdateUsername(string username)
+    {
+        Guard.AgainstNullOrEmpty(username, nameof(username));
+        Username = username;
+    }
+
     public void UpdateSecurityStamp()
     {
         SecurityStamp = IdGenerator.New().ToString();
