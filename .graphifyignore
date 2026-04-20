@@ -1,0 +1,20 @@
+# .NET build output
+bin
+obj
+**/bin
+**/obj
+
+# Generated source files
+*.g.cs
+*AssemblyInfo.cs
+*GlobalUsings.g.cs
+*MvcApplicationPartsAssemblyInfo.cs
+
+# Python venv
+venv
+
+# Certs
+certs
+
+# Graphify own output
+graphify-out

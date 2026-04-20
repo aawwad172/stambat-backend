@@ -5,6 +5,10 @@
 
 # dotenv files
 .env
+venv
+.python*
+graphify-out/cache/
+graphify-out/.graphify_*
 
 # Certificates and service account keys
 certs/
