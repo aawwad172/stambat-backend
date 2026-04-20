@@ -1,91 +1,92 @@
-# Graph Report - .  (2026-04-20)
+# Graph Report - /Users/aawwad172/coding/stambat-backend  (2026-04-21)
 
 ## Corpus Check
-- Large corpus: 330 files · ~86,782 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
+- 280 files · ~83,883 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1492 nodes · 1881 edges · 186 communities detected
-- Extraction: 73% EXTRACTED · 27% INFERRED · 0% AMBIGUOUS · INFERRED: 507 edges (avg confidence: 0.8)
+- 644 nodes · 705 edges · 101 communities detected
+- Extraction: 83% EXTRACTED · 16% INFERRED · 0% AMBIGUOUS · INFERRED: 115 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Handler Execution & Seeding|Handler Execution & Seeding]]
-- [[_COMMUNITY_Route Registration Layer|Route Registration Layer]]
-- [[_COMMUNITY_CardTemplate Domain Logic|CardTemplate Domain Logic]]
-- [[_COMMUNITY_CQRS Handler Implementations|CQRS Handler Implementations]]
-- [[_COMMUNITY_Validators & Exception Types|Validators & Exception Types]]
-- [[_COMMUNITY_EF Migrations (UpDown)|EF Migrations (Up/Down)]]
-- [[_COMMUNITY_Command Pipeline Wiring|Command Pipeline Wiring]]
-- [[_COMMUNITY_FluentValidation Validators|FluentValidation Validators]]
-- [[_COMMUNITY_EF Entity Configurations|EF Entity Configurations]]
-- [[_COMMUNITY_Card & Onboarding Commands|Card & Onboarding Commands]]
-- [[_COMMUNITY_Business Rules & Conventions|Business Rules & Conventions]]
-- [[_COMMUNITY_Persistence & Auditing Context|Persistence & Auditing Context]]
-- [[_COMMUNITY_Query Validators|Query Validators]]
-- [[_COMMUNITY_DbContext & DI Registration|DbContext & DI Registration]]
-- [[_COMMUNITY_Domain Exception Hierarchy|Domain Exception Hierarchy]]
-- [[_COMMUNITY_Endpoint Module Registration|Endpoint Module Registration]]
-- [[_COMMUNITY_Email Service|Email Service]]
-- [[_COMMUNITY_Entity Configuration Docs|Entity Configuration Docs]]
-- [[_COMMUNITY_Seed Data & Configurations|Seed Data & Configurations]]
-- [[_COMMUNITY_Repository Interfaces|Repository Interfaces]]
-- [[_COMMUNITY_Auditing & Security Rationale|Auditing & Security Rationale]]
-- [[_COMMUNITY_Google Wallet & UnitOfWork|Google Wallet & UnitOfWork]]
-- [[_COMMUNITY_Permission Service|Permission Service]]
-- [[_COMMUNITY_Invitation & Auth Commands|Invitation & Auth Commands]]
-- [[_COMMUNITY_Endpoint DI Wiring|Endpoint DI Wiring]]
-- [[_COMMUNITY_Project Documentation|Project Documentation]]
-- [[_COMMUNITY_Domain Base Interfaces|Domain Base Interfaces]]
-- [[_COMMUNITY_Wallet Pass Providers|Wallet Pass Providers]]
-- [[_COMMUNITY_Auth Repository Interface|Auth Repository Interface]]
-- [[_COMMUNITY_Project Context & Vision|Project Context & Vision]]
-- [[_COMMUNITY_Auth Repository Impl|Auth Repository Impl]]
-- [[_COMMUNITY_Security Service Interface|Security Service Interface]]
-- [[_COMMUNITY_Generic Repository Interface|Generic Repository Interface]]
-- [[_COMMUNITY_Email Service Interface|Email Service Interface]]
-- [[_COMMUNITY_ID Generation & Banned APIs|ID Generation & Banned APIs]]
-- [[_COMMUNITY_Clean Architecture Layers|Clean Architecture Layers]]
-- [[_COMMUNITY_Endpoint Extensions|Endpoint Extensions]]
-- [[_COMMUNITY_JWT Service Interface|JWT Service Interface]]
-- [[_COMMUNITY_Permission Service Interface|Permission Service Interface]]
-- [[_COMMUNITY_Wallet Pass Provider Interface|Wallet Pass Provider Interface]]
-- [[_COMMUNITY_BaseHandler Pattern|BaseHandler Pattern]]
-- [[_COMMUNITY_Model Snapshot|Model Snapshot]]
-- [[_COMMUNITY_Auditing Interceptor|Auditing Interceptor]]
-- [[_COMMUNITY_QR Code Service|QR Code Service]]
-- [[_COMMUNITY_MediatR CQRS Rationale|MediatR CQRS Rationale]]
-- [[_COMMUNITY_Generic Repository Impl|Generic Repository Impl]]
-- [[_COMMUNITY_Role Repository|Role Repository]]
-- [[_COMMUNITY_QR Code Service Interface|QR Code Service Interface]]
-- [[_COMMUNITY_Migration UserRoleTenant IsActive|Migration: UserRoleTenant IsActive]]
-- [[_COMMUNITY_Migration Google Wallet V1|Migration: Google Wallet V1]]
-- [[_COMMUNITY_Migration Initial Snapshot|Migration: Initial Snapshot]]
-- [[_COMMUNITY_Migration Rename LastStampedAt|Migration: Rename LastStampedAt]]
-- [[_COMMUNITY_Migration Login Process Fix|Migration: Login Process Fix]]
-- [[_COMMUNITY_Migration Wallet QR Integration|Migration: Wallet QR Integration]]
-- [[_COMMUNITY_Migration Google Wallet V3|Migration: Google Wallet V3]]
-- [[_COMMUNITY_Migration Invitation IsCancelled|Migration: Invitation IsCancelled]]
-- [[_COMMUNITY_Migration Card Management|Migration: Card Management]]
-- [[_COMMUNITY_Migration Google Wallet V2|Migration: Google Wallet V2]]
-- [[_COMMUNITY_Migration Stamps Required|Migration: Stamps Required]]
-- [[_COMMUNITY_Migration Card Expiration Period|Migration: Card Expiration Period]]
-- [[_COMMUNITY_Migration Redemption Type|Migration: Redemption Type]]
-- [[_COMMUNITY_Migration Card Management Fix|Migration: Card Management Fix]]
-- [[_COMMUNITY_Staff Roles Query|Staff Roles Query]]
-- [[_COMMUNITY_IParameterizedQueryRoute|IParameterizedQueryRoute]]
-- [[_COMMUNITY_ICommandRoute Interface|ICommandRoute Interface]]
-- [[_COMMUNITY_IQueryRoute Interface|IQueryRoute Interface]]
-- [[_COMMUNITY_Wallet Provider Factory Interface|Wallet Provider Factory Interface]]
-- [[_COMMUNITY_Mapster Configuration|Mapster Configuration]]
-- [[_COMMUNITY_Current User Service|Current User Service]]
-- [[_COMMUNITY_Tenant Provider Service|Tenant Provider Service]]
-- [[_COMMUNITY_ApiResponse Standardization|ApiResponse Standardization]]
-- [[_COMMUNITY_EF Change Tracking Gotcha|EF Change Tracking Gotcha]]
-- [[_COMMUNITY_Staff Management Handlers|Staff Management Handlers]]
-- [[_COMMUNITY_Card Command Family|Card Command Family]]
-- [[_COMMUNITY_Email Value Objects|Email Value Objects]]
-- [[_COMMUNITY_Login Process Schema|Login Process Schema]]
-- [[_COMMUNITY_Route Contract Interfaces|Route Contract Interfaces]]
+- [[_COMMUNITY_Community 0|Community 0]]
+- [[_COMMUNITY_Community 1|Community 1]]
+- [[_COMMUNITY_Community 2|Community 2]]
+- [[_COMMUNITY_Community 3|Community 3]]
+- [[_COMMUNITY_Community 4|Community 4]]
+- [[_COMMUNITY_Community 5|Community 5]]
+- [[_COMMUNITY_Community 6|Community 6]]
+- [[_COMMUNITY_Community 7|Community 7]]
+- [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 10|Community 10]]
+- [[_COMMUNITY_Community 11|Community 11]]
+- [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 14|Community 14]]
+- [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
+- [[_COMMUNITY_Community 17|Community 17]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 19|Community 19]]
+- [[_COMMUNITY_Community 20|Community 20]]
+- [[_COMMUNITY_Community 21|Community 21]]
+- [[_COMMUNITY_Community 22|Community 22]]
+- [[_COMMUNITY_Community 23|Community 23]]
+- [[_COMMUNITY_Community 24|Community 24]]
+- [[_COMMUNITY_Community 25|Community 25]]
+- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 27|Community 27]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
+- [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 44|Community 44]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
+- [[_COMMUNITY_Community 54|Community 54]]
+- [[_COMMUNITY_Community 55|Community 55]]
+- [[_COMMUNITY_Community 56|Community 56]]
+- [[_COMMUNITY_Community 57|Community 57]]
+- [[_COMMUNITY_Community 58|Community 58]]
+- [[_COMMUNITY_Community 59|Community 59]]
+- [[_COMMUNITY_Community 60|Community 60]]
+- [[_COMMUNITY_Community 61|Community 61]]
+- [[_COMMUNITY_Community 62|Community 62]]
+- [[_COMMUNITY_Community 63|Community 63]]
+- [[_COMMUNITY_Community 64|Community 64]]
+- [[_COMMUNITY_Community 65|Community 65]]
+- [[_COMMUNITY_Community 66|Community 66]]
+- [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 68|Community 68]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
+- [[_COMMUNITY_Community 75|Community 75]]
+- [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
 - [[_COMMUNITY_Community 78|Community 78]]
 - [[_COMMUNITY_Community 79|Community 79]]
@@ -110,115 +111,30 @@
 - [[_COMMUNITY_Community 98|Community 98]]
 - [[_COMMUNITY_Community 99|Community 99]]
 - [[_COMMUNITY_Community 100|Community 100]]
-- [[_COMMUNITY_Community 101|Community 101]]
-- [[_COMMUNITY_Community 102|Community 102]]
-- [[_COMMUNITY_Community 103|Community 103]]
-- [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 105|Community 105]]
-- [[_COMMUNITY_Community 106|Community 106]]
-- [[_COMMUNITY_Community 107|Community 107]]
-- [[_COMMUNITY_Community 108|Community 108]]
-- [[_COMMUNITY_Community 109|Community 109]]
-- [[_COMMUNITY_Community 110|Community 110]]
-- [[_COMMUNITY_Community 111|Community 111]]
-- [[_COMMUNITY_Community 112|Community 112]]
-- [[_COMMUNITY_Community 113|Community 113]]
-- [[_COMMUNITY_Community 114|Community 114]]
-- [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
-- [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 118|Community 118]]
-- [[_COMMUNITY_Community 119|Community 119]]
-- [[_COMMUNITY_Community 120|Community 120]]
-- [[_COMMUNITY_Community 121|Community 121]]
-- [[_COMMUNITY_Community 122|Community 122]]
-- [[_COMMUNITY_Community 123|Community 123]]
-- [[_COMMUNITY_Community 124|Community 124]]
-- [[_COMMUNITY_Community 125|Community 125]]
-- [[_COMMUNITY_Community 126|Community 126]]
-- [[_COMMUNITY_Community 127|Community 127]]
-- [[_COMMUNITY_Community 128|Community 128]]
-- [[_COMMUNITY_Community 129|Community 129]]
-- [[_COMMUNITY_Community 130|Community 130]]
-- [[_COMMUNITY_Community 131|Community 131]]
-- [[_COMMUNITY_Community 132|Community 132]]
-- [[_COMMUNITY_Community 133|Community 133]]
-- [[_COMMUNITY_Community 134|Community 134]]
-- [[_COMMUNITY_Community 135|Community 135]]
-- [[_COMMUNITY_Community 136|Community 136]]
-- [[_COMMUNITY_Community 137|Community 137]]
-- [[_COMMUNITY_Community 138|Community 138]]
-- [[_COMMUNITY_Community 139|Community 139]]
-- [[_COMMUNITY_Community 140|Community 140]]
-- [[_COMMUNITY_Community 141|Community 141]]
-- [[_COMMUNITY_Community 142|Community 142]]
-- [[_COMMUNITY_Community 143|Community 143]]
-- [[_COMMUNITY_Community 144|Community 144]]
-- [[_COMMUNITY_Community 145|Community 145]]
-- [[_COMMUNITY_Community 146|Community 146]]
-- [[_COMMUNITY_Community 147|Community 147]]
-- [[_COMMUNITY_Community 148|Community 148]]
-- [[_COMMUNITY_Community 149|Community 149]]
-- [[_COMMUNITY_Community 150|Community 150]]
-- [[_COMMUNITY_Community 151|Community 151]]
-- [[_COMMUNITY_Community 152|Community 152]]
-- [[_COMMUNITY_Community 153|Community 153]]
-- [[_COMMUNITY_Community 154|Community 154]]
-- [[_COMMUNITY_Community 155|Community 155]]
-- [[_COMMUNITY_Community 156|Community 156]]
-- [[_COMMUNITY_Community 157|Community 157]]
-- [[_COMMUNITY_Community 158|Community 158]]
-- [[_COMMUNITY_Community 159|Community 159]]
-- [[_COMMUNITY_Community 160|Community 160]]
-- [[_COMMUNITY_Community 161|Community 161]]
-- [[_COMMUNITY_Community 162|Community 162]]
-- [[_COMMUNITY_Community 163|Community 163]]
-- [[_COMMUNITY_Community 164|Community 164]]
-- [[_COMMUNITY_Community 165|Community 165]]
-- [[_COMMUNITY_Community 166|Community 166]]
-- [[_COMMUNITY_Community 167|Community 167]]
-- [[_COMMUNITY_Community 168|Community 168]]
-- [[_COMMUNITY_Community 169|Community 169]]
-- [[_COMMUNITY_Community 170|Community 170]]
-- [[_COMMUNITY_Community 171|Community 171]]
-- [[_COMMUNITY_Community 172|Community 172]]
-- [[_COMMUNITY_Community 173|Community 173]]
-- [[_COMMUNITY_Community 174|Community 174]]
-- [[_COMMUNITY_Community 175|Community 175]]
-- [[_COMMUNITY_Community 176|Community 176]]
-- [[_COMMUNITY_Community 177|Community 177]]
-- [[_COMMUNITY_Community 178|Community 178]]
-- [[_COMMUNITY_Community 179|Community 179]]
-- [[_COMMUNITY_Community 180|Community 180]]
-- [[_COMMUNITY_Community 181|Community 181]]
-- [[_COMMUNITY_Community 182|Community 182]]
-- [[_COMMUNITY_Community 183|Community 183]]
-- [[_COMMUNITY_Community 184|Community 184]]
-- [[_COMMUNITY_Community 185|Community 185]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Create()` - 21 edges
-2. `ApiResponse<T>` - 20 edges
-3. `EmailService` - 16 edges
-4. `AbstractValidator<T>` - 15 edges
-5. `ToString()` - 14 edges
-6. `ICommandRoute<T>` - 14 edges
-7. `WalletPass` - 13 edges
-8. `Tenant` - 13 edges
-9. `User` - 13 edges
-10. `GoogleWalletPassProvider` - 11 edges
+1. `ApiResponse<T>` - 20 edges
+2. `AbstractValidator<T>` - 15 edges
+3. `ICommandRoute<T>` - 14 edges
+4. `ApplicationDbContext` - 11 edges
+5. `CardTemplate` - 10 edges
+6. `User` - 10 edges
+7. `JwtService` - 10 edges
+8. `IEndpointModule` - 9 edges
+9. `BaseHandler<TRequest,TResponse>` - 9 edges
+10. `GetAllCardsQueryHandler` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `BaseHandler<TRequest,TResponse>` --conceptually_related_to--> `_camelCase for private/internal fields`  [INFERRED]
-  src/Stambat.Application/CQRS/BaseHandler.cs → conductor/code_styleguides/csharp.md
-- `Standardized ApiResponse Rule` --semantically_similar_to--> `ApiResponse Class`  [INFERRED] [semantically similar]
-  conductor/coding-conventions.md → README.md
-- `JwtService` --semantically_similar_to--> `IJwtService Interface`  [INFERRED] [semantically similar]
-  conductor/tech-stack.md → README.md
-- `LoginCommandHandler` --conceptually_related_to--> `User Aggregate Root (rich domain model)`  [INFERRED]
-  src/Stambat.Application/CQRS/CommandHandlers/Authentication/LoginCommandHandler.cs → conductor/archive/refactor_identity_aggregate_20260321/spec.md
-- `LogoutCommandHandler` --conceptually_related_to--> `User Aggregate Root (rich domain model)`  [INFERRED]
-  src/Stambat.Application/CQRS/CommandHandlers/Authentication/LogoutCommandHandler.cs → conductor/archive/refactor_identity_aggregate_20260321/spec.md
+- `_camelCase for private/internal fields` --conceptually_related_to--> `BaseHandler<TRequest,TResponse>`  [INFERRED]
+  conductor/code_styleguides/csharp.md → src/Stambat.Application/CQRS/BaseHandler.cs
+- `Loyalty Card Lifecycle` --conceptually_related_to--> `CreateCardCommandHandler`  [INFERRED]
+  docs/business-rules.md → src/Stambat.Application/CQRS/CommandHandlers/Cards/CreateCardCommandHandler.cs
+- `Loyalty Card Lifecycle` --conceptually_related_to--> `UpdateCardCommandHandler`  [INFERRED]
+  docs/business-rules.md → src/Stambat.Application/CQRS/CommandHandlers/Cards/UpdateCardCommandHandler.cs
+- `User Aggregate Root (rich domain model)` --conceptually_related_to--> `LoginCommandHandler`  [INFERRED]
+  conductor/archive/refactor_identity_aggregate_20260321/spec.md → src/Stambat.Application/CQRS/CommandHandlers/Authentication/LoginCommandHandler.cs
+- `User Aggregate Root (rich domain model)` --conceptually_related_to--> `LogoutCommandHandler`  [INFERRED]
+  conductor/archive/refactor_identity_aggregate_20260321/spec.md → src/Stambat.Application/CQRS/CommandHandlers/Authentication/LogoutCommandHandler.cs
 
 ## Hyperedges (group relationships)
 - **Identity Aggregate Cluster** — dbdiagram_user, dbdiagram_usercredentials, dbdiagram_userroletenant, dbdiagram_role, dbdiagram_permission, dbdiagram_refreshtoken, dbdiagram_usertoken [EXTRACTED 0.95]
@@ -274,992 +190,534 @@
 
 ## Communities
 
-### Community 0 - "Handler Execution & Seeding"
+### Community 0 - "Community 0"
 Cohesion: 0.06
-Nodes (18): DbInitializer, Create(), ToString(), IdGenerator, IInvitationRepository, InvitationRepository, ISecurityService, ITenantRepository (+10 more)
+Nodes (53): AcceptInvitation, AcceptInvitationCommand, AcceptInvitationCommandResult, AcceptInvitationCommandValidator, ApiResponse<T>, CreateCard, CreateCardCommand, CreateCardCommandValidator (+45 more)
 
-### Community 1 - "Route Registration Layer"
-Cohesion: 0.03
-Nodes (34): AcceptInvitation, ApiResponse, CancelInvitation, CreateCard, CustomerOnboard, DeactivateStaff, DeleteCard, ExceptionHandlerMiddleware (+26 more)
-
-### Community 2 - "CardTemplate Domain Logic"
-Cohesion: 0.05
-Nodes (14): CardTemplate, Create(), Guard, IAggregateRoot, IBaseEntity, Invitation, Permission, Role (+6 more)
-
-### Community 3 - "CQRS Handler Implementations"
-Cohesion: 0.03
-Nodes (32): AcceptInvitationCommandHandler, BaseHandler, CancelInvitationCommandHandler, CreateCardCommandHandler, DeactivateStaffCommandHandler, DeleteCardCommandHandler, GetAllCardsQueryHandler, GetAllTenantStaffQueryHandler (+24 more)
-
-### Community 4 - "Validators & Exception Types"
-Cohesion: 0.04
-Nodes (73): BaseHandler, BusinessRuleException, CancelInvitation, CancelInvitationCommand, CancelInvitationCommandResult, CancelInvitationCommandValidator, System.Security.Claims.ClaimsPrincipal, ConfigurationExtensions (+65 more)
-
-### Community 5 - "EF Migrations (Up/Down)"
-Cohesion: 0.03
-Nodes (29): InitialMigration, Stambat.Infrastructure.Migrations, FixingLoginProcessMigration, Stambat.Infrastructure.Migrations, AddIsActiveToUserRoleTenant, Stambat.Infrastructure.Migrations, AddInvitationIsCancelled, Stambat.Infrastructure.Migrations (+21 more)
-
-### Community 6 - "Command Pipeline Wiring"
-Cohesion: 0.05
-Nodes (61): AcceptInvitation, AcceptInvitationCommand, AcceptInvitationCommandResult, AcceptInvitationCommandValidator, ApiResponse<T>, CreateCard, CreateCardCommand, CreateCardCommandValidator (+53 more)
-
-### Community 7 - "FluentValidation Validators"
-Cohesion: 0.03
-Nodes (29): AbstractValidator, AcceptInvitationCommandValidator, CancelInvitationCommandValidator, CreateCardCommandValidator, CustomerOnboardCommandValidator, DeactivateStaffCommandValidator, DeleteCardCommandValidator, GetAllCardsQueryValidator (+21 more)
-
-### Community 8 - "EF Entity Configurations"
-Cohesion: 0.04
-Nodes (26): AddExpirationPeriodToCardTemplatesMigration, AddRedemptionTypeAndRenameColumns, AddWalletQrIntegration, CardTemplateConfiguration, IEntityTypeConfiguration, InvitationConfiguration, CardTemplates table, Permissions table (+18 more)
-
-### Community 9 - "Card & Onboarding Commands"
-Cohesion: 0.05
-Nodes (52): BaseHandler, CardRecord, CardTemplate, CardType, CurrentUserService, CustomClaims, CustomerOnboard, CustomerOnboardCommand (+44 more)
-
-### Community 10 - "Business Rules & Conventions"
-Cohesion: 0.05
-Nodes (47): BaseHandler<TRequest,TResponse>, Stambat Loyalty Business Rules, Loyalty Card Lifecycle, Merchant Authorization and Audit, Migration: multiple-stamp support, Rewards and Redemption, Stamping Mechanics (QR zero-friction), Anti-fraud requires QR integrity and audit trails (+39 more)
-
-### Community 11 - "Persistence & Auditing Context"
+### Community 1 - "Community 1"
 Cohesion: 0.07
-Nodes (37): ApplicationDbContext, AuditingInterceptor, AuthSeedConstants, DbInitializer.ApplyMigrationsAndSeedAsync, CardTemplate entity, Invitation entity, Role entity, Tenant entity (+29 more)
+Nodes (50): BaseHandler, ConfigurationExtensions, CustomClaims, CustomClaims, Email, EndpointRoutes, EndpointTags, EnvironmentVariableNotSetException (+42 more)
 
-### Community 12 - "Query Validators"
+### Community 2 - "Community 2"
+Cohesion: 0.07
+Nodes (41): BaseHandler, CardRecord, CardTemplate, CardType, CurrentUserService, CustomerOnboard, CustomerOnboardCommand, CustomerOnboardCommandResult (+33 more)
+
+### Community 3 - "Community 3"
 Cohesion: 0.07
 Nodes (33): AbstractValidator<T>, CustomerOnboardCommand, CustomerOnboardCommandValidator, DeactivateStaffCommand, DeactivateStaffCommandValidator, FluentValidation, GetAllCardsQuery, GetAllCardsQueryValidator (+25 more)
 
-### Community 13 - "DbContext & DI Registration"
-Cohesion: 0.08
-Nodes (7): ApplicationDbContext, ConfigurationExtensions, DbContext, DependencyInjection, IJwtService, JwtMiddleware, JwtService
-
-### Community 14 - "Domain Exception Hierarchy"
-Cohesion: 0.07
-Nodes (14): BusinessRuleException, ConflictException, CustomValidationException, DeletedUserException, EnvironmentVariableNotSetException, Exception, InvitationExpiredException, InvitationStillActiveException (+6 more)
-
-### Community 15 - "Endpoint Module Registration"
-Cohesion: 0.08
-Nodes (9): AuthenticationModule, CardModule, CustomerOnboardingModule, IEndpointModule, InvitationModule, PlatformAdminModule, ScanModule, TenantModule (+1 more)
-
-### Community 16 - "Email Service"
-Cohesion: 0.12
-Nodes (14): EmailService, EmailService.GetTemplatePath, IEmailService, IFluentEmail, EmailService.SendEmailAsync, EmailService.SendExistingUserAccessGrantAsync, EmailService.SendMerchantOnboardingInviteAsync, EmailService.SendTenantWelcomeEmailAsync (+6 more)
-
-### Community 17 - "Entity Configuration Docs"
+### Community 4 - "Community 4"
 Cohesion: 0.1
 Nodes (24): EF Core Fluent API Configurations, Per-Entity Configuration Rule, CardTemplate Entity, ER Diagram, Invitation Entity, Permission Entity, RefreshToken Entity, Role Entity (+16 more)
 
-### Community 18 - "Seed Data & Configurations"
+### Community 5 - "Community 5"
+Cohesion: 0.09
+Nodes (24): Stambat Loyalty Business Rules, Merchant Authorization and Audit, Migration: multiple-stamp support, Rewards and Redemption, Stamping Mechanics (QR zero-friction), Anti-fraud requires QR integrity and audit trails, Microsoft.CodeAnalysis.BannedApiAnalyzers, BannedSymbols.txt (+16 more)
+
+### Community 6 - "Community 6"
 Cohesion: 0.1
 Nodes (23): AuthSeedConstants, CardTemplate, CardTemplateConfiguration, Invitation, InvitationConfiguration, Permission, PermissionConfiguration, PermissionsSeed (+15 more)
 
-### Community 19 - "Repository Interfaces"
-Cohesion: 0.11
-Nodes (4): IInvitationRepository, IRepository, ITenantRepository, IUserRepository
+### Community 7 - "Community 7"
+Cohesion: 0.12
+Nodes (23): BaseHandler<TRequest,TResponse>, Loyalty Card Lifecycle, CreateCardCommandHandler, PascalCase naming convention, _camelCase for private/internal fields, Google C# Style Guide Summary, DeleteCardCommandHandler, Stambat.Application.DependencyInjection (+15 more)
 
-### Community 20 - "Auditing & Security Rationale"
+### Community 8 - "Community 8"
+Cohesion: 0.14
+Nodes (19): ApplicationDbContext, AuditingInterceptor, AuthSeedConstants, DbInitializer.ApplyMigrationsAndSeedAsync, CardTemplate entity, UserRoleTenant entity, WalletPass entity, ICreationAudit (+11 more)
+
+### Community 9 - "Community 9"
 Cohesion: 0.12
 Nodes (19): AuditingInterceptor, ICreationAudit Interface, ICurrentUserService, IModificationAudit Interface, Automated Auditing Track Index, Automated Auditing Plan, Rationale: centralize auditing, ensure consistency, Automated Auditing Spec (+11 more)
 
-### Community 21 - "Google Wallet & UnitOfWork"
-Cohesion: 0.14
-Nodes (4): GoogleWalletPassProvider, IDisposable, IUnitOfWork, IWalletPassProvider
+### Community 10 - "Community 10"
+Cohesion: 0.12
+Nodes (18): Invitation entity, Role entity, Tenant entity, User entity, IInvitationRepository, InvitationRepository, IRoleRepository, ITenantRepository (+10 more)
 
-### Community 22 - "Permission Service"
-Cohesion: 0.15
-Nodes (4): AuthenticationRepository, IAuthenticationRepository, IPermissionService, PermissionService
-
-### Community 23 - "Invitation & Auth Commands"
-Cohesion: 0.17
-Nodes (16): AcceptInvitationCommandHandler, CancelInvitationCommandHandler, CustomerOnboardCommandHandler, InviteStaffCommandHandler, InviteTenantCommand, JoinTenantCommand, JoinTenantCommandHandler, LoginCommand (+8 more)
-
-### Community 24 - "Endpoint DI Wiring"
+### Community 11 - "Community 11"
 Cohesion: 0.14
 Nodes (16): AuthenticationModule, CardModule, CustomerOnboardingModule, AddPresentation, WebAPI.DependencyInjection, EndpointExtensions.MapEndpointModules, ExceptionHandlerMiddleware, ExceptionHandlerMiddleware.HandleExceptionAsync (+8 more)
 
-### Community 25 - "Project Documentation"
+### Community 12 - "Community 12"
+Cohesion: 0.17
+Nodes (16): AcceptInvitationCommandHandler, CancelInvitationCommandHandler, CustomerOnboardCommandHandler, InviteStaffCommandHandler, InviteTenantCommand, JoinTenantCommand, JoinTenantCommandHandler, LoginCommand (+8 more)
+
+### Community 13 - "Community 13"
 Cohesion: 0.14
 Nodes (14): docs/business-rules.md, Documentation Setup Track Index, Documentation Setup Plan, Documentation Setup Spec, macOS + .NET Aspire 502/500 Issue, appsettings.Development.json, Clean Architecture Principles, Domain-Driven Design (+6 more)
 
-### Community 26 - "Domain Base Interfaces"
-Cohesion: 0.15
-Nodes (7): IAggregateRoot, IBaseEntity, ICreationAudit, IEntity, IModificationAudit, ISoftDelete, UserRoleTenant
-
-### Community 27 - "Wallet Pass Providers"
+### Community 14 - "Community 14"
 Cohesion: 0.22
 Nodes (13): AppleWalletOptions, AddInfrastructure, GoogleWalletOptions, CreateClassAsync, CreatePassAsync, GoogleWalletPassProvider, UpdateClassAsync, UpdatePassAsync (+5 more)
 
-### Community 28 - "Auth Repository Interface"
-Cohesion: 0.2
-Nodes (1): IAuthenticationRepository
+### Community 15 - "Community 15"
+Cohesion: 0.19
+Nodes (13): AddExpirationPeriodToCardTemplatesMigration, AddRedemptionTypeAndRenameColumns, AddWalletQrIntegration, CardTemplates table, Permissions table, RolePermissions table, StampTransactions table, WalletPasses table (+5 more)
 
-### Community 29 - "Project Context & Vision"
+### Community 16 - "Community 16"
+Cohesion: 0.23
+Nodes (13): EmailService, EmailService.GetTemplatePath, IEmailService, IFluentEmail, EmailService.SendEmailAsync, EmailService.SendExistingUserAccessGrantAsync, EmailService.SendMerchantOnboardingInviteAsync, EmailService.SendTenantWelcomeEmailAsync (+5 more)
+
+### Community 17 - "Community 17"
+Cohesion: 0.25
+Nodes (3): CardTemplate, IAggregateRoot, IBaseEntity
+
+### Community 18 - "Community 18"
 Cohesion: 0.2
 Nodes (10): Graphify Project Rules, Project Context Index, Stambat Product Vision, Welcoming & Trustworthy Voice, .NET 10.0 / C#, Project Tracks Registry, Git Notes Task Summary, Phase Verification & Checkpointing Protocol (+2 more)
 
-### Community 30 - "Auth Repository Impl"
+### Community 19 - "Community 19"
 Cohesion: 0.22
 Nodes (9): AuthenticationRepository, AuthRepo.GetAllPermissionNamesAsync, AuthRepo.GetBaseGrantedPermissionsAsync, AuthRepo.GetUserRoleIdsForTenantAsync, AuthRepo.GetUserRolesForTenantAsync, AuthRepo.GetUserRoleIdsAsync, AuthRepo.GetUserRolesAsync, AuthRepo.GetUserTenantsAsync (+1 more)
 
-### Community 31 - "Security Service Interface"
+### Community 20 - "Community 20"
 Cohesion: 0.25
-Nodes (1): ISecurityService
+Nodes (2): IDisposable, IUnitOfWork
 
-### Community 32 - "Generic Repository Interface"
+### Community 21 - "Community 21"
 Cohesion: 0.25
 Nodes (1): IRepository
 
-### Community 33 - "Email Service Interface"
+### Community 22 - "Community 22"
+Cohesion: 0.32
+Nodes (8): CancelInvitation, CancelInvitationCommand, CancelInvitationCommandResult, CancelInvitationCommandValidator, InviteStaff, InviteStaffCommand, InviteStaffCommandResult, RolesEnum
+
+### Community 23 - "Community 23"
+Cohesion: 0.32
+Nodes (8): IsUserVerified, IsUserVerifiedQuery, IsUserVerifiedQueryResult, RegisterUser, RegisterUserCommand, VerifyEmail, VerifyEmailCommand, VerifyEmailCommandResult
+
+### Community 24 - "Community 24"
 Cohesion: 0.29
-Nodes (1): IEmailService
+Nodes (7): GetAllTenantStaff, GetAllTenantStaffQuery, GetAllTenantStaffQueryResult, GetStaffMember, GetStaffMemberQuery, GetStaffMemberQueryResult, StaffRecord
 
-### Community 34 - "ID Generation & Banned APIs"
-Cohesion: 0.33
-Nodes (7): Banned: System.Guid.NewGuid, IdGenerator.New() replacement, Coding Don't Rules, IdGenerator.New() Mandate, BannedSymbols.txt Enforcement, Rationale: UUID v7 time-ordered IDs, Microsoft.CodeAnalysis.BannedApiAnalyzers
-
-### Community 35 - "Clean Architecture Layers"
+### Community 25 - "Community 25"
 Cohesion: 0.43
 Nodes (7): Stambat.Application Layer, Strict Dependency Flow, Stambat.Domain Layer, Stambat.Infrastructure Layer, Project Structure, Repository + Unit of Work Pattern, Stambat.WebAPI Layer
 
-### Community 36 - "Endpoint Extensions"
+### Community 26 - "Community 26"
 Cohesion: 0.33
-Nodes (2): EndpointExtensions, IEndpointModule
+Nodes (6): IAggregateRoot, IBaseEntity, ICreationAudit, IEntity, IModificationAudit, ISoftDelete
 
-### Community 37 - "JWT Service Interface"
-Cohesion: 0.33
-Nodes (1): IJwtService
-
-### Community 38 - "Permission Service Interface"
-Cohesion: 0.33
-Nodes (1): IPermissionService
-
-### Community 39 - "Wallet Pass Provider Interface"
-Cohesion: 0.33
-Nodes (1): IWalletPassProvider
-
-### Community 40 - "BaseHandler Pattern"
-Cohesion: 0.33
-Nodes (3): BaseHandler, CustomerOnboardCommandHandler, IRequestHandler
-
-### Community 41 - "Model Snapshot"
-Cohesion: 0.33
-Nodes (4): ApplicationDbContextModelSnapshot, Stambat.Infrastructure.Migrations, InitialMigration, ModelSnapshot
-
-### Community 42 - "Auditing Interceptor"
-Cohesion: 0.47
-Nodes (2): AuditingInterceptor, SaveChangesInterceptor
-
-### Community 43 - "QR Code Service"
-Cohesion: 0.5
-Nodes (2): IQrCodeService, QrCodeService
-
-### Community 44 - "MediatR CQRS Rationale"
-Cohesion: 0.4
-Nodes (5): BaseHandler.cs, CQRS with MediatR, Rich Domain Model Pattern, Coding Do Rules, MediatR
-
-### Community 45 - "Generic Repository Impl"
+### Community 27 - "Community 27"
 Cohesion: 0.4
 Nodes (5): Repository.ApplyOptions, Repository<T>, Repository.FirstOrDefaultAsync, Repository.GetAllAsync, Repository.GetByIdAsync
 
-### Community 46 - "Role Repository"
-Cohesion: 0.5
-Nodes (1): IRoleRepository
+### Community 28 - "Community 28"
+Cohesion: 0.4
+Nodes (5): BaseHandler.cs, CQRS with MediatR, Rich Domain Model Pattern, Coding Do Rules, MediatR
 
-### Community 47 - "QR Code Service Interface"
-Cohesion: 0.5
-Nodes (1): IQrCodeService
-
-### Community 48 - "Migration: UserRoleTenant IsActive"
-Cohesion: 0.5
-Nodes (2): AddIsActiveToUserRoleTenant, Stambat.Infrastructure.Migrations
-
-### Community 49 - "Migration: Google Wallet V1"
-Cohesion: 0.5
-Nodes (2): GoogleWalletIntegrationMigration, Stambat.Infrastructure.Migrations
-
-### Community 50 - "Migration: Initial Snapshot"
-Cohesion: 0.5
-Nodes (2): InitialMigration, Stambat.Infrastructure.Migrations
-
-### Community 51 - "Migration: Rename LastStampedAt"
-Cohesion: 0.5
-Nodes (2): RenameLastStampedAtAndRemoveRedemptionCount, Stambat.Infrastructure.Migrations
-
-### Community 52 - "Migration: Login Process Fix"
-Cohesion: 0.5
-Nodes (2): FixingLoginProcessMigration, Stambat.Infrastructure.Migrations
-
-### Community 53 - "Migration: Wallet QR Integration"
-Cohesion: 0.5
-Nodes (2): AddWalletQrIntegration, Stambat.Infrastructure.Migrations
-
-### Community 54 - "Migration: Google Wallet V3"
-Cohesion: 0.5
-Nodes (2): GoogleWalletIntegrationMigrationV3, Stambat.Infrastructure.Migrations
-
-### Community 55 - "Migration: Invitation IsCancelled"
-Cohesion: 0.5
-Nodes (2): AddInvitationIsCancelled, Stambat.Infrastructure.Migrations
-
-### Community 56 - "Migration: Card Management"
-Cohesion: 0.5
-Nodes (2): CardManagementMigration, Stambat.Infrastructure.Migrations
-
-### Community 57 - "Migration: Google Wallet V2"
-Cohesion: 0.5
-Nodes (2): GoogleWalletIntegrationMigrationV2, Stambat.Infrastructure.Migrations
-
-### Community 58 - "Migration: Stamps Required"
-Cohesion: 0.5
-Nodes (2): AddStampsRequiredToWalletPass, Stambat.Infrastructure.Migrations
-
-### Community 59 - "Migration: Card Expiration Period"
-Cohesion: 0.5
-Nodes (2): AddExpirationPeriodToCardTemplatesMigration, Stambat.Infrastructure.Migrations
-
-### Community 60 - "Migration: Redemption Type"
-Cohesion: 0.5
-Nodes (2): AddRedemptionTypeAndRenameColumns, Stambat.Infrastructure.Migrations
-
-### Community 61 - "Migration: Card Management Fix"
-Cohesion: 0.5
-Nodes (2): CardManagementFixMigration, Stambat.Infrastructure.Migrations
-
-### Community 62 - "Staff Roles Query"
+### Community 29 - "Community 29"
 Cohesion: 0.5
 Nodes (4): AvailableRoleRecord, GetStaffRoles, GetStaffRolesQuery, GetStaffRolesQueryResult
 
-### Community 63 - "IParameterizedQueryRoute"
-Cohesion: 0.67
-Nodes (1): IParameterizedQueryRoute
+### Community 30 - "Community 30"
+Cohesion: 0.5
+Nodes (2): AddIsActiveToUserRoleTenant, Stambat.Infrastructure.Migrations
 
-### Community 64 - "ICommandRoute Interface"
-Cohesion: 0.67
-Nodes (1): ICommandRoute
+### Community 31 - "Community 31"
+Cohesion: 0.5
+Nodes (2): GoogleWalletIntegrationMigration, Stambat.Infrastructure.Migrations
 
-### Community 65 - "IQueryRoute Interface"
-Cohesion: 0.67
-Nodes (1): IQueryRoute
+### Community 32 - "Community 32"
+Cohesion: 0.5
+Nodes (2): InitialMigration, Stambat.Infrastructure.Migrations
 
-### Community 66 - "Wallet Provider Factory Interface"
-Cohesion: 0.67
-Nodes (1): IWalletPassProviderFactory
+### Community 33 - "Community 33"
+Cohesion: 0.5
+Nodes (2): RenameLastStampedAtAndRemoveRedemptionCount, Stambat.Infrastructure.Migrations
 
-### Community 67 - "Mapster Configuration"
-Cohesion: 0.67
-Nodes (1): MapsterConfiguration
+### Community 34 - "Community 34"
+Cohesion: 0.5
+Nodes (2): FixingLoginProcessMigration, Stambat.Infrastructure.Migrations
 
-### Community 68 - "Current User Service"
-Cohesion: 0.67
-Nodes (2): CurrentUserService, ICurrentUserService
+### Community 35 - "Community 35"
+Cohesion: 0.5
+Nodes (2): AddWalletQrIntegration, Stambat.Infrastructure.Migrations
 
-### Community 69 - "Tenant Provider Service"
-Cohesion: 0.67
-Nodes (2): ITenantProviderService, TenantProviderService
+### Community 36 - "Community 36"
+Cohesion: 0.5
+Nodes (2): GoogleWalletIntegrationMigrationV3, Stambat.Infrastructure.Migrations
 
-### Community 70 - "ApiResponse Standardization"
-Cohesion: 0.67
-Nodes (3): Standardized ApiResponse Rule, ApiResponse Class, Exception Handling Middleware
+### Community 37 - "Community 37"
+Cohesion: 0.5
+Nodes (2): AddInvitationIsCancelled, Stambat.Infrastructure.Migrations
 
-### Community 71 - "EF Change Tracking Gotcha"
-Cohesion: 0.67
-Nodes (3): EF Core Change Tracking Gotcha, EF Core Change Tracking Issue, Entity Framework Core
+### Community 38 - "Community 38"
+Cohesion: 0.5
+Nodes (2): CardManagementMigration, Stambat.Infrastructure.Migrations
 
-### Community 72 - "Staff Management Handlers"
-Cohesion: 0.67
-Nodes (3): DeactivateStaffCommandHandler, RemoveStaffCommandHandler, UpdateStaffRolesCommandHandler
+### Community 39 - "Community 39"
+Cohesion: 0.5
+Nodes (2): GoogleWalletIntegrationMigrationV2, Stambat.Infrastructure.Migrations
 
-### Community 73 - "Card Command Family"
-Cohesion: 0.67
-Nodes (3): CreateCardCommand, DeleteCardCommand, UpdateCardCommand
+### Community 40 - "Community 40"
+Cohesion: 0.5
+Nodes (2): AddStampsRequiredToWalletPass, Stambat.Infrastructure.Migrations
 
-### Community 74 - "Email Value Objects"
-Cohesion: 1.0
-Nodes (3): EmailMessage, EmailSettings, IEmailService
+### Community 41 - "Community 41"
+Cohesion: 0.5
+Nodes (2): AddExpirationPeriodToCardTemplatesMigration, Stambat.Infrastructure.Migrations
 
-### Community 75 - "Login Process Schema"
-Cohesion: 0.67
-Nodes (3): FixingLoginProcessMigration, RefreshTokens table, Tenants table
+### Community 42 - "Community 42"
+Cohesion: 0.5
+Nodes (2): AddRedemptionTypeAndRenameColumns, Stambat.Infrastructure.Migrations
 
-### Community 76 - "Route Contract Interfaces"
+### Community 43 - "Community 43"
+Cohesion: 0.5
+Nodes (2): CardManagementFixMigration, Stambat.Infrastructure.Migrations
+
+### Community 44 - "Community 44"
 Cohesion: 0.67
 Nodes (3): ICommandRoute<TRequest>, IParameterizedQueryRoute<TQuery>, IQueryRoute<TQuery>
 
-### Community 77 - "Community 77"
+### Community 45 - "Community 45"
 Cohesion: 1.0
-Nodes (1): EndpointTags
+Nodes (3): EmailMessage, EmailSettings, IEmailService
 
-### Community 78 - "Community 78"
+### Community 46 - "Community 46"
+Cohesion: 0.67
+Nodes (3): DeactivateStaffCommandHandler, RemoveStaffCommandHandler, UpdateStaffRolesCommandHandler
+
+### Community 47 - "Community 47"
+Cohesion: 0.67
+Nodes (3): CreateCardCommand, DeleteCardCommand, UpdateCardCommand
+
+### Community 48 - "Community 48"
+Cohesion: 0.67
+Nodes (3): FixingLoginProcessMigration, RefreshTokens table, Tenants table
+
+### Community 49 - "Community 49"
+Cohesion: 0.67
+Nodes (3): Standardized ApiResponse Rule, ApiResponse Class, Exception Handling Middleware
+
+### Community 50 - "Community 50"
+Cohesion: 0.67
+Nodes (3): EF Core Change Tracking Gotcha, EF Core Change Tracking Issue, Entity Framework Core
+
+### Community 51 - "Community 51"
 Cohesion: 1.0
-Nodes (1): CustomClaims
+Nodes (2): InvitationExpiredException, InvitationStillActiveException
 
-### Community 79 - "Community 79"
-Cohesion: 1.0
-Nodes (1): EndpointRoutes
-
-### Community 80 - "Community 80"
-Cohesion: 1.0
-Nodes (1): PermissionConstants
-
-### Community 81 - "Community 81"
-Cohesion: 1.0
-Nodes (1): PaginationResult
-
-### Community 82 - "Community 82"
+### Community 52 - "Community 52"
 Cohesion: 1.0
 Nodes (1): ITenantProviderService
 
-### Community 83 - "Community 83"
+### Community 53 - "Community 53"
 Cohesion: 1.0
 Nodes (1): ICurrentUserService
 
-### Community 84 - "Community 84"
-Cohesion: 1.0
-Nodes (1): QueryOptions
-
-### Community 85 - "Community 85"
-Cohesion: 1.0
-Nodes (1): IEntity
-
-### Community 86 - "Community 86"
-Cohesion: 1.0
-Nodes (1): ISoftDelete
-
-### Community 87 - "Community 87"
-Cohesion: 1.0
-Nodes (1): ICreationAudit
-
-### Community 88 - "Community 88"
+### Community 54 - "Community 54"
 Cohesion: 1.0
 Nodes (1): IModificationAudit
 
-### Community 89 - "Community 89"
+### Community 55 - "Community 55"
 Cohesion: 1.0
-Nodes (1): EmailMessage
+Nodes (2): ApplicationDbContextModelSnapshot, InitialMigration
 
-### Community 90 - "Community 90"
+### Community 56 - "Community 56"
 Cohesion: 1.0
-Nodes (1): EmailSettings
+Nodes (2): IdGenerator.New() Mandate, Rationale: UUID v7 time-ordered IDs
 
-### Community 91 - "Community 91"
-Cohesion: 1.0
-Nodes (1): BaseService
-
-### Community 92 - "Community 92"
-Cohesion: 1.0
-Nodes (1): AuthSeedConstants
-
-### Community 93 - "Community 93"
-Cohesion: 1.0
-Nodes (1): GoogleWalletOptions
-
-### Community 94 - "Community 94"
-Cohesion: 1.0
-Nodes (1): AppleWalletOptions
-
-### Community 95 - "Community 95"
-Cohesion: 1.0
-Nodes (2): Definition of Done, Quality Gates Checklist
-
-### Community 96 - "Community 96"
-Cohesion: 1.0
-Nodes (2): Minimal API Endpoints, ASP.NET Core Minimal API
-
-### Community 97 - "Community 97"
+### Community 57 - "Community 57"
 Cohesion: 1.0
 Nodes (2): Husky.Net, Husky.Net Pre-commit/Pre-push Hooks
 
-### Community 98 - "Community 98"
+### Community 58 - "Community 58"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): Definition of Done, Quality Gates Checklist
 
-### Community 99 - "Community 99"
+### Community 59 - "Community 59"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): Minimal API Endpoints, ASP.NET Core Minimal API
 
-### Community 100 - "Community 100"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 101 - "Community 101"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 102 - "Community 102"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 103 - "Community 103"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 104 - "Community 104"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 105 - "Community 105"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 106 - "Community 106"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 107 - "Community 107"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 108 - "Community 108"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 109 - "Community 109"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 110 - "Community 110"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 111 - "Community 111"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 112 - "Community 112"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 113 - "Community 113"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 114 - "Community 114"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 115 - "Community 115"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 116 - "Community 116"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 117 - "Community 117"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 118 - "Community 118"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 119 - "Community 119"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 120 - "Community 120"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 121 - "Community 121"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 122 - "Community 122"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 123 - "Community 123"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 124 - "Community 124"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 125 - "Community 125"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 126 - "Community 126"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 127 - "Community 127"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 128 - "Community 128"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 129 - "Community 129"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 130 - "Community 130"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 131 - "Community 131"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 132 - "Community 132"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 133 - "Community 133"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 134 - "Community 134"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 135 - "Community 135"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 136 - "Community 136"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 137 - "Community 137"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 138 - "Community 138"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 139 - "Community 139"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 140 - "Community 140"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 141 - "Community 141"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 142 - "Community 142"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 143 - "Community 143"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 144 - "Community 144"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 145 - "Community 145"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 146 - "Community 146"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 147 - "Community 147"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 148 - "Community 148"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 149 - "Community 149"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 150 - "Community 150"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 151 - "Community 151"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 152 - "Community 152"
-Cohesion: 1.0
-Nodes (1): Tenant Admin Actor
-
-### Community 153 - "Community 153"
-Cohesion: 1.0
-Nodes (1): Employee Actor
-
-### Community 154 - "Community 154"
-Cohesion: 1.0
-Nodes (1): Customer Actor
-
-### Community 155 - "Community 155"
-Cohesion: 1.0
-Nodes (1): MVP Goal & Constraint
-
-### Community 156 - "Community 156"
-Cohesion: 1.0
-Nodes (1): Squash and Rebase Merge Strategy
-
-### Community 157 - "Community 157"
-Cohesion: 1.0
-Nodes (1): Conventional Commit Format
-
-### Community 158 - "Community 158"
-Cohesion: 1.0
-Nodes (1): PostgreSQL
-
-### Community 159 - "Community 159"
-Cohesion: 1.0
-Nodes (1): Mapster
-
-### Community 160 - "Community 160"
-Cohesion: 1.0
-Nodes (1): FluentValidation
-
-### Community 161 - "Community 161"
-Cohesion: 1.0
-Nodes (1): PermissionService
-
-### Community 162 - "Community 162"
-Cohesion: 1.0
-Nodes (1): Swagger/OpenAPI
-
-### Community 163 - "Community 163"
-Cohesion: 1.0
-Nodes (1): Stambat Branding First
-
-### Community 164 - "Community 164"
-Cohesion: 1.0
-Nodes (1): BaseService
-
-### Community 165 - "Community 165"
-Cohesion: 1.0
-Nodes (1): MapsterConfiguration
-
-### Community 166 - "Community 166"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 167 - "Community 167"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 168 - "Community 168"
-Cohesion: 1.0
-Nodes (0): 
-
-### Community 169 - "Community 169"
-Cohesion: 1.0
-Nodes (1): DependencyInjection (Domain)
-
-### Community 170 - "Community 170"
-Cohesion: 1.0
-Nodes (1): PaginationResult
-
-### Community 171 - "Community 171"
-Cohesion: 1.0
-Nodes (1): NotActiveUserException
-
-### Community 172 - "Community 172"
-Cohesion: 1.0
-Nodes (1): IQrCodeService
-
-### Community 173 - "Community 173"
-Cohesion: 1.0
-Nodes (1): DependencyInjection
-
-### Community 174 - "Community 174"
-Cohesion: 1.0
-Nodes (1): Stambat.Domain.AssemblyInfo
-
-### Community 175 - "Community 175"
-Cohesion: 1.0
-Nodes (1): Stambat.Domain.GlobalUsings
-
-### Community 176 - "Community 176"
-Cohesion: 1.0
-Nodes (1): Stambat.Domain.csproj.FileListAbsolute
-
-### Community 177 - "Community 177"
-Cohesion: 1.0
-Nodes (1): Users table
-
-### Community 178 - "Community 178"
-Cohesion: 1.0
-Nodes (1): Repository.AddAsync
-
-### Community 179 - "Community 179"
-Cohesion: 1.0
-Nodes (1): Repository.DeleteAsync
-
-### Community 180 - "Community 180"
-Cohesion: 1.0
-Nodes (1): Repository.Update
-
-### Community 181 - "Community 181"
-Cohesion: 1.0
-Nodes (1): Infrastructure.GlobalUsings.g
-
-### Community 182 - "Community 182"
-Cohesion: 1.0
-Nodes (1): Infrastructure.AssemblyInfo
-
-### Community 183 - "Community 183"
-Cohesion: 1.0
-Nodes (1): Infrastructure.csproj.FileListAbsolute
-
-### Community 184 - "Community 184"
+### Community 60 - "Community 60"
 Cohesion: 1.0
 Nodes (1): SwaggerAuthExtension (commented out)
 
-### Community 185 - "Community 185"
+### Community 61 - "Community 61"
 Cohesion: 1.0
-Nodes (1): Stambat.WebAPI obj/ Generated Artifacts
+Nodes (1): DependencyInjection (Domain)
+
+### Community 62 - "Community 62"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 63 - "Community 63"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 64 - "Community 64"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 65 - "Community 65"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 66 - "Community 66"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 67 - "Community 67"
+Cohesion: 1.0
+Nodes (1): NotActiveUserException
+
+### Community 68 - "Community 68"
+Cohesion: 1.0
+Nodes (1): WalletProviderException
+
+### Community 69 - "Community 69"
+Cohesion: 1.0
+Nodes (1): UserNotVerifiedException
+
+### Community 70 - "Community 70"
+Cohesion: 1.0
+Nodes (1): BusinessRuleException
+
+### Community 71 - "Community 71"
+Cohesion: 1.0
+Nodes (1): DeletedUserException
+
+### Community 72 - "Community 72"
+Cohesion: 1.0
+Nodes (1): CustomValidationException
+
+### Community 73 - "Community 73"
+Cohesion: 1.0
+Nodes (1): ConflictException
+
+### Community 74 - "Community 74"
+Cohesion: 1.0
+Nodes (1): PaginationResult
+
+### Community 75 - "Community 75"
+Cohesion: 1.0
+Nodes (1): QueryOptions<T>
+
+### Community 76 - "Community 76"
+Cohesion: 1.0
+Nodes (1): IQrCodeService
+
+### Community 77 - "Community 77"
+Cohesion: 1.0
+Nodes (1): MapsterConfiguration
+
+### Community 78 - "Community 78"
+Cohesion: 1.0
+Nodes (1): BaseService
+
+### Community 79 - "Community 79"
+Cohesion: 1.0
+Nodes (1): DependencyInjection
+
+### Community 80 - "Community 80"
+Cohesion: 1.0
+Nodes (1): Users table
+
+### Community 81 - "Community 81"
+Cohesion: 1.0
+Nodes (1): Repository.AddAsync
+
+### Community 82 - "Community 82"
+Cohesion: 1.0
+Nodes (1): Repository.DeleteAsync
+
+### Community 83 - "Community 83"
+Cohesion: 1.0
+Nodes (1): Repository.Update
+
+### Community 84 - "Community 84"
+Cohesion: 1.0
+Nodes (1): Tenant Admin Actor
+
+### Community 85 - "Community 85"
+Cohesion: 1.0
+Nodes (1): Employee Actor
+
+### Community 86 - "Community 86"
+Cohesion: 1.0
+Nodes (1): Customer Actor
+
+### Community 87 - "Community 87"
+Cohesion: 1.0
+Nodes (1): MVP Goal & Constraint
+
+### Community 88 - "Community 88"
+Cohesion: 1.0
+Nodes (1): Squash and Rebase Merge Strategy
+
+### Community 89 - "Community 89"
+Cohesion: 1.0
+Nodes (1): Conventional Commit Format
+
+### Community 90 - "Community 90"
+Cohesion: 1.0
+Nodes (1): PostgreSQL
+
+### Community 91 - "Community 91"
+Cohesion: 1.0
+Nodes (1): Mapster
+
+### Community 92 - "Community 92"
+Cohesion: 1.0
+Nodes (1): FluentValidation
+
+### Community 93 - "Community 93"
+Cohesion: 1.0
+Nodes (1): PermissionService
+
+### Community 94 - "Community 94"
+Cohesion: 1.0
+Nodes (1): Swagger/OpenAPI
+
+### Community 95 - "Community 95"
+Cohesion: 1.0
+Nodes (1): Microsoft.CodeAnalysis.BannedApiAnalyzers
+
+### Community 96 - "Community 96"
+Cohesion: 1.0
+Nodes (1): BannedSymbols.txt Enforcement
+
+### Community 97 - "Community 97"
+Cohesion: 1.0
+Nodes (1): Stambat Branding First
+
+### Community 98 - "Community 98"
+Cohesion: 1.0
+Nodes (1): Coding Don't Rules
+
+### Community 99 - "Community 99"
+Cohesion: 1.0
+Nodes (1): Stambat.Domain.csproj.FileListAbsolute
+
+### Community 100 - "Community 100"
+Cohesion: 1.0
+Nodes (1): Infrastructure.csproj.FileListAbsolute
 
 ## Ambiguous Edges - Review These
-- `ScanStampCommandHandler` → `InviteStaffCommandHandler`  [AMBIGUOUS]
-  src/Stambat.Application/CQRS/CommandHandlers/Scanning/ScanStampCommandHandler.cs · relation: conceptually_related_to
 - `EndpointTags` → `BaseHandler`  [AMBIGUOUS]
   src/Stambat.Domain/Constants/EndpointTags.cs · relation: conceptually_related_to
+- `ScanStampCommandHandler` → `InviteStaffCommandHandler`  [AMBIGUOUS]
+  src/Stambat.Application/CQRS/CommandHandlers/Scanning/ScanStampCommandHandler.cs · relation: conceptually_related_to
 
 ## Knowledge Gaps
-- **274 isolated node(s):** `EndpointTags`, `CustomClaims`, `EndpointRoutes`, `PermissionConstants`, `PaginationResult` (+269 more)
+- **250 isolated node(s):** `WebAPI.DependencyInjection`, `SwaggerAuthExtension (commented out)`, `InvitationModule`, `CustomerOnboardingModule`, `PlatformAdminModule` (+245 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 77`** (2 nodes): `EndpointTags`, `EndpointTags.cs`
+- **Thin community `Community 51`** (2 nodes): `InvitationExpiredException`, `InvitationStillActiveException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `CustomClaims`, `CustomClaims.cs`
+- **Thin community `Community 52`** (2 nodes): `ITenantProviderService`, `ITenantProviderService.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (2 nodes): `EndpointRoutes`, `EndpointRoutes.cs`
+- **Thin community `Community 53`** (2 nodes): `ICurrentUserService`, `ICurrentUserService.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (2 nodes): `PermissionConstants`, `PermissionsEnum.cs`
+- **Thin community `Community 54`** (2 nodes): `IModificationAudit`, `IModificationAudit.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (2 nodes): `PaginationResult`, `PaginationResult.cs`
+- **Thin community `Community 55`** (2 nodes): `ApplicationDbContextModelSnapshot`, `InitialMigration`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (2 nodes): `ITenantProviderService`, `ITenantProviderService.cs`
+- **Thin community `Community 56`** (2 nodes): `IdGenerator.New() Mandate`, `Rationale: UUID v7 time-ordered IDs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (2 nodes): `ICurrentUserService`, `ICurrentUserService.cs`
+- **Thin community `Community 57`** (2 nodes): `Husky.Net`, `Husky.Net Pre-commit/Pre-push Hooks`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (2 nodes): `QueryOptions`, `QueryOptions.cs`
+- **Thin community `Community 58`** (2 nodes): `Definition of Done`, `Quality Gates Checklist`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (2 nodes): `IEntity`, `IEntity.cs`
+- **Thin community `Community 59`** (2 nodes): `Minimal API Endpoints`, `ASP.NET Core Minimal API`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (2 nodes): `ISoftDelete`, `ISoftDeletable.cs`
+- **Thin community `Community 60`** (1 nodes): `SwaggerAuthExtension (commented out)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (2 nodes): `ICreationAudit`, `ICreationAudit.cs`
+- **Thin community `Community 61`** (1 nodes): `DependencyInjection (Domain)`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 88`** (2 nodes): `IModificationAudit`, `IModificationAudit.cs`
+- **Thin community `Community 62`** (1 nodes): `InvitationStatus.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 89`** (2 nodes): `EmailMessage`, `EmailMessage.cs`
+- **Thin community `Community 63`** (1 nodes): `RedemptionType.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 90`** (2 nodes): `EmailSettings`, `EmailSettings.cs`
+- **Thin community `Community 64`** (1 nodes): `WalletProviderType.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 91`** (2 nodes): `BaseService`, `BaseService.cs`
+- **Thin community `Community 65`** (1 nodes): `RolesEnum.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 92`** (2 nodes): `AuthSeedConstants`, `AuthSeedConstants.cs`
+- **Thin community `Community 66`** (1 nodes): `CardType.cs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 93`** (2 nodes): `GoogleWalletOptions`, `GoogleWalletOptions.cs`
+- **Thin community `Community 67`** (1 nodes): `NotActiveUserException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (2 nodes): `AppleWalletOptions`, `AppleWalletOptions.cs`
+- **Thin community `Community 68`** (1 nodes): `WalletProviderException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 95`** (2 nodes): `Definition of Done`, `Quality Gates Checklist`
+- **Thin community `Community 69`** (1 nodes): `UserNotVerifiedException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (2 nodes): `Minimal API Endpoints`, `ASP.NET Core Minimal API`
+- **Thin community `Community 70`** (1 nodes): `BusinessRuleException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 97`** (2 nodes): `Husky.Net`, `Husky.Net Pre-commit/Pre-push Hooks`
+- **Thin community `Community 71`** (1 nodes): `DeletedUserException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 98`** (1 nodes): `Program.cs`
+- **Thin community `Community 72`** (1 nodes): `CustomValidationException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 99`** (1 nodes): `SwaggerAuthExtension.cs`
+- **Thin community `Community 73`** (1 nodes): `ConflictException`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 100`** (1 nodes): `Stambat.WebAPI.AssemblyInfo.cs`
+- **Thin community `Community 74`** (1 nodes): `PaginationResult`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 101`** (1 nodes): `Stambat.WebAPI.GlobalUsings.g.cs`
+- **Thin community `Community 75`** (1 nodes): `QueryOptions<T>`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 102`** (1 nodes): `Stambat.WebAPI.MvcApplicationPartsAssemblyInfo.cs`
+- **Thin community `Community 76`** (1 nodes): `IQrCodeService`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 103`** (1 nodes): `Stambat.Presentation.API.AssemblyInfo.cs`
+- **Thin community `Community 77`** (1 nodes): `MapsterConfiguration`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 104`** (1 nodes): `Stambat.Presentation.API.GlobalUsings.g.cs`
+- **Thin community `Community 78`** (1 nodes): `BaseService`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 105`** (1 nodes): `Stambat.Domain.AssemblyInfo.cs`
+- **Thin community `Community 79`** (1 nodes): `DependencyInjection`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 106`** (1 nodes): `Stambat.Domain.GlobalUsings.g.cs`
+- **Thin community `Community 80`** (1 nodes): `Users table`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 107`** (1 nodes): `StampTransactionType.cs`
+- **Thin community `Community 81`** (1 nodes): `Repository.AddAsync`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 108`** (1 nodes): `InvitationStatus.cs`
+- **Thin community `Community 82`** (1 nodes): `Repository.DeleteAsync`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 109`** (1 nodes): `RedemptionType.cs`
+- **Thin community `Community 83`** (1 nodes): `Repository.Update`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 110`** (1 nodes): `WalletProviderType.cs`
+- **Thin community `Community 84`** (1 nodes): `Tenant Admin Actor`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 111`** (1 nodes): `RolesEnum.cs`
+- **Thin community `Community 85`** (1 nodes): `Employee Actor`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 112`** (1 nodes): `WalletPassStatus.cs`
+- **Thin community `Community 86`** (1 nodes): `Customer Actor`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `CardType.cs`
+- **Thin community `Community 87`** (1 nodes): `MVP Goal & Constraint`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `WalletPassRequest.cs`
+- **Thin community `Community 88`** (1 nodes): `Squash and Rebase Merge Strategy`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `WalletClassRequest.cs`
+- **Thin community `Community 89`** (1 nodes): `Conventional Commit Format`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 116`** (1 nodes): `WalletClassResult.cs`
+- **Thin community `Community 90`** (1 nodes): `PostgreSQL`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `WalletPassResult.cs`
+- **Thin community `Community 91`** (1 nodes): `Mapster`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `WalletPassUpdateRequest.cs`
+- **Thin community `Community 92`** (1 nodes): `FluentValidation`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 119`** (1 nodes): `GetCardByIdQuery.cs`
+- **Thin community `Community 93`** (1 nodes): `PermissionService`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `GetAllCardsQuery.cs`
+- **Thin community `Community 94`** (1 nodes): `Swagger/OpenAPI`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 121`** (1 nodes): `GetStaffMemberQuery.cs`
+- **Thin community `Community 95`** (1 nodes): `Microsoft.CodeAnalysis.BannedApiAnalyzers`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 122`** (1 nodes): `GetTenantInvitationsQuery.cs`
+- **Thin community `Community 96`** (1 nodes): `BannedSymbols.txt Enforcement`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 123`** (1 nodes): `GetAllTenantStaffQuery.cs`
+- **Thin community `Community 97`** (1 nodes): `Stambat Branding First`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 124`** (1 nodes): `GetStaffRolesQuery.cs`
+- **Thin community `Community 98`** (1 nodes): `Coding Don't Rules`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 125`** (1 nodes): `IsUserVerifiedQuery.cs`
+- **Thin community `Community 99`** (1 nodes): `Stambat.Domain.csproj.FileListAbsolute`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 126`** (1 nodes): `ValidateInvitationQuery.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 127`** (1 nodes): `UpdateCardCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 128`** (1 nodes): `CreateCardCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 129`** (1 nodes): `DeleteCardCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 130`** (1 nodes): `InviteTenantCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 131`** (1 nodes): `ScanStampCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 132`** (1 nodes): `ScanRedeemCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 133`** (1 nodes): `SetupTenantCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 134`** (1 nodes): `InviteStaffCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 135`** (1 nodes): `RemoveStaffCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 136`** (1 nodes): `DeactivateStaffCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 137`** (1 nodes): `UpdateStaffRolesCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 138`** (1 nodes): `CancelInvitationCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 139`** (1 nodes): `VerifyEmailCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 140`** (1 nodes): `RegisterUserCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 141`** (1 nodes): `CustomerOnboardCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 142`** (1 nodes): `LoginCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 143`** (1 nodes): `SwitchTenantCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 144`** (1 nodes): `LogoutCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 145`** (1 nodes): `SelectTenantCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 146`** (1 nodes): `JoinTenantCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 147`** (1 nodes): `AcceptInvitationCommand.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 148`** (1 nodes): `Stambat.Application.GlobalUsings.g.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 149`** (1 nodes): `Stambat.Application.AssemblyInfo.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 150`** (1 nodes): `Stambat.Infrastructure.AssemblyInfo.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 151`** (1 nodes): `Stambat.Infrastructure.GlobalUsings.g.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 152`** (1 nodes): `Tenant Admin Actor`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 153`** (1 nodes): `Employee Actor`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 154`** (1 nodes): `Customer Actor`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 155`** (1 nodes): `MVP Goal & Constraint`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 156`** (1 nodes): `Squash and Rebase Merge Strategy`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 157`** (1 nodes): `Conventional Commit Format`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 158`** (1 nodes): `PostgreSQL`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 159`** (1 nodes): `Mapster`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 160`** (1 nodes): `FluentValidation`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 161`** (1 nodes): `PermissionService`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 162`** (1 nodes): `Swagger/OpenAPI`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 163`** (1 nodes): `Stambat Branding First`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 164`** (1 nodes): `BaseService`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 165`** (1 nodes): `MapsterConfiguration`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 166`** (1 nodes): `Stambat.Application.GlobalUsings.g.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 167`** (1 nodes): `Stambat.Application.AssemblyInfo.cs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 168`** (1 nodes): `Stambat.Application.csproj.FileListAbsolute.txt`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 169`** (1 nodes): `DependencyInjection (Domain)`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 170`** (1 nodes): `PaginationResult`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 171`** (1 nodes): `NotActiveUserException`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 172`** (1 nodes): `IQrCodeService`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 173`** (1 nodes): `DependencyInjection`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 174`** (1 nodes): `Stambat.Domain.AssemblyInfo`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 175`** (1 nodes): `Stambat.Domain.GlobalUsings`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 176`** (1 nodes): `Stambat.Domain.csproj.FileListAbsolute`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 177`** (1 nodes): `Users table`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 178`** (1 nodes): `Repository.AddAsync`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 179`** (1 nodes): `Repository.DeleteAsync`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 180`** (1 nodes): `Repository.Update`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 181`** (1 nodes): `Infrastructure.GlobalUsings.g`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 182`** (1 nodes): `Infrastructure.AssemblyInfo`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 183`** (1 nodes): `Infrastructure.csproj.FileListAbsolute`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 184`** (1 nodes): `SwaggerAuthExtension (commented out)`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 185`** (1 nodes): `Stambat.WebAPI obj/ Generated Artifacts`
+- **Thin community `Community 100`** (1 nodes): `Infrastructure.csproj.FileListAbsolute`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **What is the exact relationship between `ScanStampCommandHandler` and `InviteStaffCommandHandler`?**
-  _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
 - **What is the exact relationship between `EndpointTags` and `BaseHandler`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
-- **Why does `Create()` connect `Handler Execution & Seeding` to `EF Entity Configurations`, `CardTemplate Domain Logic`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `EmailService` connect `Email Service` to `Handler Execution & Seeding`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Are the 20 inferred relationships involving `Create()` (e.g. with `.AgainstNullOrEmpty()` and `.AgainstInvalidFormat()`) actually correct?**
-  _`Create()` has 20 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `EndpointTags`, `CustomClaims`, `EndpointRoutes` to the rest of the system?**
-  _274 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Handler Execution & Seeding` be split into smaller, more focused modules?**
+- **What is the exact relationship between `ScanStampCommandHandler` and `InviteStaffCommandHandler`?**
+  _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
+- **Why does `ApiResponse<T>` connect `Community 0` to `Community 24`, `Community 1`, `Community 2`?**
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
+- **Why does `GetAllCardsQueryHandler` connect `Community 2` to `Community 1`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **What connects `WebAPI.DependencyInjection`, `SwaggerAuthExtension (commented out)`, `InvitationModule` to the rest of the system?**
+  _250 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
